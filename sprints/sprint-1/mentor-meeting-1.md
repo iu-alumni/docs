@@ -44,4 +44,4 @@
 - consider the option of starting the project from scratch.
 - consider migrating to uni github
 - ask yourself a question: are you satisfied with the current product and it aligns with your future?
-- define methodology and document it (high priority)
+- define methodology for workflow on the project (like agile) and responsibilities and document it (high priority)
