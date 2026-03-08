@@ -1,11 +1,13 @@
 # Summary
 
-- [Chapter 1](chapter_1.md)
-
 ## Requirements
 
 - [Functional Requirements](requirements/functional.md)
 - [Quality Attributes](requirements/quality-attributes.md)
+
+## Metrics & Analytics
+
+- [Metrics & Analytics](analytics/metrics.md)
 
 ## Sprints
 
