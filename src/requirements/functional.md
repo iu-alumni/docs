@@ -44,3 +44,46 @@
 - **FR22**: Achieve zero critical bugs per feature post-implementation
 - **FR23**: Maintain user satisfaction score of 4/5 or higher
 - **FR24**: Achieve cross-platform consistency score of 90% or higher -->
+
+<!-- features elicitated by the previous team -->
+
+## Alumni Profile Management
+
+- **FR16**: Allow administrators to create, edit, and view alumni profiles with full CRUD operations on alumni data
+- **FR17**: Enable admins to keep alumni records up-to-date including contact information and graduation year
+
+## Alumni Search & Filtering
+
+- **FR18**: Provide search and filter functionality for admins to quickly locate specific alumni records by name, graduation year, and other relevant criteria
+
+## Data Import/Export
+
+- **FR19**: Enable bulk importing of alumni data from CSV file format
+- **FR20**: Provide functionality to export alumni and event data for backup purposes or external analysis
+
+## Event Listing & Browsing
+
+- **FR21**: Display a list of upcoming events to alumni users with comprehensive event details
+- **FR22**: Allow alumni to view detailed information of selected events including date, venue, and description to facilitate participation decisions
+
+## Email Notifications
+
+- **FR23**: Implement automated email notification system for key triggers including event registration confirmations, event reminders, and announcements
+
+## User Roles & Permissions
+
+- **FR24**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only
+
+## Reports Generation
+
+- **FR25**: Enable administrators to generate comprehensive reports including event attendance tracking and alumni participation summaries
+
+## User & Event Validation
+
+- **FR26**: Implement validation mechanisms for user registration and event planning with flexibility for either automatic validation or manual approval at admin discretion
+
+<!-- ## Performance & Quality Metrics
+
+- **FR22**: Achieve zero critical bugs per feature post-implementation
+- **FR23**: Maintain user satisfaction score of 4/5 or higher
+- **FR24**: Achieve cross-platform consistency score of 90% or higher -->
