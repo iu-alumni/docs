@@ -1,4 +1,4 @@
-name: Deploy Book
+name: Deploy Docs
 
 on:
   push:
@@ -18,21 +18,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          toolchain: stable
+          python-version: "3.12"
+          cache: pip
 
-      - name: Install mdBook
-        run: cargo install mdbook
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Build book
-        run: mdbook build
+      - name: Build docs
+        run: mkdocs build --strict
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./book
+          path: ./site
 
   deploy:
     needs: build
