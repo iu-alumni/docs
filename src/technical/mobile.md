@@ -5,7 +5,7 @@ The mobile application is built with **Flutter** and targets iOS, Android, and W
 ## Tech Stack
 
 | Category | Technology | Version |
-|----------|-----------|---------|
+| ---------- | ----------- | --------- |
 | **Language** | Dart | ^3.8+ |
 | **Framework** | Flutter | ^3.32+ |
 | **State Management** | flutter_bloc (Cubit) | ^9.0+ |
@@ -57,7 +57,7 @@ graph TB
 
 ## Project Structure
 
-```
+```text
 lib/
 ├── main.dart                     # Entry point, system UI config
 ├── app.dart                      # MultiBlocProvider DI, MaterialApp, AutoRoute
@@ -117,7 +117,7 @@ stateDiagram-v2
 
 All Cubits use a sealed `LoadedState<T>` class:
 
-```
+```text
 LoadedState<T>
 ├── LoadedStateInit()        — initial/idle
 ├── LoadedStateLoading()     — async operation in progress
@@ -128,7 +128,7 @@ LoadedState<T>
 ### Cubit Inventory
 
 | Cubit | Scope | Responsibility |
-|-------|-------|---------------|
+| ------- | ------- | --------------- |
 | `AuthCubit` | Auth pages | Email/password login, validation |
 | `RegistrationCubit` | Registration page | Registration form + API call |
 | `EventsListCubit` | Global (root) | Load + cache event list |
@@ -219,13 +219,13 @@ Cubits pattern-match on `Either` to emit `LoadedStateData` or `LoadedStateError`
 The analytics reporter is abstracted behind an interface:
 
 | Implementation | When Used |
-|---------------|-----------|
+| --------------- | ----------- |
 | `ReporterAppMetrica` | Production builds (uses AppMetrica SDK) |
 | `ReporterMock` | Testing / development (no-op) |
 
 ## Platform Notes
 
 | Platform | Config Source | Token Storage |
-|----------|--------------|---------------|
+| ---------- | -------------- | --------------- |
 | **Android / iOS** | App environment | `flutter_secure_storage` (Keychain/Keystore) |
 | **Web** | `window.apiBaseUrl` injected at build time | Browser secure storage |

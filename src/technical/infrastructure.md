@@ -5,7 +5,7 @@ The infrastructure is a **single-server Docker Swarm** deployment managed throug
 ## Tech Stack
 
 | Category | Technology | Purpose |
-|----------|-----------|---------|
+| ---------- | ----------- | --------- |
 | **Orchestration** | Docker Swarm | Container scheduling, networking, restarts |
 | **Provisioning** | Ansible | Idempotent server setup (Docker, UFW, Fail2ban) |
 | **IaC (GitHub)** | Terraform (GitHub provider) | Repo settings, branch protection, environments, secrets |
@@ -62,7 +62,7 @@ graph TB
 ## Domain Routing
 
 | Subdomain | Service | Internal Target |
-|-----------|---------|----------------|
+| ----------- | --------- | ---------------- |
 | `alumni.example.com` | Frontend (Nuxt SSR) | `frontend:3000` |
 | `api.alumni.example.com` | Backend (FastAPI) | `backend:8080` |
 | `mobile.alumni.example.com` | Mobile Web (Flutter) | `mobile:80` |
@@ -74,7 +74,7 @@ All HTTP traffic is redirected to HTTPS. TLS terminates at Nginx using Let's Enc
 ## Services Inventory
 
 | Service | Image | Resources | Persistence |
-|---------|-------|-----------|-------------|
+| --------- | ------- | ----------- | ------------- |
 | nginx | `nginx:alpine` | 0.5 CPU / 256 MB | nginx configs volume |
 | certbot | `certbot/certbot` | — | `/data/certbot/` |
 | postgres | `postgres:16` | pinned to manager | `/data/postgres/` |
@@ -102,7 +102,7 @@ flowchart TD
 ### Workflow Files
 
 | Workflow | Trigger | Purpose |
-|----------|---------|---------|
+| ---------- | --------- | --------- |
 | `ci.yml` | PR / push to main | Lint YAML, Ansible, shell; validate Docker configs |
 | `setup-server.yml` | Manual / Ansible file changes | Run Ansible playbook to provision server |
 | `deploy.yml` | Push to main (infra files changed) | Redeploy infrastructure stack |
@@ -165,6 +165,7 @@ graph LR
 ```
 
 **Repository enforcement:**
+
 - Squash-merge only
 - Auto-delete head branches on merge
 - Required status checks before merging to `main`
@@ -190,7 +191,7 @@ graph LR
 ## Environment Structure
 
 | Property | Testing | Production |
-|----------|---------|-----------|
+| ---------- | --------- | ----------- |
 | **Branch** | `develop` | `main` |
 | **Deploy trigger** | Auto on push | Auto on merge to main |
 | **Approval required** | No | Yes (manual) |
@@ -200,7 +201,7 @@ graph LR
 ## Security
 
 | Layer | Mechanism |
-|-------|-----------|
+| ------- | ----------- |
 | **Firewall** | UFW — only ports 22, 80, 443 open |
 | **Brute-force** | Fail2ban — 5 SSH failures → 3600s ban |
 | **TLS** | Let's Encrypt (auto-renew every 12h via Certbot) |

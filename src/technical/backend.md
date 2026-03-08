@@ -5,7 +5,7 @@ The backend is a Python REST API built with **FastAPI**, following a layered arc
 ## Tech Stack
 
 | Category | Technology | Version |
-|----------|-----------|---------|
+| ---------- | ----------- | --------- |
 | **Language** | Python | 3.11 |
 | **Framework** | FastAPI | 0.110+ |
 | **ASGI Server** | Uvicorn | 0.27+ |
@@ -68,7 +68,7 @@ graph TD
 
 ## Project Structure
 
-```
+```text
 iu-alumni-backend/
 ├── app/
 │   ├── main.py                 # App init, router registration, lifespan
@@ -95,7 +95,7 @@ iu-alumni-backend/
 ## API Endpoints
 
 | Prefix | Method | Path | Description |
-|--------|--------|------|-------------|
+| -------- | -------- | ------ | ------------- |
 | `/auth` | POST | `/register` | Register new alumni |
 | `/auth` | POST | `/login` | Login with password → JWT |
 | `/auth` | POST | `/login-otp` | Verify OTP → JWT |
@@ -229,7 +229,7 @@ erDiagram
 ## Design Patterns
 
 | Pattern | Where Used |
-|---------|-----------|
+| --------- | ----------- |
 | **Dependency Injection** | `Depends(get_db)`, `Depends(get_current_user)` in every route |
 | **Service Layer** | `EmailService`, `TelegramBotService`, `NotificationService` encapsulate external I/O |
 | **Repository (via ORM)** | SQLAlchemy session used directly in services/routes for DB access |
@@ -252,7 +252,7 @@ Events scheduled within ~12 hours are queried and notifications sent via Telegra
 ## Environment Variables
 
 | Variable | Purpose |
-|----------|---------|
+| ---------- | --------- |
 | `SQLALCHEMY_DATABASE_URL` | PostgreSQL connection string |
 | `SECRET_KEY` | JWT signing secret |
 | `ENVIRONMENT` | `DEV` or `PROD` (controls docs visibility, log level) |

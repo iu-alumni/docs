@@ -26,7 +26,7 @@ graph LR
 ### Actor Capabilities
 
 | Capability | Alumni | Organizer | Admin |
-|-----------|:------:|:---------:|:-----:|
+| ----------- | :------: | :---------: | :-----: |
 | Register & manage profile | ✅ | ✅ | — |
 | Create events | ✅ | ✅ | — |
 | Join / leave events | ✅ | ✅ | — |
@@ -79,6 +79,7 @@ flowchart TD
 **Viewable fields:** graduation year, program, achievements, Telegram contact (optional)
 
 > **Business Rules:**
+>
 > - Users cannot directly message each other
 > - Telegram contact sharing is optional
 
@@ -119,6 +120,7 @@ flowchart TD
 ```
 
 > **Business Rules:**
+>
 > - No private events — all events are publicly visible
 > - No event categories
 > - Admins cannot edit events; only the creator can modify
@@ -152,6 +154,7 @@ stateDiagram-v2
 ```
 
 > **Business Rules:**
+>
 > - No "Interested" status — users are either joined or on the waitlist
 > - Organizers can remove participants manually
 > - Waitlist auto-promotes when a spot opens
@@ -191,6 +194,7 @@ flowchart TD
 ```
 
 **User preferences:**
+
 - Notify when a followed user joins an event
 - Notify for events in selected territories
 - Notify for upcoming events the user has joined
@@ -255,6 +259,7 @@ flowchart TD
 ```
 
 **Special Rules:**
+
 - Gender restriction is **description-based** — the system does NOT automatically block registration
 - Organizer is responsible for manual enforcement
 - Participation slots are strictly enforced by the system
@@ -265,7 +270,7 @@ flowchart TD
 ## User Stories
 
 | ID | As a… | I want to… | So that… |
-|----|-------|-----------|---------|
+| ---- | ------- | ----------- | --------- |
 | US-01 | User | Create an event with a participant limit | I can organize structured activities |
 | US-02 | User | Join an event directly | I can participate without approval delays |
 | US-03 | User | Be placed on a waitlist when an event is full | I still have a chance to participate |
@@ -282,7 +287,7 @@ flowchart TD
 The system must log every moderation and lifecycle action:
 
 | Event | Logged Fields |
-|-------|--------------|
+| ------- | -------------- |
 | Event creation | creator, timestamp |
 | Event cancellation | admin, timestamp, event ID |
 | Warning issued | admin, target user, timestamp |
@@ -294,7 +299,7 @@ The system must log every moderation and lifecycle action:
 ## Key Constraints
 
 | Constraint | Detail |
-|-----------|--------|
+| ----------- | -------- |
 | No private events | All events are globally visible |
 | No event categories | Events are not classified |
 | No direct messaging | Users communicate via optional Telegram sharing |
