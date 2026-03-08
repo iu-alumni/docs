@@ -5,7 +5,7 @@ The frontend is a **Nuxt 3** server-side rendered admin portal. It is exclusivel
 ## Tech Stack
 
 | Category | Technology | Version |
-| ---------- | ----------- | --------- |
+| -------- | ---------- | ------- |
 | **Framework** | Nuxt 3 | latest |
 | **UI Library** | Vue 3 | latest |
 | **Language** | TypeScript | latest |
@@ -188,7 +188,7 @@ flowchart LR
 ## Design Patterns
 
 | Pattern | Where Used |
-| --------- | ----------- |
+| ------- | ---------- |
 | **Module Store (Pinia)** | Separate stores per domain (`users.ts`, `events.ts`) |
 | **Derived State (Set)** | `bannedUsersIds` / `verifiedUsersIds` as `Set<string>` for O(1) lookups |
 | **API Abstraction Layer** | `api/*.ts` modules isolate HTTP calls from components |
@@ -205,7 +205,7 @@ The frontend uses **shadcn-nuxt** (port of shadcn/ui to Vue), providing headless
 Custom Tailwind color palette:
 
 | Token | Hex | Usage |
-| ------- | ----- | ------- |
+| ----- | --- | ----- |
 | `brandgreen` | `#40BA21` | Primary actions, highlights |
 | `lightpink` | `#FF8591` | Danger/warning indicators |
 | `darkpink` | `#BA2161` | Destructive actions |
@@ -215,7 +215,7 @@ Custom Tailwind color palette:
 ## Build & Tooling
 
 | Script | Command | Purpose |
-| -------- | --------- | --------- |
+| ------ | ------- | ------- |
 | `dev` | `nuxt dev` | Start dev server with HMR |
 | `build` | `nuxt build` | Production SSR build |
 | `generate` | `nuxt generate` | Static site generation |

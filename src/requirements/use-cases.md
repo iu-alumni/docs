@@ -26,7 +26,7 @@ graph LR
 ### Actor Capabilities
 
 | Capability | Alumni | Organizer | Admin |
-| ----------- | :------: | :---------: | :-----: |
+| ---------- | :----: | :-------: | :---: |
 | Register & manage profile | ✅ | ✅ | — |
 | Create events | ✅ | ✅ | — |
 | Join / leave events | ✅ | ✅ | — |
@@ -270,7 +270,7 @@ flowchart TD
 ## User Stories
 
 | ID | As a… | I want to… | So that… |
-| ---- | ------- | ----------- | --------- |
+| -- | ----- | ---------- | -------- |
 | US-01 | User | Create an event with a participant limit | I can organize structured activities |
 | US-02 | User | Join an event directly | I can participate without approval delays |
 | US-03 | User | Be placed on a waitlist when an event is full | I still have a chance to participate |
@@ -287,7 +287,7 @@ flowchart TD
 The system must log every moderation and lifecycle action:
 
 | Event | Logged Fields |
-| ------- | -------------- |
+| ----- | ------------- |
 | Event creation | creator, timestamp |
 | Event cancellation | admin, timestamp, event ID |
 | Warning issued | admin, target user, timestamp |
@@ -299,7 +299,7 @@ The system must log every moderation and lifecycle action:
 ## Key Constraints
 
 | Constraint | Detail |
-| ----------- | -------- |
+| ---------- | ------ |
 | No private events | All events are globally visible |
 | No event categories | Events are not classified |
 | No direct messaging | Users communicate via optional Telegram sharing |

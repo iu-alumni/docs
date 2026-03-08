@@ -52,7 +52,7 @@
 ## 👥 Team Roles & Responsibilities
 
 | Team Member           | Responsibilities      |
-| ----------------------- | ----------------------- |
+| --------------------- | --------------------- |
 | **Roukaya Mohammed**  | • Meeting facilitator |
 | **Ahmad Helaly**      | TBD                   |
 | **Majed Naser**       | TBD                   |

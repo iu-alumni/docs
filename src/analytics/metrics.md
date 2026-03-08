@@ -112,7 +112,7 @@ This document outlines the key metrics to be collected from the applications to 
 ## Reporting Schedule
 
 | Report Type                | Frequency | Audience         |
-| ---------------------------- | ----------- | ------------------ |
+| -------------------------- | --------- | ---------------- |
 | User Engagement Dashboard  | Weekly    | Technical Team   |
 | Event Participation Report | Weekly    | Admin/Organizers |
 | Alumni Database Growth     | yearly    | Admin            |

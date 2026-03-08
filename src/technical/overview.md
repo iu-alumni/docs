@@ -5,7 +5,7 @@ The IU Alumni platform is a multi-component web and mobile system that connects 
 ## Components
 
 | Component | Technology | Purpose |
-| ----------- | ----------- | --------- |
+| --------- | ---------- | ------- |
 | **Backend** | Python / FastAPI | REST API, business logic, database, integrations |
 | **Frontend** | Nuxt 3 / Vue 3 | Admin portal (user & event management) |
 | **Mobile** | Flutter / Dart | Alumni-facing mobile app (iOS, Android, Web) |
@@ -116,7 +116,7 @@ flowchart TD
 ## Cross-Cutting Concerns
 
 | Concern | Solution |
-| --------- | ---------- |
+| ------- | -------- |
 | **Authentication** | JWT Bearer tokens (HS256, 1-year expiry) |
 | **Email Verification** | 6-digit OTP codes via SMTP |
 | **Notifications** | Telegram Bot API (event reminders) |
