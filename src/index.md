@@ -7,7 +7,7 @@ Welcome to the technical and project documentation for the **IU Alumni** platfor
 | Section | Description |
 | ------- | ----------- |
 | [Technical Documentation](technical/overview.md) | Architecture, stack decisions, and component design with Mermaid diagrams |
-| [Requirements](requirements/functional.md) | Functional requirements, quality attributes, and use-case specifications |
+| [Requirements](requirements/functional.md) | Project goals overview, Functional requirements, quality attributes, and use-case specifications |
 | [Metrics & Analytics](analytics/metrics.md) | KPIs, engagement metrics, and measurement methodology |
 | [Sprints](sprints/sprint-0/team-meeting.md) | Meeting notes, retrospectives, and sprint records |
 

@@ -9,6 +9,8 @@ export default withMermaid(
 
     head: [["link", { rel: "icon", href: "/docs/favicon.svg", type: "image/svg+xml" }]],
 
+    appearance: "dark",
+
     themeConfig: {
       logo: "/logo.svg",
       siteTitle: "IU Alumni Docs",
@@ -37,6 +39,7 @@ export default withMermaid(
           text: "Requirements",
           collapsed: false,
           items: [
+            { text: "Project Goals Overview", link: "/requirements/project-goals" },
             { text: "Functional Requirements", link: "/requirements/functional" },
             { text: "Quality Attributes", link: "/requirements/quality-attributes" },
             { text: "Use Cases & User Stories", link: "/requirements/use-cases" },
@@ -119,7 +122,7 @@ export default withMermaid(
     },
 
     mermaid: {
-      // mermaid config options (optional)
+      theme: "default",
     },
   })
 );

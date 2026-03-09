@@ -18,7 +18,7 @@ graph TB
     subgraph Clients
         MOB[Mobile App<br/>Flutter]
         WEB[Admin Portal<br/>Nuxt 3]
-        TG[Telegram Bot<br/>Webhook]
+        TG[Telegram MiniApp<br/>Webhook]
     end
 
     subgraph Server ["Server (Docker Swarm)"]
