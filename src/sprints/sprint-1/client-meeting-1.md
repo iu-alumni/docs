@@ -1,10 +1,18 @@
-# jo
+# Sprint 1 — Client Meeting 1
 
-Define envolvement:
+## Engagement Metrics Discussion
 
-- the number of people attended an event.
-- active time in the app.
-- badges for hosting, attending, ....
-- button clicks
+Defining what "involvement" means in the context of the platform:
 
-## user profile
+- Number of people who attended an event
+- Active time spent in the app
+- Badges earned for hosting or attending events
+- Button clicks and interaction tracking
+
+---
+
+## User Profile
+
+- To be defined in the next meeting.
+
+> **Note:** These are rough initial notes. This page will be updated with a full write-up.

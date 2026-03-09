@@ -1,29 +1,40 @@
-# March 3d, 2026
+# Sprint 2 — Mentor Meeting 1
 
-## Show migration progress
+**Date:** March 3rd, 2026
 
-- there's a problem with network setup on IT department's side
+---
 
-### TODO
+## Migration Progress
 
-- document the migration steps, and prerequisites of each step. So, it is clear what is done and what's not and make it easy for any team member to follow steps and do migration
+- There is a network setup issue on the IT department's side blocking progress.
 
-## Show github dashboard for work distribution
+**Action item:**
 
-- write checklist of things to do or a point of completeness of task (write the definition of done)
-- write estimated time of achievement of each task
-- we showed the team's workflow
-- average amount of hrs is 12 hrs/week
-- don't delay development till after migration
-- share availability timeslots that should cover the 12 hrs
+- [ ] Document all migration steps and prerequisites for each step so that it is clear what is done, what is pending, and any team member can follow the process independently.
 
-## update on status with client
+---
 
-- the client wanted to use the app for upcoming events, but the nearest one is on March 7th, 2026 and it won't be feasible.
+## GitHub Dashboard & Work Distribution
 
-## Goal for MoSP
+- Write a checklist for each task with a clear definition of done.
+- Add estimated time to completion for each task.
+- Presented the team's current workflow.
+- Average workload: **12 hours/week per person**.
+- Do not delay development until after migration — both can proceed in parallel.
+- Share availability time slots that collectively cover the 12 hrs/week target.
 
-- Finish migration
-- check everything is working properly as before after migration and automation
-- turn off the previous mobile app
-- upload newer version of all apps
+---
+
+## Client Update
+
+- The client wanted to use the app for upcoming events.
+- The nearest event is on **March 7th, 2026** — not feasible to be ready in time.
+
+---
+
+## Goals for MoSP
+
+- [ ] Complete the migration.
+- [ ] Verify everything works correctly after migration and automation.
+- [ ] Shut down the previous mobile app.
+- [ ] Upload newer versions of all apps.
