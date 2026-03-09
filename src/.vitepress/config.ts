@@ -15,7 +15,7 @@ export default withMermaid(
         { text: "Home", link: "/" },
         { text: "Technical", link: "/technical/overview" },
         { text: "Requirements", link: "/requirements/functional" },
-        { text: "Sprints", link: "/sprints/sprint-0/team-meeting-1" },
+        { text: "Sprints", link: "/sprints/sprint-0/team-meeting" },
       ],
 
       sidebar: [
@@ -54,27 +54,27 @@ export default withMermaid(
               text: "Sprint 0",
               collapsed: true,
               items: [
-                { text: "Client Meeting", link: "/sprints/sprint-0/client-meeting-1" },
-                { text: "Mentor Meeting", link: "/sprints/sprint-0/mentor-meeting-1" },
+                { text: "Client Meeting", link: "/sprints/sprint-0/client-meeting" },
+                { text: "Mentor Meeting", link: "/sprints/sprint-0/mentor-meeting" },
                 { text: "Retrospective", link: "/sprints/sprint-0/retrospective" },
-                { text: "Team Meeting", link: "/sprints/sprint-0/team-meeting-1" },
+                { text: "Team Meeting", link: "/sprints/sprint-0/team-meeting" },
               ],
             },
             {
               text: "Sprint 1",
               collapsed: true,
               items: [
-                { text: "Client Meeting", link: "/sprints/sprint-1/client-meeting-1" },
-                { text: "Mentor Meeting", link: "/sprints/sprint-1/mentor-meeting-1" },
+                { text: "Client Meeting", link: "/sprints/sprint-1/client-meeting" },
+                { text: "Mentor Meeting", link: "/sprints/sprint-1/mentor-meeting" },
               ],
             },
             {
               text: "Sprint 2",
               collapsed: true,
               items: [
-                { text: "Client Meeting", link: "/sprints/sprint-2/client-meeting-1" },
-                { text: "Mentor Meeting", link: "/sprints/sprint-2/mentor-meeting-1" },
-                { text: "Team Meeting", link: "/sprints/sprint-2/team-meeting-1" },
+                { text: "Client Meeting", link: "/sprints/sprint-2/client-meeting" },
+                { text: "Mentor Meeting", link: "/sprints/sprint-2/mentor-meeting" },
+                { text: "Team Meeting", link: "/sprints/sprint-2/team-meeting" },
               ],
             },
           ],
