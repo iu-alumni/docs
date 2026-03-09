@@ -7,6 +7,8 @@ export default withMermaid(
     description: "Technical and project documentation for the IU Alumni platform",
     base: "/docs/",
 
+    head: [["link", { rel: "icon", href: "/docs/favicon.svg", type: "image/svg+xml" }]],
+
     themeConfig: {
       logo: "/logo.svg",
       siteTitle: "IU Alumni Docs",
