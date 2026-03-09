@@ -1,4 +1,4 @@
-# Sprint 2 — Client Meeting 1
+# Sprint 2 — Client Meeting
 
 ---
 

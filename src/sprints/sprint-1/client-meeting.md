@@ -1,4 +1,4 @@
-# Sprint 1 — Client Meeting 1
+# Sprint 1 — Client Meeting
 
 ## Engagement Metrics Discussion
 
