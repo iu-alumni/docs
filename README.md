@@ -1,19 +1,41 @@
-# IU Alumni
+# IU Alumni Docs
 
-A community platform for Innopolis University graduates to plan events and stay connected.
+Documentation for the IU Alumni platform — a community platform for Innopolis University graduates to plan events and stay connected.
 
-## Features
+## Live site
 
-- Email Sign-up – Verify with your `@innopolis.university` email
-- Events – See and host alumni events
-- Connect – Find and follow fellow graduates
-- Map View – See where alumni are located worldwide
-- Profiles – View career info, location, and more
+**[iu-alumni.github.io/docs](https://iu-alumni.github.io/docs)**
 
-## Team members
+## What's documented
 
-- Ahmad Helaly: Infrastructure engineer, DevOps developer, and product owner.
-- Ghadeer Akleh: Frontend developer, and responsible for github sanitization
-- Alexandr Kovalev: Tester
-- Majed Naser: Backend developer, software architect, and requirements engineer.
-- Roukaya Mohammed: Flutter developer, responsible for documentation, and meeting facilitator.
+| Section | Description |
+|---------|-------------|
+| Technical | Architecture, stack decisions, and component design with Mermaid diagrams |
+| Requirements | Functional requirements, quality attributes, and use-case specifications |
+| Metrics & Analytics | KPIs, engagement metrics, and measurement methodology |
+| Sprints | Meeting notes and sprint records |
+
+## Local development
+
+```bash
+npm install
+npm run docs:dev
+```
+
+The dev server starts at `http://localhost:5173/docs/`.
+
+## Build
+
+```bash
+npm run docs:build   # output → src/.vitepress/dist/
+npm run docs:preview # preview the built site locally
+```
+
+## Stack
+
+Built with [VitePress](https://vitepress.dev) + [vitepress-plugin-mermaid](https://github.com/emersonbottero/vitepress-plugin-mermaid). Deployed to GitHub Pages on every push to `main` via `.github/workflows/deploy.yml`.
+
+## Contributing
+
+See the org-wide [Contributing Guide](https://github.com/iu-alumni/.github/blob/main/CONTRIBUTING.md).
+
