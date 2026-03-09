@@ -1,6 +1,11 @@
+# MkDocs
 book
 site/
 .venv/
-node_modules/
+
+# VitePress
 src/.vitepress/dist/
 src/.vitepress/cache/
+
+# Node
+node_modules/
