@@ -63,4 +63,3 @@ Currently only functional through GitFlick.
 | **Aleksandr Kovalev** | TBD                    |
 
 > **Note:** Full role assignments are pending — to be confirmed in the next meeting.
-
