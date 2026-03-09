@@ -16,6 +16,7 @@ export default withMermaid(
         { text: "Technical", link: "/technical/overview" },
         { text: "Requirements", link: "/requirements/functional" },
         { text: "Sprints", link: "/sprints/sprint-0/team-meeting" },
+        { text: "Tests", link: "/tests/checklist" },
       ],
 
       sidebar: [
@@ -77,6 +78,13 @@ export default withMermaid(
                 { text: "Team Meeting", link: "/sprints/sprint-2/team-meeting" },
               ],
             },
+          ],
+        },
+        {
+          text: "Tests",
+          collapsed: false,
+          items: [
+            { text: "Checklist", link: "/tests/checklist" },
           ],
         },
       ],
