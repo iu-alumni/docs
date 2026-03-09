@@ -1,31 +1,35 @@
-# Client updates
+# Sprint 2 — Client Meeting 1
 
-## deployment and migration
+---
 
-- we automated the process and waiting for the third virtual machine from uni.
-- we changed the deployment process.
-- we are starting to testing using workflow
-- no changes for admin panel
+## Deployment & Migration
 
-## client
+- Deployment process has been automated; waiting for a third virtual machine from the university.
+- Deployment process has been updated and improved.
+- Starting to test using CI workflows.
+- No changes to the admin panel at this time.
 
-- is there a way to track statistics, metrics, ...
-- this is postponed till the migration is done and everything is stable
-- we will use grafana to track these metrics, some are from the application, some from the server
-- in march, there are events coming that we want to use the app for and track the metrics of usage
+---
 
-## metrics
+## Metrics & Analytics
 
-- previous team used yandex
-- showing metrics in the admin panel?
+- Client asked whether it is possible to track statistics, metrics, and usage data.
+- This is **postponed** until migration is complete and the system is stable.
+- Grafana will be used to track metrics — some from the application, some from the server.
+- In March, upcoming events will be used to track real usage metrics.
 
-## next steps
+**Notes on metrics:**
 
-- fix password
-- move on to profile
-- users who are using the mobile app will have to update their app
-- force update is not possible
-- inform users about the update so it works properly and doesn't break
-- ask previous team to shut their servers
-- probably will cancel the donations feature, will need final approval. or implemented through t-bank or some similar bank using a small bar or button that redirects to the bank.
-- authentication, when the user lost access to account and has to cover it on his own.
+- The previous team used Yandex Metrica.
+- Discussed the possibility of showing metrics directly in the admin panel.
+
+---
+
+## Next Steps
+
+- [ ] Fix the password recovery flow.
+- [ ] Move on to the user profile feature.
+- [ ] Inform users about the app update so it functions correctly — forced updates are not possible.
+- [ ] Ask the previous team to shut down their servers.
+- [ ] Decide on the donations feature — likely to be cancelled pending final approval, or implemented via T-Bank with a small redirect button.
+- [ ] Address account recovery — users who lose access must be able to recover their accounts.

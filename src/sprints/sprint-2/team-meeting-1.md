@@ -1,10 +1,14 @@
-# Coordination
+# Sprint 2 — Team Meeting 1
 
-## deployment
+---
 
-- now deployment is synchronized
+## Deployment
 
-## coordination
+- Deployment is now fully synchronized across environments.
 
-- Plan everything in docs
-- take tasks from docs and create tickets for them on the dashboard
+---
+
+## Coordination
+
+- Plan all work items in the documentation first.
+- Take tasks from the docs and create corresponding tickets on the project dashboard.

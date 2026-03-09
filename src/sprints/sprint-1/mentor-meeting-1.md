@@ -1,47 +1,49 @@
-# Meeting 1
+# Sprint 1 — Mentor Meeting 1
 
-- Time: 17:00 on Feb 17th, 2026
-- Attendants:
-  - Mansur Khazeev
-  - Roukaya Mohammed
-  - Majed Naser
-  - Ahmad Helaly
-  - Ghadeer Akleh
-  - Aleksandr Kovalev
+**Date:** February 17th, 2026, 17:00
+**Attendees:** Mansur Khazeev · Roukaya Mohammed · Majed Naser · Ahmad Helaly · Ghadeer Akleh · Aleksandr Kovalev
 
-- Meeting Agenda:
+## Agenda
 
-  1. discuss requirements engineering approach
-  2. discuss requirements elicitated
-  3. discuss current status in regards to migration and development
-  4. take advise on what to do next
+1. Discuss the requirements engineering approach
+2. Discuss elicited requirements
+3. Discuss current status regarding migration and development
+4. Get advice on next steps
 
-## Requirements engineering approach
+---
 
-- Decide on the criteria and it's priority with Anna
-- Are events or number of people included matter more?
-- Have clear metrics with some numbers and derive the threshold of success
-  - For example, 10 events with 3 different people.
-  - Or, big event like alumni meeting in uni, use it as a marker.
-- see the use cases, precondition, postcondition, and alternatives; and define the misuse cases.
-- use diagrams. especially, use case diagrams. (high priority)
+## Requirements Engineering Approach
+
+- Decide on criteria and their priorities together with Anna.
+- Clarify what matters more — events count or number of people involved?
+- Define clear metrics with specific numbers and derive a success threshold:
+  - Example: 10 events with at least 3 different attendees each.
+  - Or use a large event (e.g., alumni reunion at uni) as a milestone marker.
+- Document use cases with preconditions, postconditions, and alternative flows; define misuse cases.
+- Use diagrams — especially use case diagrams _(high priority)_.
+
+---
 
 ## Requirements
 
-- what type of events are there?
-- which events and engagement are counted?
-- requirements should be specific and contributes to understanding of the project.
-- include requirements of previous team and start building upon it.
-- consider the info that are required in the event. For example, add host contact info.
+- Clarify what types of events exist.
+- Determine which events and engagement types are counted.
+- Requirements must be specific and contribute to a clear understanding of the project.
+- Include requirements inherited from the previous team and build on top of them.
+- Consider what information is required per event (e.g., host contact info).
 
-## Current status
+---
 
-- current status with migration is discussed same with the problem with the contact with IT department.
-- The problem is that we didn't have SSH access outside of university network.
+## Current Status
 
-## Next steps
+- Migration status discussed, along with the SSH access issue outside the university network.
+- No SSH access outside the campus remains a blocker.
 
-- consider the option of starting the project from scratch.
-- consider migrating to uni github
-- ask yourself a question: are you satisfied with the current product and it aligns with your future?
-- define methodology for workflow on the project (like agile) and responsibilities and document it (high priority)
+---
+
+## Next Steps
+
+- [ ] Consider starting the project from scratch as an option.
+- [ ] Consider migrating to the university GitHub.
+- [ ] Assess whether the current product aligns with the team's goals.
+- [ ] Define and document a workflow methodology (e.g., Agile) with roles and responsibilities _(high priority)_.
