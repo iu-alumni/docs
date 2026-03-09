@@ -31,6 +31,17 @@ npm run docs:build   # output → src/.vitepress/dist/
 npm run docs:preview # preview the built site locally
 ```
 
+## Markdown lint
+
+Run lint checks on all markdown files in `src/`:
+
+```bash
+npm run lint:md        # check for issues
+npm run lint:md:fix    # check and auto-fix fixable issues
+```
+
+Run these commands from the `docs/` directory so `.markdownlint.json` is picked up.
+
 ## Stack
 
 Built with [VitePress](https://vitepress.dev) + [vitepress-plugin-mermaid](https://github.com/emersonbottero/vitepress-plugin-mermaid). Deployed to GitHub Pages on every push to `main` via `.github/workflows/deploy.yml`.
