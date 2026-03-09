@@ -4,7 +4,7 @@
 
 ---
 
-## Key points discussed:
+## Key points discussed
 
 - Team reported that requirements gathering is mostly complete and current focus is on the system migration task.
 
