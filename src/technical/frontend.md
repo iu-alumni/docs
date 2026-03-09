@@ -70,8 +70,12 @@ iu-alumni-frontend/
 │   └── events.ts           # Event CRUD, approve, participants
 ├── components/
 │   ├── common/             # 14 shared UI components
-│   ├── user/               # User-specific components
-│   ├── event/              # Event-specific components
+│   ├── user/
+│   │   ├── UserTable.vue   # Paginated user list with filters
+│   │   └── UserAvatar.vue  # Lazy-loads avatar via /profile/{id}/avatar
+│   ├── event/
+│   │   ├── EventTable.vue  # Paginated event list
+│   │   └── EventCover.vue  # Lazy-loads cover via /events/{id}/cover
 │   └── ui/toast/           # shadcn Toast system
 ├── layouts/
 │   ├── default.vue         # Main layout (with nav header)
@@ -136,22 +140,26 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class UsersStore {
-        +users: User[]
+        +users: UserListItem[]
+        +nextCursor: string | null
         +bannedUsersIds: Set~string~
         +verifiedUsersIds: Set~string~
         +isUserBanned(id) bool
         +isUserVerified(id) bool
-        +updateUsers(filters?)
+        +updateUsers(filters?) void
+        +loadMoreUsers(filters?) void
         +getUserById(id)
-        +changeUserBanStatus(id, ban)
-        +changeUserVerificationStatus(id, verify)
+        +changeUserBanStatus(id)
+        +changeUserVerificationStatus(id)
     }
 
     class EventsStore {
-        +events: Event[]
+        +events: EventListItem[]
+        +nextCursor: string | null
         +approvalSettings: EventApprovalSettings
-        +getEventById(id) Event
-        +updateEvents()
+        +getEventById(id) EventListItem
+        +updateEvents(params?) void
+        +loadMoreEvents(params?) void
         +updateEvent(id, data)
         +deleteEvent(id)
         +listParticipants(id)
@@ -163,8 +171,10 @@ classDiagram
 
     class APILayer {
         +auth: login(), importAlumni(), addAdmin()
-        +users: list(), getById(), ban(), verify()
-        +events: list(), update(), approve(), decline()
+        +users: listUsers(), getUserById(), getUserAvatar()
+        +users: banUser(), unbanUser(), verifyUser()
+        +events: listEvents(), getEventCover()
+        +events: updateEvent(), approveEvent(), declineEvent()
     }
 
     UsersStore --> APILayer
@@ -196,7 +206,62 @@ flowchart LR
 | **Response Interceptor** | Global error handling with toast notifications |
 | **Reactive Auth State** | `useState('authToken')` — Vue 3 composable for cross-component state |
 | **Cross-tab Logout** | `storage` event listener in `auth.client.ts` |
-| **Computed Filtering** | Client-side search and filter computation (ban status, verification) |
+| **Server-side Filtering** | Search/filter params sent to the API; backend applies `ILIKE` in SQL |
+
+## Performance Optimizations
+
+### Server-side search filtering
+
+The search input on the users and events pages uses a **300 ms debounced `watch`** that calls the API with the current search term as a query parameter. The backend applies `ILIKE '%term%'` in SQL and returns only matching records. Previously all records were fetched and filtered in JavaScript, which was slow for large datasets and wasted bandwidth.
+
+```typescript
+// 300 ms debounce before triggering an API call
+watch(search, () => {
+  if (searchTimeout) clearTimeout(searchTimeout)
+  searchTimeout = setTimeout(loadUsers, 300)
+})
+```
+
+### Cursor-based pagination
+
+List pages use **cursor-based (keyset) pagination** with a "Load More" button. The store holds a `nextCursor` value returned by each API response. When "Load More" is clicked, only the cursor and active filters are sent — not the already-loaded items.
+
+```typescript
+async loadMoreEvents(params?) {
+  if (!this.nextCursor) return
+  const page = await eventsInstance.listEvents({ ...params, cursor: this.nextCursor })
+  this.events = [...this.events, ...page.items]   // append new page
+  this.nextCursor = page.next_cursor
+}
+```
+
+The "Load More" button is only rendered when `nextCursor` is non-null.
+
+### Lazy image loading with in-memory cache
+
+User avatars and event covers are **not included in list responses** (they are base64 strings that can be ~100 KB each). Instead, `UserAvatar.vue` and `EventCover.vue` are separate components that fetch images on demand.
+
+Each component maintains a **module-level `Map` cache**. This means:
+- The image is fetched once per session, on first render.
+- Navigating away and back to the list re-uses the cached value instantly — no network request.
+- Failed fetches are cached as `null` to prevent repeated retries.
+
+```typescript
+// Module-level — survives component unmount/remount
+const cache = new Map<string, string | null>()
+
+onMounted(async () => {
+  if (cache.has(props.userId)) {
+    avatar.value = cache.get(props.userId) ?? null
+    return
+  }
+  const data = await usersApi.getUserAvatar(props.userId)
+  cache.set(props.userId, data.avatar)
+  avatar.value = data.avatar
+})
+```
+
+The backend image endpoints also return `Cache-Control: private, max-age=3600`, allowing the browser's HTTP cache to serve repeated requests without hitting the server.
 
 ## UI Component System
 
