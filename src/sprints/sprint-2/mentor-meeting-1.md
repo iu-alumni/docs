@@ -1,4 +1,4 @@
-# Sprint 2 — Mentor Meeting 1
+# Sprint 2 — Mentor Meeting
 
 **Date:** March 3rd, 2026
 
