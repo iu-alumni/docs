@@ -1,7 +1,8 @@
 # Checklist
 
-## Mobile 
-### Autorization
+## Mobile
+
+### Authorization
 
 - [ ] Login with valid credentials
 - [ ] Login with wrong password
@@ -35,20 +36,23 @@
 - [ ] Load map
 - [ ] Check city and who live there
 
-
 ## Admin panel
-### Users 
+
+### Users
+
 - [ ] Verify users
 - [ ] Ban user
 - [ ] View user profile
 
-### Events
+### Events management
+
 - [ ] Approve events
 - [ ] Reject events
 - [ ] Cancel approved events
 - [ ] View events details
 
-### Autorization
+### Others
+
 - [ ] Login
 - [ ] Logout
 - [ ] Add new admin
