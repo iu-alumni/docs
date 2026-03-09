@@ -1,7 +1,6 @@
 # Sprint 1 — Mentor Meeting
 
 **Date:** February 17th, 2026, 17:00
-**Attendees:** Mansur Khazeev · Roukaya Mohammed · Majed Naser · Ahmad Helaly · Ghadeer Akleh · Aleksandr Kovalev
 
 ## Agenda
 
