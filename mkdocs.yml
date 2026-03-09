@@ -1,5 +1,6 @@
 site_name: IU Alumni Docs
 site_description: Technical documentation for the IU Alumni platform
+site_url: https://iu-alumni.github.io/docs/
 docs_dir: src
 theme:
   name: material
