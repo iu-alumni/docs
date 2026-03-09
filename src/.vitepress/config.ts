@@ -4,7 +4,7 @@ import { withMermaid } from "vitepress-plugin-mermaid";
 export default withMermaid(
   defineConfig({
     title: "IU Alumni Docs",
-    description: "Technical documentation for the IU Alumni platform",
+    description: "Technical and project documentation for the IU Alumni platform",
     base: "/docs/",
 
     themeConfig: {
