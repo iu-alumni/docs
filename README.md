@@ -9,7 +9,7 @@ Documentation for the IU Alumni platform — a community platform for Innopolis 
 ## What's documented
 
 | Section | Description |
-|---------|-------------|
+| --- | --- |
 | Technical | Architecture, stack decisions, and component design with Mermaid diagrams |
 | Requirements | Functional requirements, quality attributes, and use-case specifications |
 | Metrics & Analytics | KPIs, engagement metrics, and measurement methodology |
@@ -38,4 +38,3 @@ Built with [VitePress](https://vitepress.dev) + [vitepress-plugin-mermaid](https
 ## Contributing
 
 See the org-wide [Contributing Guide](https://github.com/iu-alumni/.github/blob/main/CONTRIBUTING.md).
-
