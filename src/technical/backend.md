@@ -168,7 +168,7 @@ All list endpoints (`GET /profile/users`, `GET /events/`) use **cursor-based pag
 
 The cursor is a **base64-encoded JSON object** containing the sort key(s) of the last item seen.
 
-```
+```text
 base64( JSON({ "id": "uuid" }) )               # ID-only cursor
 base64( JSON({ "id": "uuid", "dt": "iso8601" }) )  # date+ID cursor (events)
 ```
@@ -204,6 +204,7 @@ List endpoints return lightweight schemas to avoid sending large binary fields (
 4. Results are grouped and counted — the mobile client receives a single flat list of pins with no extra round-trips.
 
 **Filters applied:**
+
 - `show_location = true`
 - `location IS NOT NULL` and matches `%, %` pattern
 - `is_verified = true`
