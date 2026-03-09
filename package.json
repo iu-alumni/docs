@@ -1,0 +1,28 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "A community platform for Innopolis University graduates to plan events and stay connected.",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vitepress dev src",
+    "docs:build": "vitepress build src",
+    "docs:preview": "vitepress preview src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iu-alumni/docs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/iu-alumni/docs/issues"
+  },
+  "homepage": "https://github.com/iu-alumni/docs#readme",
+  "devDependencies": {
+    "mermaid": "^11.12.3",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-mermaid": "^2.0.17"
+  }
+}
