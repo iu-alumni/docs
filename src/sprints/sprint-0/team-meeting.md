@@ -6,23 +6,17 @@
 ## Agenda
 
 1. Roles — who does what and what are the responsibilities for each member
-2. Organizing work for IP
+2. Organizing work for Industrial Project
 3. Identify goals for the next period and what needs to be achieved
-
----
 
 ## Documentation
 
 - **GitHub Documentation:** Managed by Roukaya (primary responsibility)
 - **Google Drive:** Contains meeting recordings and presentations
 
----
-
 ## Backlog Items
 
 - **User Registration:** Add personal email field or an additional verification method to facilitate password recovery
-
----
 
 ## Rustore Deployment
 
@@ -32,8 +26,6 @@ Currently only functional through GitFlick.
 
 1. Mirror solution _(preferred approach)_
 2. API request integration with Rustore
-
----
 
 ## Open Questions
 
