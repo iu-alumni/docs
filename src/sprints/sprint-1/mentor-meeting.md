@@ -9,8 +9,6 @@
 3. Discuss current status regarding migration and development
 4. Get advice on next steps
 
----
-
 ## Requirements Engineering Approach
 
 - Decide on criteria and their priorities together with Anna.
@@ -21,8 +19,6 @@
 - Document use cases with preconditions, postconditions, and alternative flows; define misuse cases.
 - Use diagrams — especially use case diagrams _(high priority)_.
 
----
-
 ## Requirements
 
 - Clarify what types of events exist.
@@ -31,14 +27,10 @@
 - Include requirements inherited from the previous team and build on top of them.
 - Consider what information is required per event (e.g., host contact info).
 
----
-
 ## Current Status
 
 - Migration status discussed, along with the SSH access issue outside the university network.
 - No SSH access outside the campus remains a blocker.
-
----
 
 ## Next Steps
 
