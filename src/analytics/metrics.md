@@ -41,7 +41,7 @@ This document outlines the key metrics to be collected from the applications to 
 - **M17**: Track total registered alumni count
 - **M18**: Monitor alumni database growth rate (especially after graduation (yearly))
 
-## Notification & Communication Metrics
+<!-- ## Notification & Communication Metrics -->
 <!-- after we fix the email issue -->
 <!-- ### Email Notification Metrics
 
@@ -118,7 +118,7 @@ This document outlines the key metrics to be collected from the applications to 
 | Alumni Database Growth     | yearly    | Admin            |
 | System Performance Metrics | Real-time | Technical Team   |
 
-## Success Indicators
+<!-- ## Success Indicators
 
 ### Primary Success Metrics
 
@@ -130,5 +130,5 @@ This document outlines the key metrics to be collected from the applications to 
 
 - **Event creation rate**: Target 3% of active users creating events in a span of 3 months
 - **Profile completion rate**: Target 80% complete profiles
-- **Notification engagement**: Target 30% email open rate
+- **Notification engagement**: Target 30% email open rate -->
 <!-- - **Social feature adoption**: Target 30% of users with at least one connection -->
