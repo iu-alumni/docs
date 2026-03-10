@@ -1,25 +1,40 @@
 # Sprint 2 — Mentor Meeting
 
-**Date:** February 26th, 2026, 15:00
+**Date:** February 17th, 2026, 17:00
 
----
+## Agenda
 
-## Key points discussed
+1. Discuss the requirements engineering approach
+2. Discuss elicited requirements
+3. Discuss current status regarding migration and development
+4. Get advice on next steps
 
-- Team reported that requirements gathering is mostly complete and current focus is on the system migration task.
+## Requirements Engineering Approach
 
-- Our goal is to finish migration before the mid-semester presentation, though feasibility is uncertain.
+- Decide on criteria and their priorities together with Anna.
+- Clarify what matters more — events count or number of people involved?
+- Define clear metrics with specific numbers and derive a success threshold:
+  - Example: 10 events with at least 3 different attendees each.
+  - Or use a large event (e.g., alumni reunion at uni) as a milestone marker.
+- Document use cases with preconditions, postconditions, and alternative flows; define misuse cases.
+- Use diagrams — especially use case diagrams _(high priority)_.
 
-- Our team currently uses a GitHub dashboard, but it only contains the main migration task.
+## Requirements
 
-- A process draft was created (weekly sprints aligned with client meetings), but it is not yet a concrete project plan.
+- Clarify what types of events exist.
+- Determine which events and engagement types are counted.
+- Requirements must be specific and contribute to a clear understanding of the project.
+- Include requirements inherited from the previous team and build on top of them.
+- Consider what information is required per event (e.g., host contact info).
 
-- Task coordination is limited and lacks formal tracking.
+## Current Status
 
-- Mentor noted the workflow is ad-hoc and lacks clear planning, task allocation, and progress tracking.
+- Migration status discussed, along with the SSH access issue outside the university network.
+- No SSH access outside the campus remains a blocker.
 
-- Need for artefacts such as backlog, sprint tasks, timelines, and estimations to show progress and workload distribution.
+## Next Steps
 
-- Suggestion to break migration into smaller subtasks and track them in a project management tool (e.g., backlog or dashboard).
-
-- To prepare for next meeting: clear plan, task distribution, tools used for tracking, and evidence of workflow.
+- [ ] Consider starting the project from scratch as an option.
+- [ ] Consider migrating to the university GitHub.
+- [ ] Assess whether the current product aligns with the team's goals.
+- [ ] Define and document a workflow methodology (e.g., Agile) with roles and responsibilities _(high priority)_.

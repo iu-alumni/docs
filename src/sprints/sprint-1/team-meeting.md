@@ -1,4 +1,4 @@
-# Sprint 0 — Team Meeting
+# Sprint 1 — Team Meeting
 
 **Date:** February 14th, 2026, 19:00
 **Attendees:** Roukaya Mohammed · Majed Naser · Ahmad Helaly · Ghadeer Akleh · Aleksandr Kovalev

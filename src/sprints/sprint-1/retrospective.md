@@ -1,4 +1,4 @@
-# Sprint 0 — Retrospective
+# Sprint 1 — Retrospective
 
 ## What Went Well
 

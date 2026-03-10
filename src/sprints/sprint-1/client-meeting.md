@@ -1,27 +1,69 @@
 # Sprint 1 — Client Meeting
 
-Date: February 13th, 2026
+- Date: February 4th, 2026
+- [Meeting Link](https://drive.google.com/file/d/1wrmXPSBCF37bjof5wx5SgAyauZi53INE/view?usp=drive_link)
+- Attendees: All team members, Anna (the client)
 
-## Authentication and Access
+## Meeting Summary
 
-- The current user approval process is manual through the admin panel.
-- A possible improvement is to pre-approve users using the university database of students and alumni.
-- The client will check with the IT department regarding database access and integration feasibility with SSO.
-- We discussed possible solutions for password recovery, including using Telegram or adding alternative authentication methods after the initial login.
+### Main Goal
 
-## Platform Purpose and Event Management
+Increase the number of app users
 
-- The main goal of the platform is to allow alumni to independently create and join events, supporting a more autonomous community.
-- Unlike Telegram chats or channels, the platform should make event discovery easier and prevent events from being lost in large chat discussions.
-- Events could be automatically approved by default, while admins monitor and remove inappropriate events if necessary.
-- A reporting system for problematic events may be considered in the future.
+### User Roles
 
-## Features and Future Improvements
+- Alumni: Core users who can create events (with filter considerations)
+- Alumni-Friend (319): Naming to be refined
+- Admin: Responsible for event approvals
 
-- Potential success metrics include community engagement and number of events created or attended.
-- The platform could also include university or partner events to increase activity.
-- Feature ideas discussed:
-  - Follow feature to receive updates about people’s activities.
-  - Location-based notifications for events.
-  - Optional automatic location updates (with user consent) to keep event recommendations relevant.
-- During the system migration, the team will inform the client if downtime is required so users can be notified.
+### Payment & Donations
+
+- Payment system to be implemented for donations
+- Need to determine money collection mechanism (IP account or alternative solution)
+
+### Profile Improvements
+
+- Enhance alumni personal pages
+- Add achievements section
+- More details needed on profile requirements
+
+### Technical Issues
+
+#### Current Problems
+
+- Password recovery not functioning
+- OTP codes not being sent to email
+- Login process requires admin approval
+
+#### Migration Requirements
+
+- Need to connect with university IT department
+- Migrate CI/CD deployment
+- Migrate database and everything to Innopolis University servers
+
+## Discussion Points & Questions
+
+### Platform Considerations
+
+- Need for iOS application vs. Telegram bot focus
+- Telegram limitations: message overload, information gets lost in channels
+
+### Authentication Questions
+
+- Password recovery process
+- OTP delivery issues
+
+## TODO
+
+### FAQ Addition
+
+Add the following to FAQ section:
+
+**Q: Can't remember my password from the IU email. How can I solve this?**  
+A: If you have forgotten or lost your password for @innopolis domain, please request one from [it@innopolis.ru](mailto:it@innopolis.ru), and they will send password recovery instructions to you. The alumni mailbox is not blocked, you can use it without an expiration date.
+
+## Blockers
+
+- Database migration pending IT department contact
+- Authentication system needs fixing before launch
+- Payment collection mechanism needs clarification
