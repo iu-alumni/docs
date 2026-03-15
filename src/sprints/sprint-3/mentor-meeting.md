@@ -2,8 +2,6 @@
 
 **Date:** February 26th, 2026, 15:00
 
----
-
 ## Key points discussed
 
 - Team reported that requirements gathering is mostly complete and current focus is on the system migration task.
