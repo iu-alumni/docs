@@ -1,40 +1,23 @@
 # Sprint 3 — Mentor Meeting
 
-**Date:** March 3rd, 2026
+**Date:** February 26th, 2026, 15:00
 
----
+## Key points discussed
 
-## Migration Progress
+- Team reported that requirements gathering is mostly complete and current focus is on the system migration task.
 
-- There is a network setup issue on the IT department's side blocking progress.
+- Our goal is to finish migration before the mid-semester presentation, though feasibility is uncertain.
 
-**Action item:**
+- Our team currently uses a GitHub dashboard, but it only contains the main migration task.
 
-- [ ] Document all migration steps and prerequisites for each step so that it is clear what is done, what is pending, and any team member can follow the process independently.
+- A process draft was created (weekly sprints aligned with client meetings), but it is not yet a concrete project plan.
 
----
+- Task coordination is limited and lacks formal tracking.
 
-## GitHub Dashboard & Work Distribution
+- Mentor noted the workflow is ad-hoc and lacks clear planning, task allocation, and progress tracking.
 
-- Write a checklist for each task with a clear definition of done.
-- Add estimated time to completion for each task.
-- Presented the team's current workflow.
-- Average workload: **12 hours/week per person**.
-- Do not delay development until after migration — both can proceed in parallel.
-- Share availability time slots that collectively cover the 12 hrs/week target.
+- Need for artefacts such as backlog, sprint tasks, timelines, and estimations to show progress and workload distribution.
 
----
+- Suggestion to break migration into smaller subtasks and track them in a project management tool (e.g., backlog or dashboard).
 
-## Client Update
-
-- The client wanted to use the app for upcoming events.
-- The nearest event is on **March 7th, 2026** — not feasible to be ready in time.
-
----
-
-## Goals for MoSP
-
-- [ ] Complete the migration.
-- [ ] Verify everything works correctly after migration and automation.
-- [ ] Shut down the previous mobile app.
-- [ ] Upload newer versions of all apps.
+- To prepare for next meeting: clear plan, task distribution, tools used for tracking, and evidence of workflow.

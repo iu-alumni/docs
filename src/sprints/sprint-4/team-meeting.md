@@ -1,4 +1,4 @@
-# Sprint 3 — Team Meeting
+# Sprint 4 — Team Meeting
 
 ---
 
