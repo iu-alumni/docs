@@ -57,21 +57,13 @@ export default withMermaid(
           collapsed: true,
           items: [
             {
-              text: "Sprint 0",
-              collapsed: true,
-              items: [
-                { text: "Client Meeting", link: "/sprints/sprint-0/client-meeting" },
-                { text: "Mentor Meeting", link: "/sprints/sprint-0/mentor-meeting" },
-                { text: "Retrospective", link: "/sprints/sprint-0/retrospective" },
-                { text: "Team Meeting", link: "/sprints/sprint-0/team-meeting" },
-              ],
-            },
-            {
               text: "Sprint 1",
               collapsed: true,
               items: [
                 { text: "Client Meeting", link: "/sprints/sprint-1/client-meeting" },
                 { text: "Mentor Meeting", link: "/sprints/sprint-1/mentor-meeting" },
+                { text: "Retrospective", link: "/sprints/sprint-1/retrospective" },
+                { text: "Team Meeting", link: "/sprints/sprint-1/team-meeting" },
               ],
             },
             {
@@ -80,6 +72,7 @@ export default withMermaid(
               items: [
                 { text: "Client Meeting", link: "/sprints/sprint-2/client-meeting" },
                 { text: "Mentor Meeting", link: "/sprints/sprint-2/mentor-meeting" },
+                { text: "Sprint Retrospective", link: "/sprints/sprint-2/sprint-retrospective" },
               ],
             },
             {
@@ -88,7 +81,23 @@ export default withMermaid(
               items: [
                 { text: "Client Meeting", link: "/sprints/sprint-3/client-meeting" },
                 { text: "Mentor Meeting", link: "/sprints/sprint-3/mentor-meeting" },
-                { text: "Team Meeting", link: "/sprints/sprint-3/team-meeting" },
+              ],
+            },
+            {
+              text: "Sprint 4",
+              collapsed: true,
+              items: [
+                { text: "Client Meeting", link: "/sprints/sprint-4/client-meeting" },
+                { text: "Mentor Meeting", link: "/sprints/sprint-4/mentor-meeting" },
+                { text: "Team Meeting", link: "/sprints/sprint-4/team-meeting" },
+                { text: "Sprint Retrospective", link: "/sprints/sprint-4/sprint-retrospective" },
+              ],
+            },
+            {
+              text: "Sprint 5",
+              collapsed: true,
+              items: [
+                { text: "Mentor Meeting", link: "/sprints/sprint-5/mentor-meeting" },
               ],
             },
           ],
