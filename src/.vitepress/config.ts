@@ -103,6 +103,13 @@ export default withMermaid(
           ],
         },
         {
+          text: "Project Management",
+          collapsed: false,
+          items: [
+            { text: "Team Calendar", link: "/project/team-calendar" },
+          ],
+        },
+        {
           text: "Tests",
           collapsed: false,
           items: [
