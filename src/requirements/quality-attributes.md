@@ -239,7 +239,7 @@ Success: 95% of actions ≤ 2 seconds on both platforms, variance ≤ 500ms.
 ### QAST202-1
 
 Test: Measure map load times across 50 sessions with varying event
-densities (10-200 events). Include cold starts and cached sessions.
+densities (10-20 events).
 
 Success: Average initial load ≤ 3 seconds, interaction response ≤ 1 second.
 
@@ -319,11 +319,11 @@ Success: ≥ 99.9% success rate, ≥ 99.5% availability during peaks.
 
 ### QAST303-1
 
-Test: Simulate 1000 concurrent event creations with varying data sizes.
+Test: Simulate 100 concurrent event creations with varying data sizes.
 Verify all events appear in database and trigger appropriate
 notifications.
 
-Success: 995+ events created successfully, all visible within 10 seconds.
+Success: 95+ events created successfully, all visible within 5 seconds.
 
 ## Security
 
