@@ -3,7 +3,7 @@
 ## Status Legend
 
 | Status | Meaning |
-|--------|---------|
+| -------- | --------- |
 | **Active** | Risk is still possible; being monitored weekly |
 | **Resolved** | Risk did NOT happen; prevented or no longer relevant |
 | **Occurred** | Risk DID happen; incident was handled |

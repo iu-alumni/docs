@@ -51,7 +51,7 @@ ALUMAP connects Innopolis University alumni through:
 | QR2 | Reliability | System stays operational | 99.5% uptime | Monthly uptime | Prometheus |
 | QR3 | Performance (API) | API responds to requests | p95 < 500ms | Response time percentile | Prometheus |
 | QR4 | Performance (Map) | Map loads on mobile | < 3 seconds | Load time | Manual/E2E |
-| QR5 | Security | User data protected | 0 high-severity vulns | Vulnerability count |  bandit |
+| QR5 | Security | User data protected | 0 high-severity vulns | Vulnerability count | bandit |
 | QR6 | Maintainability | Code is testable and modifiable | 80% coverage | Line coverage | pytest-cov |
 | QR7 | Compatibility | Feature parity across platforms | 95% | Parity checklist | Manual |
 | QR8 | Usability | Users complete key tasks | 85% success rate | Task completion | User testing |
@@ -113,7 +113,7 @@ ALUMAP connects Innopolis University alumni through:
 **Regression Testing Process:**
 
 | Step | Action | If PASS | If FAIL |
-|------|--------|---------|---------|
+| ------ | -------- | --------- | --------- |
 | 1 | Bug Fix / Feature Complete | → Step 2 | Return to development |
 | 2 | Run unit tests (planned) | → Step 3 | Return to development |
 | 3 | Run smoke tests (5-7 scenarios) | → Step 4 | Return to development |
@@ -325,7 +325,6 @@ Table Acronyms
 
 ## Part 4: Quality Gates
 
-
 | Gate | When | Checks | Who | Status |
 | --- | --- | --- | --- | --- |
 | Pre-submit (Pull Request) | Before merge to main | ruff, pnpm lint, yamllint, ansible-lint, shellcheck, docker config, ≥1 approval | Automated + Peer | Active |
@@ -333,7 +332,7 @@ Table Acronyms
 | **Regression** | **After merge / before release** | **Smoke (P0) + Core regression (P1)** | **Kovalev** | **Planned** |
 | Release | Before production deploy | All gates passed, no P1 bugs, backup verified, monitoring healthy | Helaly | Active |
 
-### Regression Gate Details:
+### Regression Gate Details
 
 | Check | Time | Failure Action |
 | --- | --- | --- |
