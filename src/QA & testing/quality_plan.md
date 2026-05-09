@@ -51,7 +51,7 @@ ALUMAP connects Innopolis University alumni through:
 | QR2 | Reliability | System stays operational | 99.5% uptime | Monthly uptime | Prometheus |
 | QR3 | Performance (API) | API responds to requests | p95 < 500ms | Response time percentile | Prometheus |
 | QR4 | Performance (Map) | Map loads on mobile | < 3 seconds | Load time | Manual/E2E |
-| QR5 | Security | User data protected | 0 high-severity vulns | Vulnerability count | ruff, bandit |
+| QR5 | Security | User data protected | 0 high-severity vulns | Vulnerability count | bandit |
 | QR6 | Maintainability | Code is testable and modifiable | 80% coverage | Line coverage | pytest-cov |
 | QR7 | Compatibility | Feature parity across platforms | 95% | Parity checklist | Manual |
 | QR8 | Usability | Users complete key tasks | 85% success rate | Task completion | User testing |
@@ -75,6 +75,53 @@ ALUMAP connects Innopolis University alumni through:
 | Unit Testing | QC | Mobile (flutter test) | Planned | Native Dart testing |
 | E2E Testing | QC | Admin + Mobile Web | Planned | Validates complete user journeys |
 | Integration Testing | QC | API ↔ DB ↔ Telegram | Planned | Validates real dependencies |
+| Regression Testing | QA | All platforms | Active | Critical for sprint releases |
+| Regression Suite | QA | Core user journeys | Active | 20-30 scenarios covering 80% of features |
+| Regression After Bug Fix | QA | Specific feature + related areas | Active | Each P1/P2 fix triggers regression |
+
+### Decision 1.5: Regression Testing Strategy
+
+**What is Regression Testing:** Ensuring that new code changes do NOT break existing functionality.
+
+**Scope of Regression:**
+
+| Priority | Features to Test | When | Responsible |
+| --- | --- | --- | --- |
+| P0 (Critical) | Login, Event creation, Map display | Every release + after each P1 fix | Kovalev |
+| P1 (High) | Profile edit, Event participation, Admin approval | Every sprint | Kovalev |
+| P2 (Medium) | Filters, Search, Notifications | Before major releases | Kovalev |
+
+**Regression Test Suite Composition:**
+
+| Test Type | Count | Coverage | Automation Status |
+| --- | --- | --- | --- |
+| Smoke tests | 5-7 | Critical paths | Planned (E2E) |
+| Core regression | 20-25 | Main features | Planned (E2E) |
+| Full regression | 50-60 | All features | Planned (E2E + manual) |
+| Bug-specific | Per bug | Fixed bug + related areas | Manual |
+
+**When to Run Regression:**
+
+| Trigger | Type | Time Estimate | Who |
+| --- | --- | --- | --- |
+| New sprint release | Full regression (P0+P1) | 4 hours | Kovalev |
+| P1 bug fix | Smoke + bug-specific | 1 hour | Kovalev |
+| P2 bug fix | Bug-specific only | 30 min | Developer |
+| Infrastructure change | Smoke only | 30 min | Helaly |
+| Hotfix | Smoke + affected area | 2 hours | Kovalev + Helaly |
+
+**Regression Testing Process:**
+
+| Step | Action | If PASS | If FAIL |
+| ------ | -------- | --------- | --------- |
+| 1 | Bug Fix / Feature Complete | → Step 2 | Return to development |
+| 2 | Run unit tests (planned) | → Step 3 | Return to development |
+| 3 | Run smoke tests (5-7 scenarios) | → Step 4 | Return to development |
+| 4 | Run core regression (20-25 scenarios) | → Step 5 | Return to development |
+| 5 | Deploy to staging → Manual exploratory | → Step 6 | Return to development |
+| 6 | Production | Done | Return to development |
+
+[Regression checklist](checklist.md)
 
 ### Decision 2: Interactions
 
@@ -169,6 +216,8 @@ Write code → Local linting → Commit
 | --- | --- | --- | --- | --- | --- |
 | Write unit tests | I | R | A | C | I |
 | Write E2E tests | I | R&A | I | I | C |
+| Write regression tests | I | R&A | I | C | I |
+| Run regression suite | I | R&A | C | I | I |
 | Code review | R | C | A | C | I |
 | Run CI | R | C | A | I | I |
 | Triage bugs | R | R | I | C | A |
@@ -278,9 +327,18 @@ Table Acronyms
 
 | Gate | When | Checks | Who | Status |
 | --- | --- | --- | --- | --- |
-| Pre-submit (Pull Request) | Before merge to main | ruff, pnpm lint, yamllint, ansible-lint, shellcheck, docker config | Automated | Active |
+| Pre-submit (Pull Request) | Before merge to main | ruff, pnpm lint, yamllint, ansible-lint, shellcheck, docker config, ≥1 approval | Automated + Peer | Active |
 | Post-submit | After merge | Deploy to Swarm | CI/CD | Active |
-| Release | Before production deploy | Monitoring health, backup verified | Helaly | Active |
+| **Regression** | **After merge / before release** | **Smoke (P0) + Core regression (P1)** | **Kovalev** | **Planned** |
+| Release | Before production deploy | All gates passed, no P1 bugs, backup verified, monitoring healthy | Helaly | Active |
+
+### Regression Gate Details
+
+| Check | Time | Failure Action |
+| --- | --- | --- |
+| Smoke tests (7 scenarios) | 30 min | Block release |
+| Core regression (25 scenarios) | 2 hours | Block release |
+| Bug-specific regression | 30 min - 2 hours | Block fix deployment |
 
 ### Gate 1: Pre-submit (Pull Request)
 
