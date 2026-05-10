@@ -13,7 +13,6 @@ Welcome to the technical and project documentation for the **IU Alumni** platfor
 | [Project Plan](project/strategic_tactical_plan.md) | Project structure, deliverables, and implementation roadmap |
 | [Risks](risks/risks.md) | Identified project risks and mitigation strategies |
 
-
 ## Quick architecture overview
 
 ```mermaid
