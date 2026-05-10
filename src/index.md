@@ -10,6 +10,9 @@ Welcome to the technical and project documentation for the **IU Alumni** platfor
 | [Requirements](requirements/functional.md) | Project goals overview, Functional requirements, quality attributes, and use-case specifications |
 | [Metrics & Analytics](analytics/metrics.md) | KPIs, engagement metrics, and measurement methodology |
 | [Sprints](sprints/sprint-1/team-meeting.md) | Meeting notes, retrospectives, and sprint records |
+| [Project Plan](project/strategic_tactical_plan.md) | Project structure, deliverables, and implementation roadmap |
+| [Risks](risks/risks.md) | Identified project risks and mitigation strategies |
+
 
 ## Quick architecture overview
 
