@@ -18,4 +18,4 @@
 - add donation link to the app events -> Roukaya and Majed
 - fix the password recovery link -> Helaly
 - list of users isn't working for a specific city -> Roukaya
-- write down report of what happened during the down time of the application -> 
+- write down report of what happened during the down time of the application -> Majed
