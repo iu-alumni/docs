@@ -100,13 +100,36 @@ export default withMermaid(
                 { text: "Mentor Meeting", link: "/sprints/sprint-5/mentor-meeting" },
               ],
             },
+            {
+              text: "Sprint 8",
+              collapsed: true,
+              items: [
+                { text: "Team Meeting", link: "/sprints/sprint-8/team-meeting" },
+              ],
+            },
+            {
+              text: "Sprint 10",
+              collapsed: true,
+              items: [
+                { text: "Mentor Meeting", link: "/sprints/sprint-10/mentor-meeting" },
+              ],
+            },
+            {
+              text: "Sprint 11",
+              collapsed: true,
+              items: [
+                { text: "Client Meeting", link: "/sprints/sprint-11/client-meeting" },
+              ],
+            },
           ],
         },
         {
           text: "Project Management",
           collapsed: false,
           items: [
-            { text: "Team Calendar", link: "/project/team-calendar" },
+            { text: "Team", link: "/project/team" },
+            { text: "Strategic Tactical Plan", link: "/project/strategic_tactical_plan" },
+            // { text: "Quality Plan", link: "/project/quality-plan" },
           ],
         },
         {
@@ -114,6 +137,15 @@ export default withMermaid(
           collapsed: false,
           items: [
             { text: "Checklist", link: "/tests/checklist" },
+            { text: "Quality Plan", link: "/QA%20&%20testing/quality_plan" },
+          ],
+        },
+        {
+          text: "Risks",
+          collapsed: false,
+          items: [
+            { text: "Risks", link: "/risks/risks" },
+            { text: "Frontend Migration Decision", link: "/risks/frontend-migration-decision" },
           ],
         },
       ],
