@@ -5,6 +5,7 @@ Innopolis University
 
 ---
 Note: This file is an AI generated md copy. If you want to read, I would advise reading the pdf format in our [repo](https://github.com/iu-alumni/docs/tree/main/src/project).
+
 | | |
 |---|---|
 | **Team Members:** | Ahmad Helaly |
@@ -51,7 +52,7 @@ Note: This file is an AI generated md copy. If you want to read, I would advise 
    1. [Risk 1 — Single-Server Deployment (Single Point of Failure)](#71-risk-1--single-server-deployment-single-point-of-failure)
    2. [Risk 2 — Long-Lived JWT Tokens (1-Year Expiry)](#72-risk-2--long-lived-jwt-tokens-1-year-expiry)
    3. [Risk 3 — Flutter Technology Risk (Team Inexperience)](#73-risk-3--flutter-technology-risk-team-inexperience)
-- [Glossary](#glossary)
+8. [Glossary](#glossary)
 
 ---
 
@@ -90,7 +91,7 @@ The platform's explicit **business goals** are:
 
 ### 1.2 Stakeholders
 
-*Table 1: Stakeholder Analysis*
+#### Table 1: Stakeholder Analysis
 
 | **Stakeholder** | **Role & Interaction** | **Expectations** |
 |---|---|---|
@@ -165,7 +166,7 @@ All alumni-facing features are available on both the Android native app (APK dis
 
 Scenarios follow the format: *Stimulus → Environment → Response → Response Measure*. Priority is determined by the risk-adjusted matrix below, where rows represent Business Importance and columns represent Technical Risk.
 
-*Table 2: Quality Attribute Priority Matrix*
+#### Table 2: Quality Attribute Priority Matrix
 
 | | **Low Risk** | **Medium Risk** | **High Risk** |
 |---|---|---|---|
@@ -347,11 +348,11 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 > **D1.1 — Server-Agnostic GitOps Deployment**
 >
 > All deployment configuration is stored as GitHub environment secrets and rendered onto the target server by Ansible at deploy time. The server IP is a single secret (`SERVER_HOST`); updating it and re-running the *Setup Server* workflow migrates the entire platform to a new machine with zero code changes. This directly addresses QAS-M: the migration procedure is scripted and rehearsable.
-
+>
 > **D1.2 — Docker Swarm for Container Orchestration**
 >
 > All services run as Docker Swarm stacks sharing a single overlay network (`iu_alumni_network`). Every service declares `restart_policy: condition: any`, so process crashes are automatically recovered by the Swarm manager. This addresses the availability dimension of QAS-B.
-
+>
 > **D1.3 — Pre-Migration Backup to an Independent Location**
 >
 > Before any migration, a full `pg_dump` is taken and stored separately from both source and target servers. The backup is validated (row counts, checksums) before the cutover proceeds. This is the primary mechanism for QAS-D.
@@ -369,15 +370,15 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 > **D2.1 — FastAPI with an Explicit Layered Architecture**
 >
 > The backend organises code into four named layers: *Routes* (HTTP boundary), *Services* (business logic and external I/O), *Core* (security, DB session, logging), and *Models* (ORM). Each route module is a single file with a single HTTP operation. This layering supports QAS-G: a developer modifying event-creation logic touches only `app/api/routes/events/` and the relevant service; database and security code are untouched.
-
+>
 > **D2.2 — Stateless JWT Authentication (HS256)**
 >
 > Tokens are stateless JWTs. No server-side session store is maintained. The token payload carries `sub` (email) and `user_type` (alumni or admin), enabling role-based authorisation without a database lookup on every request. This simplifies container restarts under Docker Swarm (no sticky sessions) and supports QAS-B availability.
-
+>
 > **D2.3 — Cursor-Based Pagination on All List Endpoints**
 >
 > List endpoints (`GET /events/`, `GET /profile/users`) use opaque base64-encoded cursors instead of page numbers. The server executes a `WHERE (sort_key > cursor_value)` clause, avoiding the `OFFSET` scan penalty that degrades at high page numbers. This keeps P95 latency stable as the dataset grows, directly supporting QAS-A and QAS-F.
-
+>
 > **D2.4 — Strategic Database Indexing**
 >
 > Indexes are placed on the columns used in the most frequent filter operations: `is_verified`, `is_banned`, `show_location`, `graduation_year`, and a composite index on `show_location + location` for the map endpoint. GIN trigram indexes support the alumni search feature. These indexes prevent sequential scans on a growing dataset and support QAS-A and QAS-F.
@@ -395,11 +396,11 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 > **D3.1 — Flutter for Cross-Platform Mobile**
 >
 > Flutter compiles to Android APK and to a web bundle (served as Telegram Mini App) from the same Dart codebase. The only platform-specific divergence is API URL configuration: the Web build bakes `API_BASE_URL` via `--dart-define` at compile time (satisfying TC2), while the Android build reads it from `flutter_secure_storage`. This delivers QAS-C (feature parity) at no additional development cost.
-
+>
 > **D3.2 — Three-Layer Architecture with BLoC/Cubit**
 >
 > The mobile app is organised into *Presentation* (pages, widgets, Cubits), *Application* (repositories, domain models, mappers), and *Data* (Dio-based gateways, JSON models, local DB) layers. Cubits emit typed `LoadedState<T>` sealed states, making every UI state transition explicit and testable. This architecture supports QAS-G.
-
+>
 > **D3.3 — `Either<AppError, T>` Error Propagation (fpdart)**
 >
 > Repository methods return `Either<AppError, T>` rather than throwing exceptions. Cubits pattern-match on the result and emit the appropriate state. This makes all error paths visible at compile time and avoids silent failures — directly supporting QAS-G (testability).
@@ -418,11 +419,11 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 > **D4.1 — Multi-Method Authentication Converging on JWT**
 >
 > Three login paths are supported: (a) password-only (direct JWT), (b) password + email OTP (session token → 6-digit code → JWT), (c) Telegram OTP (code sent to linked Telegram account → JWT). All paths converge on the same `create_access_token()` function, ensuring consistent token properties regardless of how the user authenticated.
-
+>
 > **D4.2 — Network-Level Hardening: UFW + Fail2ban**
 >
 > UFW restricts inbound traffic to ports 22, 80, and 443. Fail2ban automatically blocks IPs after 5 consecutive failed SSH login attempts for 3600 seconds, protecting against brute-force attacks. This forms the outer security perimeter complementing application-level auth.
-
+>
 > **D4.3 — Long-Lived JWT Tokens (1-Year Expiry): Deliberate Trade-off**
 >
 > JWT tokens carry a 1-year expiry. The rationale is UX: alumni visit the platform infrequently (perhaps monthly around events), and being silently logged out is a significant friction point. The security risk (token revocation requires key rotation, logging out all users) is accepted because the platform stores no highly sensitive data.
@@ -440,11 +441,11 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 > **D5.1 — Prometheus + Grafana Monitoring Stack**
 >
 > The backend exposes `/metrics` via `prometheus-fastapi-instrumentator` (per-endpoint request duration, status code counts). Prometheus scrapes it every 15 seconds alongside Node Exporter (host CPU/memory/disk) and Postgres Exporter (DB query stats, connection count). Four pre-provisioned Grafana dashboards visualise these metrics. Alerts on error-rate thresholds notify the admin Telegram chat.
-
+>
 > **D5.2 — Automated Tiered PostgreSQL Backups**
 >
 > The `postgres-backup-local` container creates daily, weekly, and monthly snapshots with a retention policy of 7 days, 4 weeks, and 6 months respectively. Backups are written to a volume mount independent of the PostgreSQL data directory, protecting against partial-write corruption. This supports QAS-D *after* migration, ensuring data can be recovered if the server fails.
-
+>
 > **D5.3 — Alembic Schema Migration with Auto-Apply on Start**
 >
 > All schema changes are expressed as Alembic migration scripts and applied automatically when the backend container starts. This guarantees that the running code and the schema are always in sync, with no manual DBA step. The migration history is version-controlled alongside the application code.
@@ -455,7 +456,7 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 
 ### 6.1 Patterns and Tactics
 
-*Table 3: Patterns, Tactics, and Trade-offs*
+#### Table 3: Patterns, Tactics, and Trade-offs
 
 | **Pattern / Tactic** | **Where Applied** | **QA Supported** | **Trade-off Introduced** |
 |---|---|---|---|
@@ -474,11 +475,11 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 
 ### 6.2 Static View 1 — System-Level Module Decomposition
 
-*Figure 1: Static View 1 — Module Decomposition*
+#### Figure 1: Static View 1 — Module Decomposition
 
 The diagram below shows the top-level decomposition into four independently deployable subsystems, each corresponding to one Git repository. Each subsystem has its internal layers. The infrastructure subsystem manages the deployment lifecycle of the other three.
 
-```
+```text
 ┌──────────────────────────────┐     ┌──────────────────────────────┐
 │  iu-alumni-backend           │     │  iu-alumni-frontend          │
 │  (FastAPI / Python)          │     │  (Nuxt 3 / Vue 3)            │
@@ -515,7 +516,7 @@ The diagram below shows the top-level decomposition into four independently depl
 
 *Solid arrows: runtime REST calls. Dashed arrows: deployment tooling dependency.*
 
-**Element Catalog**
+#### Element Catalog — Static View 1
 
 - **`iu-alumni-backend`** — The REST API server. Exposes all business logic through versioned HTTP endpoints (`/api/v1/…`). The sole writer to the PostgreSQL database. Also runs the Telegram long-polling loop and sends email via SMTP.
 - **`iu-alumni-frontend`** — The SSR admin portal. Used exclusively by administrators. Communicates with the backend over HTTPS. Has no direct database access.
@@ -524,11 +525,11 @@ The diagram below shows the top-level decomposition into four independently depl
 
 ### 6.3 Static View 2 — Backend Component Diagram
 
-*Figure 2: Static View 2 — Backend Component Diagram*
+#### Figure 2: Static View 2 — Backend Component Diagram
 
 The diagram below shows the internal component structure of the backend, revealing how data flows from an HTTP request through the layers to the database and external services. The Routes layer exposes the HTTP API surface and coordinates request handling. Business logic and external integrations are encapsulated within the Services layer.
 
-```
+```text
                          Client (HTTP)
                                │
                                ▼
@@ -559,7 +560,7 @@ The diagram below shows the internal component structure of the backend, reveali
                           PostgreSQL 16
 ```
 
-**Element Catalog**
+#### Element Catalog — Static View 2
 
 - **Routes Layer** — Contains one file per HTTP operation. Validates inputs using Pydantic schemas, delegates to Services or Core, and returns a Pydantic response model. No business logic lives here.
 - **Services Layer** — Encapsulates all external I/O (email sending, Telegram messages, notification dispatching) and non-trivial business logic (verification workflows, OTP generation). Each service is a class with async methods, injected into routes via FastAPI's `Depends()` system.
@@ -569,11 +570,11 @@ The diagram below shows the internal component structure of the backend, reveali
 
 ### 6.4 Email OTP Authentication Sequence
 
-*Figure 3: Dynamic View 1 — Email OTP Authentication Sequence*
+#### Figure 3: Dynamic View 1 — Email OTP Authentication Sequence
 
 The diagram below illustrates the runtime interaction during an email OTP login, the most complex authentication path. The two-phase protocol stores a session token after password verification (steps 1–7), then exchanges it for a JWT once the OTP is confirmed (steps 8–11). This prevents JWT issuance before both factors are validated.
 
-```
+```text
 Client App            FastAPI Backend         PostgreSQL        Gmail SMTP
     │                       │                      │                 │
  1  │─ POST /auth/login ───►│                      │                 │
@@ -599,11 +600,11 @@ Client App            FastAPI Backend         PostgreSQL        Gmail SMTP
 
 ### 6.5 CI/CD Deployment Pipeline
 
-*Figure 4: Dynamic View 2 — CI/CD Pipeline*
+#### Figure 4: Dynamic View 2 — CI/CD Pipeline
 
 A push to a branch triggers an unbroken automated chain from lint/test through image build, registry push, SSH deployment, and rolling container update. No manual intervention is required for the testing environment; production deployment requires manual approval in the GitHub environment settings. Blue boxes represent GitHub-side steps; green boxes represent server-side steps.
 
-```
+```text
 GitHub-side:
 ┌──────────────┐   ┌──────────────┐   ┌──────────────────────┐   ┌──────────────┐
 │ Developer    │──►│  GitHub PR   │──►│  Build Docker image  │──►│ Push image   │
@@ -622,11 +623,11 @@ Server-side:                                                       ┌───�
 
 ### 6.6 Deployment Topology
 
-*Figure 5: Physical View — Deployment Topology*
+#### Figure 5: Physical View — Deployment Topology
 
 All services share the Docker Swarm overlay network and communicate by container name (Docker DNS). Nginx is the sole component with public ports. PostgreSQL and Prometheus are not publicly routed. The certbot sidecar renews TLS certificates every 12 hours.
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────────────┐
 │  Ubuntu 22.04 Server (university infrastructure)                         │
 │  Docker Swarm Overlay Network: iu_alumni_network                         │
@@ -661,7 +662,7 @@ External services (dashed border):
 [ Telegram Bot API ]  [ Gmail SMTP ]  [ GitHub GHCR ]  [ Internet (alumni users) ]
 ```
 
-**Element Catalog**
+#### Element Catalog — Deployment Topology
 
 - **Nginx** — Single ingress. Performs SSL termination (Let's Encrypt certificates) and routes traffic to backend, frontend, mobile, Grafana, and Portainer by subdomain. Starts independently of application services; routes activate as each service comes up.
 - **Backend (FastAPI :8080)** — Serves the REST API. Runs the Telegram long-polling loop as an async background task. Exposes `/metrics` for Prometheus.
@@ -678,7 +679,7 @@ External services (dashed border):
 
 ### 6.7 Technology Propositions
 
-*Table 4: Technology Propositions*
+#### Table 4: Technology Propositions
 
 | **Category** | **Technology** | **Justification** |
 |---|---|---|
@@ -698,7 +699,7 @@ External services (dashed border):
 
 ### 6.8 Driver Traceability Matrix
 
-*Table 5: Driver Traceability Matrix*
+#### Table 5: Driver Traceability Matrix
 
 | **Business Goal** | **Driver** | **Design Decision** | **Implementing Component(s)** |
 |---|---|---|---|
@@ -728,6 +729,7 @@ We identify three architectural decisions that carry significant risk or controv
 > **Alternative approach.** Deploy a two-node Docker Swarm with PostgreSQL replication. Option A: use PostgreSQL streaming replication with a hot standby on the second node; promote on failure. Option B: use a managed cloud PostgreSQL service (e.g., Supabase, Neon) for the data tier while keeping the application servers on university infrastructure. Either approach breaks the single point of failure for data.
 >
 > **Trade-offs of switching.**
+>
 > - Requires a second server or a paid cloud database, conflicting with BC2 and BC3.
 > - PostgreSQL streaming replication requires Swarm placement constraints and a failover automation script, increasing operational complexity (contradicts BC1 and BC4).
 > - Managed cloud databases cost money and introduce a data-residency question (where is alumni data stored?).
@@ -744,6 +746,7 @@ We identify three architectural decisions that carry significant risk or controv
 > **Alternative approach.** Introduce a short-lived access token (15-minute expiry) paired with a long-lived refresh token (30-day expiry) stored in the database. On access token expiry, the client uses the refresh token to obtain a new pair. Refresh tokens can be revoked per-user by deleting the DB record, enabling surgical session invalidation without affecting other users.
 >
 > **Trade-offs of switching.**
+>
 > - Requires a new `refresh_tokens` table, two new API endpoints (`POST /auth/refresh`, `POST /auth/logout`), and updated token-refresh logic in both mobile and frontend clients.
 > - Mobile clients must handle 401 responses by transparently refreshing and retrying; silent failure is unacceptable but the implementation is non-trivial.
 > - Short tokens improve security at the cost of more frequent database reads (revocation checks) and slightly more complex client-side token management.
@@ -761,6 +764,7 @@ We identify three architectural decisions that carry significant risk or controv
 > Given that the team has React and Vue experience from the frontend work, a full rewrite of the Flutter codebase in one of these frameworks was evaluated as a way to eliminate the technology-mismatch risk entirely.
 >
 > **Why the rewrite was rejected.**
+>
 > - **Vibe-coding risk outweighs technology-mismatch risk.** A rewrite executed under time pressure, primarily AI-assisted ("vibe coded") by developers unfamiliar with the target framework's idiomatic patterns, was judged more likely to introduce subtle and hard-to-detect bugs than the existing, partially-working Flutter code. Generated code tends to be locally plausible but globally inconsistent; without expert review it accumulates silent correctness issues.
 > - **Existing Flutter code is not throwaway.** The three-layer architecture (D3.2), `Either`-based error propagation (D3.3), and BLoC/Cubit state model are already implemented and partially tested. Discarding them resets the project to zero at the cost of the quality architecture already established.
 > - **Cross-platform target would be harder in React/Vue.** The Flutter Web → Telegram Mini App compilation path is a first-class Flutter feature. Replicating the dual-target build (Android APK + Telegram Mini App) in React/Vue requires maintaining two separate build pipelines, reintroducing the complexity that Flutter was chosen to avoid.
