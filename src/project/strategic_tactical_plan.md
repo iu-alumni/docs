@@ -63,7 +63,7 @@ A standing rule applies in every phase: no production deploy goes out without al
 
 ---
 
-### Phase 1 + 2 — Infrastructure Migration & Stabilization 
+### Phase 1 + 2 — Infrastructure Migration & Stabilization
 
 ### Main objective
 
@@ -235,6 +235,7 @@ This combined phase introduces features that continuously operate between user a
 ### Final handoff
 
 A 60-minute handover review:
+
 - Walk the strategic objectives; attach evidence to each.
 - Identify any criterion not met and the impact.
 - File the project closeout document; thank the team.
