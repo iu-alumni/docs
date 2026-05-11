@@ -101,6 +101,21 @@ export default withMermaid(
               ],
             },
             {
+              text: "Sprint 6",
+              collapsed: true,
+              items: [
+                { text: "Mentor Meeting", link: "/sprints/sprint-6/mentor-meeting" },
+                { text: "Client Meeting", link: "/sprints/sprint-6/client-meeting" },
+              ],
+            },
+            {
+              text: "Sprint 7",
+              collapsed: true,
+              items: [
+                { text: "Mentor Meeting", link: "/sprints/sprint-7/mentor-meeting" },
+              ],
+            },
+            {
               text: "Sprint 8",
               collapsed: true,
               items: [

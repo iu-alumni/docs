@@ -2,34 +2,34 @@
 
 ## Infrastructure & Migration
 
-- [x] **FR1**: Migrate all services and data from external servers to university servers with small to zero downtime (< 1 hr downtime)
-- [x] **FR2-a**: Ensure all functionalities remain operational post-migration with matching or improved performance metrics on telegram mini app
-- [x] **FR2-b**: Ensure all functionalities remain operational post-migration with matching or improved performance metrics on mobile application
+- [x] **FR1**: Migrate all services and data from external servers to university servers with small to zero downtime (< 1 hr downtime) [issued](../sprints/sprint-1/client-meeting.md)
+- [x] **FR2-a**: Ensure all functionalities remain operational post-migration with matching or improved performance metrics on telegram mini app [issued](../sprints/sprint-1/client-meeting.md)
+- [x] **FR2-b**: Ensure all functionalities remain operational post-migration with matching or improved performance metrics on mobile application [issued](../sprints/sprint-1/client-meeting.md)
 
 ## Authentication & User Management
 
-- [ ] **FR3**: Implement secure password recovery functionality allowing users to reset forgotten passwords via email or telegram
-- [x] **FR4**: Fix email verification process to ensure reliable user email approval during registration
+- [ ] **FR3**: Implement secure password recovery functionality allowing users to reset forgotten passwords via email or telegram [issued](../sprints/sprint-1/client-meeting.md)
+- [x] **FR4**: Fix email verification process to ensure reliable user email approval during registration [issued](../sprints/sprint-1/client-meeting.md)
 
 ## Event Management
 
-- [x] **FR5**: Fix and optimize event creation workflow with proper validation and error handling
-- [ ] **FR6**: Send automatic notifications upon event creation to relevant users
+- [x] **FR5**: Fix and optimize event creation workflow with proper validation and error handling [issued](../sprints/sprint-2/client-meeting.md)
+- [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md)
 
 ## Maps & Location Services
 
-- [ ] **FR7**: Implement automated map functionality with automatic location update every month with optional manual intervention
+- [ ] **FR7**: Implement automated map functionality with automatic location update every month with optional manual intervention [issued](../sprints/sprint-2/client-meeting.md)
 <!-- - [ ] **FR10**: Enable accurate location pinning for events and venues with search and filter capabilities -->
 
 ## Social Features
 
-- [ ] **FR8**: Add follow request feature enabling users to send, accept, and reject connection requests
-- [ ] **FR9**: Implement notification system for follow activities (requests, accepts, new followers)
+- [ ] **FR8**: Add follow request feature enabling users to send, accept, and reject connection requests [issued](../sprints/sprint-2/client-meeting.md)
+- [ ] **FR9**: Implement notification system for follow activities (requests, accepts, new followers) [issued](../sprints/sprint-2/client-meeting.md)
 <!-- - [ ] **FR10**: Provide privacy settings for follow preferences with followers/following management lists -->
 
 ## User Interface & Experience
 
-- [ ] **FR10**: Redesign user profile with modern, intuitive layout displaying user information, events, and followers
+- [ ] **FR10**: Redesign user profile with modern, intuitive layout displaying user information, events, and followers [issued](../sprints/sprint-3/client-meeting.md)
 <!-- - [ ] **FR16**: Enable edit profile functionality with media gallery integration -->
 - [ ] **FR11**: Ensure consistent design language across platforms
 
@@ -73,11 +73,16 @@
 
 ## User Roles & Permissions
 
-- [ ] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only
+- [ ] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only [issued](../sprints/sprint-1/client-meeting.md)
 
 ## Reports Generation
 
-- [ ] **FR23**: Enable administrators to generate comprehensive reports including event attendance tracking and alumni participation summaries
+- [ ] **FR23**: Enable administrators to generate comprehensive reports including event attendance tracking and alumni participation summaries [issued](../sprints/sprint-3/client-meeting.md)
+
+## Payment & Donations
+
+- [ ] **FR24**: Implement a field for donations or payment of event fees with link-based payment processing (e.g., Tinkoff) without requiring a legal entity for handling funds [issued](../sprints/sprint-6/client-meeting.md)
+- [ ] **FR25**: Allow admins to track donators and payments associated with events for reporting purposes (maybe with a form) [issued](../sprints/sprint-11/client-meeting.md)
 
 <!-- ## User & Event Validation -->
 
