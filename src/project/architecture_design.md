@@ -4,7 +4,7 @@
 Innopolis University
 
 ---
-Note: This file is an AI generated md copy. If you want to read, I would advise reading the pdf format in our [repo](https://github.com/iu-alumni/docs/tree/main/src/project).
+Note: This file is an AI generated md **copy**. If you would like to read the original file, we advise reading the pdf format in our [repo](https://github.com/iu-alumni/docs/src/project/architecture_design_report.pdf).
 
 | | |
 |---|---|
