@@ -144,14 +144,15 @@ export default withMermaid(
           items: [
             { text: "Team", link: "/project/team" },
             { text: "Strategic Tactical Plan", link: "/project/strategic_tactical_plan" },
+            { text: "Architecture Design", link: "/project/architecture_report" },
             // { text: "Quality Plan", link: "/project/quality-plan" },
           ],
         },
         {
-          text: "Tests",
+          text: "QA & Testing",
           collapsed: false,
           items: [
-            { text: "Checklist", link: "/tests/checklist" },
+            { text: "Checklist", link: "/QA%20&%20testing/checklist" },
             { text: "Quality Plan", link: "/QA%20&%20testing/quality_plan" },
           ],
         },
