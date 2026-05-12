@@ -1,469 +1,484 @@
-# ALUMAP — Full Project Sprint Plan (Sprints 1–20)
+# ALUMAP — Full Sprint Plan (20 Sprints)
 
 **Period:** Feb 4, 2026 – Jul 28, 2026  
-**Team:** Ahmad Helaly, Majed Naser, Roukaya Mohammed, Ghadeer Akleh, Aleksandr Kovalev
+**Team:** Ahmad Helaly, Majed Naser, Roukaya Mohammed, Ghadeer Akleh, Aleksandr Kovalev  
+**Sprint duration:** 1 week
 
-Sprints 1–11 are reconstructed from meeting notes and retrospectives.  
-Sprints 12–20 are planned forward from the milestone roadmap.
+> Sprints 1–12 are reconstructed from meeting notes and retrospectives.
+> Sprints 13–20 are planned forward from the milestone roadmap.
+> A 2-week university spring break falls between Sprints 9 and 10 (Apr 8–21) and is not counted as sprint time.
 
 ---
 
 ## Milestone Map
 
-| Milestone | Dates | Primary Deliverable |
+| Milestone | Dates | Sprints |
 |---|---|---|
-| M1 — Infrastructure Migration | Feb 4 – Mar 17 | Platform running on university server |
-| M2 — Platform Stability & Security | Mar 18 – May 12 | Stable, secure, fully authenticated platform |
-| M3 — Social & Engagement Features | Jun 2 – Jun 23 | Follow, Notifications, Badges |
-| M4 — Final Stabilization | Jun 24 – Jul 28 | Handover-ready, production-validated system |
+| M1 — Infrastructure Migration | Feb 4 – Mar 17 | 1–6 |
+| M2 — Platform Stability & Security | Mar 18 – May 12 | 7–12 |
+| Bridge — Enhancements & Parity | May 13 – Jun 1 | 13–15 |
+| M3 — Social & Engagement Features | Jun 2 – Jun 23 | 16–18 |
+| M4 — Final Stabilization | Jun 24 – Jul 28 | 19–20 |
 
 ---
 
-## Sprint 1 — Feb 4–10 | Project Kickoff & Requirements Gathering
+## M1 — Infrastructure Migration | Feb 4 – Mar 17
 
-**Primary goal:** Establish project scope, team structure, and access to existing codebase.
-
-### Tasks
-
-- Conduct first client meeting; document main goal (increase user numbers) and user roles
-- Identify current technical issues (broken password recovery, OTP not sending, login requires admin)
-- Contact university IT department about server migration
-- Request access to previous team's repositories
-- Set up GitHub Project board and assign team roles
-
-### Success Criteria
-
-- Feature list drafted and shared with client for review
-- GitHub Project board live with at least all known issues logged
-- Email sent to IT department and previous team requesting access
-- Team roles formally assigned (lead, backend, frontend, mobile, infra)
+*Milestone bullets: Infrastructure Migration · DB migration ready · CI/CD pipeline Implemented*
 
 ---
 
-## Sprint 2 — Feb 11–17 | Migration Planning & Requirements Documentation
+### Sprint 1 | Feb 4–10 — Infrastructure Migration (Planning)
 
-**Primary goal:** Unblock migration and produce formal requirements documentation.
+**Goal:** Establish the team, document the platform's known issues, and initiate server access.
 
-### Tasks
+**Deliverables:**
 
-- Resolve SSH access blocker (escalate to mentor/client, explore VPN, delegate to IT)
-- Draft use case diagrams and document event types with required fields
-- Define success metrics with specific numerical thresholds
-- Document inherited requirements from previous team
-- Investigate fresh-start vs. existing codebase trade-off
+- First client meeting held; main goal and user roles documented
+- Technical issues catalogued (broken password recovery, OTP not sending, login requires admin approval)
+- University IT department contacted for server VM provisioning
+- GitHub Project board created; Sprint 1 tasks populated
 
-### Success Criteria
+**Success Criteria:**
 
-- IT department response received and SSH path confirmed or alternative agreed
-- Use cases documented for: auth, event creation, profile management, map, moderation
-- Success metrics defined (e.g., ≥ 10 events, ≥ 3 unique attendees per event)
-- Decision on codebase approach (migrate vs. rewrite) documented with rationale
-
----
-
-## Sprint 3 — Feb 18–24 | Profile & Event Spec + Server Provisioning
-
-**Primary goal:** Define detailed profile and event requirements; begin server provisioning.
-
-### Tasks
-
-- Conduct client meeting; clarify profile structure (graduation year, badges, privacy toggle)
-- Define event fields: title, description, location, date/time, cost, cover image, creator Telegram alias
-- Clarify user validation process (Digital Profile check) and impersonation risk
-- Begin provisioning university VM with Ansible playbooks
-- Document waiting-list and engagement metric requirements
-
-### Success Criteria
-
-- Profile spec complete: graduation year, biography, city/country, Telegram alias, avatar, `show_location` toggle
-- Event spec complete: all required fields documented including cost and contact info
-- University VM accessible via SSH and base OS configured
-- User validation flow documented including known impersonation risk
+- Each team member has a documented role and responsibility
+- Known technical issues are filed as tickets with severity labels
+- IT department contact is acknowledged in writing
+- Task board is live and visible to all team members
 
 ---
 
-## Sprint 4 — Feb 25–Mar 3 | CI/CD Pipeline Implementation
+### Sprint 2 | Feb 11–17 — Infrastructure Migration (Server Provisioning)
 
-**Primary goal:** Automate deployment end-to-end so every future migration step is scripted and repeatable.
+**Goal:** Provision the university server and initialise the container orchestration environment.
 
-### Tasks
+**Deliverables:**
 
-- Implement GitHub Actions CI workflow (lint + tests on PR)
-- Implement GitHub Actions CD workflow (build Docker image → push to GHCR → SSH deploy)
-- Configure Docker Swarm on university VM with overlay network `iu_alumni_network`
-- Set all services to `restart_policy: condition: any`
-- Conduct staging dry run of deployment pipeline
+- Ansible playbooks written for base server setup (Docker, UFW, system packages)
+- Docker Swarm initialised; `iu_alumni_network` overlay network created
+- SSH key-based access configured and password authentication disabled
+- Requirements documentation started (use cases, event fields, feature list)
 
-### Success Criteria
+**Success Criteria:**
 
-- CI: every PR runs lint and tests automatically; failing PRs are blocked from merge
-- CD: a push to `develop` automatically builds, tags (`ghcr.io/…:{SHA}`), and deploys
-- Docker Swarm stack running with all services reachable by container name
-- Staging dry run completed with documented step-by-step timings
-
----
-
-## Sprint 5 — Mar 4–10 | DB Migration Ready
-
-**Primary goal:** Produce a validated, restorable PostgreSQL backup and confirm data integrity pipeline.
-
-### Tasks
-
-- Execute `pg_dump` on Yandex Cloud source database
-- Restore to university server via `pg_restore`; compare row counts per table
-- Run field-level sampling script on 5% of alumni records (email, graduation_year, is_verified)
-- Validate all FK constraints via `pg_catalog` queries post-restore
-- Document rollback gate procedure (`scripts/restore-db.sh`)
-
-### Success Criteria
-
-- 100% row-count match across all tables
-- Zero FK violations post-restore
-- 5% alumni field-level sample passes with no discrepancies
-- Rollback procedure rehearsed on staging and documented
-- `pg_dump` → `pg_restore` round-trip takes < 30 minutes (bounds live window)
+- `ansible-playbook` runs to completion with zero task failures on the target server
+- `docker node ls` shows the Swarm manager node in a healthy state
+- SSH key login confirmed; root password login rejected
+- At least 5 use cases drafted and reviewed with the team
 
 ---
 
-## Sprint 6 — Mar 11–17 | Infrastructure Migration — Live Cutover
+### Sprint 3 | Feb 18–24 — DB Migration Ready (Staging Trial)
 
-**Primary goal:** Complete the live migration from Yandex Cloud to the university server with ≤ 1 hour downtime.
+**Goal:** Validate the full database migration procedure on staging before touching production.
 
-### Tasks
+**Deliverables:**
 
-- Execute scripted cutover using `deploy.sh` + Ansible playbook
-- Run automated health checks (`curl` against all endpoints) before DNS switch
-- Update DNS records; monitor propagation via Grafana + Prometheus alerts
-- Decommission Yandex Cloud services after new server verified
-- Write post-migration incident report
+- `pg_dump` taken from source server and stored in an independent location
+- `pg_restore` executed on the staging database instance
+- Pre-migration row-count baseline recorded per table
+- User profile spec finalised with client (graduation year, `show_location`, badge placeholder)
 
-### Success Criteria
+**Success Criteria:**
 
-- Cumulative downtime ≤ 1 hour; no single service interruption > 15 minutes
-- All health checks pass before DNS switch; DNS updated only after checks are green
-- Prometheus alerts confirm all endpoints reachable within 15 s of coming up
-- Post-migration report written documenting actual vs. planned timings
-- Previous team's servers shut down (or handover email sent)
+- Staging restore completes with zero FK violations
+- Row counts match 100% between source and staging
+- Field-level spot check on 5% of alumni records shows zero data corruption
+- Profile spec document approved by client in meeting
 
 ---
 
-## Sprint 7 — Mar 18–24 | Fixing Migration-Related Repercussions
+### Sprint 4 | Feb 25–Mar 3 — DB Migration Ready (Live Cutover)
 
-**Primary goal:** Restore full pre-migration feature functionality on the new server.
+**Goal:** Execute the live database migration from the old server to the university server.
 
-### Tasks
+**Deliverables:**
 
-- Fix GitHub Actions runner not picking up jobs post-migration
-- Fix event images still pointing to old backend URL
-- Restore password recovery link functionality
-- Fix user listing broken for specific city filter
-- Update all application version references to new backend base URL
-- Verify Telegram bot long-polling reconnects after server restart
+- Production `pg_dump` taken and securely transferred to the university server
+- `pg_restore` executed and validated on the live PostgreSQL 16 instance
+- Additive Alembic migrations applied on top of the restored schema
+- Rollback procedure rehearsed: database wiped and re-restored from backup
 
-### Success Criteria
+**Success Criteria:**
 
-- GitHub Actions CI/CD pipeline executes successfully end-to-end on new server
-- Event images load from new GHCR-backed URLs in all clients
-- Password recovery email arrives within 30 s and link is valid for ≥ 1 hour
-- City-filtered user list returns correct results
-- Zero P1 bugs from migration-related breakage remaining open at sprint end
+- 100% row-count match per table post-restore
+- Zero FK violations confirmed via `pg_catalog` constraint check
+- `alembic current` matches the expected revision; no migration conflicts
+- Rollback dry-run completes in under 30 minutes
 
 ---
 
-## Sprint 8 — Mar 25–31 | Platform Stability & Security — Phase 1
+### Sprint 5 | Mar 4–10 — CI/CD Pipeline (Build & Registry)
 
-**Primary goal:** Stabilise the platform under real user traffic; harden network perimeter.
+**Goal:** Automate Docker image builds and publish them to GHCR on every push.
 
-### Tasks
+**Deliverables:**
 
-- Configure UFW: allow only ports 22, 80, 443
-- Install and configure Fail2ban: block IPs after 5 failed SSH attempts for 3 600 s
-- Configure Let's Encrypt + Certbot sidecar (auto-renew every 12 hours)
-- Deploy Prometheus + Grafana monitoring stack; create alert on error rate > 0.1% per 5-min window
-- Set up Node Exporter and Postgres Exporter; provision four Grafana dashboards
+- GitHub Actions CI workflow: lint, build, tag image with commit SHA, push to GHCR
+- Docker Swarm stack files for all services committed to the infra repository
+- Image pull confirmed from the university server
+- Backend image response format fixed: images served as URLs, not raw bytes
 
-### Success Criteria
+**Success Criteria:**
 
-- UFW rules active; `nmap` scan from external host shows only ports 22, 80, 443 open
-- Fail2ban bans a test IP after 5 failed SSH attempts; ban releases after 3 600 s
-- HTTPS working on all subdomains with valid Let's Encrypt certificate
-- Grafana alert fires within 15 s of a test endpoint going down
-- All four dashboards showing live data (backend latency, host metrics, DB metrics, error rates)
+- Push to `develop` triggers CI; image is built, tagged, and pushed to GHCR within 5 minutes
+- University server can `docker pull` from GHCR without authentication errors
+- All service images (backend, frontend, mobile) build successfully in CI with no lint failures
+- Event images load correctly in both Android and Telegram Mini App
 
 ---
 
-## Sprint 9 — Apr 1–14 | OTP Implementation — Email OTP
+### Sprint 6 | Mar 11–17 — CI/CD Pipeline (Deployment & Observability)
 
-**Primary goal:** Implement the email-based OTP second-factor authentication flow end-to-end.
+**Goal:** Automate deployment to production and stand up the monitoring stack.
 
-### Tasks
+**Deliverables:**
 
-- Implement `POST /auth/login` returning `{session_token, otp_required: true}` after password verification
-- Implement `POST /auth/login-otp` consuming session token + 6-digit code → JWT
-- Generate and store OTP codes in `login_codes` table with 10-minute expiry
-- Integrate Gmail SMTP via `EmailService` to deliver OTP codes
-- Implement `POST /auth/password-recovery` email token flow
-- Update Flutter (Android + Web) and Nuxt 3 clients for new two-step login UI
+- `docker stack deploy` triggered via `appleboy/ssh-action` in the CD workflow
+- Prometheus, Grafana, Node Exporter, and Postgres Exporter running in the Swarm
+- Four pre-provisioned Grafana dashboards live
+- DNS updated; all services reachable at their final domain
 
-### Success Criteria
+**Success Criteria:**
 
-- Email OTP delivered ≤ 30 s (measured over 100 real sends)
-- OTP codes expire correctly: codes older than 10 min rejected with 401
-- Session tokens cannot be reused after OTP confirmed (`used=true`)
-- Password recovery email arrives and link is valid; tested on both clients
-- P95 login latency ≤ 2 s under 50 concurrent users (Locust test)
+- End-to-end pipeline: push to `main` → running container on server, zero manual steps
+- Prometheus scrapes all four targets at a 15-second interval
+- Grafana accessible at `grafana.{DOMAIN}`; at least one alert rule active
+- All service health endpoints return 200 within 60 seconds of `docker stack deploy`
 
 ---
 
-## Sprint 10 — Apr 15–28 | OTP Implementation — Telegram OTP + Auth Reliability
+## M2 — Platform Stability & Security | Mar 18 – May 12
 
-**Primary goal:** Implement Telegram OTP login and validate authentication reliability targets.
-
-### Tasks
-
-- Implement Telegram OTP: send 6-digit code to linked Telegram account via bot long-polling
-- Ensure all three auth paths (password, email OTP, Telegram OTP) converge on `create_access_token()`
-- Set up synthetic login probe: cron job tests login every 1 minute; failures alert admin Telegram chat
-- Implement `is_banned` check on every authenticated request
-- Run chaos test: kill PostgreSQL container during login; verify 503 response and recovery < 30 s
-- Batch-analyse 100 OTP delivery timestamps; confirm P95 ≤ 30 s email, ≤ 10 s Telegram
-
-### Success Criteria
-
-- Telegram OTP delivered ≤ 10 s in P95 measured over ≥ 50 test sends
-- Login success rate ≥ 99.9% over 1-week Prometheus window (all three auth methods combined)
-- Synthetic login probe running continuously; Telegram alert fires within 2 min of auth failure
-- Banned accounts blocked on every request (verified by integration test)
-- Chaos test: backend returns structured 503 (not crash); recovers within 30 s (Swarm restart)
+*Milestone bullets: Platform Stability & Security · Fixing Migration-related repercussions · OTP Implementation*
 
 ---
 
-## Sprint 11 — Apr 29–May 5 | Admin Portal & Event Moderation
+### Sprint 7 | Mar 18–24 — Platform Stability (Regression & Verification)
 
-**Primary goal:** Give the Alumni Office a fully functional moderation workflow in the admin portal.
+**Goal:** Confirm all platform features work on the university server; triage every regression.
 
-### Tasks
+**Deliverables:**
 
-- Implement event approval queue: admins approve / decline / delete pending events
-- Implement global auto-approve toggle for events
-- Implement ban / unban and verify / unverify alumni in admin portal
-- Implement allowed-email list upload for auto-approval of registrations
-- Improve admin portal performance: bulk search, filter, and export of alumni records
-- Gather client feedback; address complaint that progress is too slow
+- Manual regression test across all features (auth, events, profiles, map)
+- Bug triage list with P0/P1/P2 severity assigned to every issue
+- Old Yandex Cloud server shut down with client approval
+- Migration post-mortem document written and committed to the docs repo
 
-### Success Criteria
+**Success Criteria:**
 
-- Admin can approve and decline events from a single queue view; status changes reflected in feed ≤ 5 s
-- Auto-approve toggle persists across server restarts and takes effect immediately
-- Ban/unban and verify/unverify actions reflected on next authenticated request (no cache stale state)
-- Email allowlist CSV upload processes ≥ 1 000 rows without timeout
-- Client acknowledges in next meeting that event and moderation workflows are functional
+- Every existing feature passes a smoke test on the university server
+- Zero P0 bugs remain open at end of sprint
+- Old server is fully decommissioned; no traffic routed to it
+- Post-mortem committed; includes root cause, timeline, and preventive measures
 
 ---
 
-## Sprint 12 — May 6–12 | Profile Improvements & Pre-Feature Polish
+### Sprint 8 | Mar 25–31 — Platform Security (Network Hardening & Backups)
 
-**Primary goal:** Deliver the user profile redesign and close all known P1/P2 bugs before the feature phase.
+**Goal:** Harden the server security perimeter and automate TLS and database backups.
 
-### Tasks
+**Deliverables:**
 
-- Add graduation year label to alumni profiles (sourced from registration field)
-- Implement `show_location` privacy toggle: excluded alumni not shown on map or user list
-- Implement profile page with biography, city/country, Telegram alias, and avatar upload
-- Set up tiered PostgreSQL backups: daily (7-day retention), weekly (4-week), monthly (6-month)
-- Run full Locust load test (50 concurrent users); confirm P95 ≤ 2 s on all critical paths
-- Close all P1 and P2 bugs; document any accepted P3 deferrals
+- UFW configured: only ports 22, 80, and 443 allowed; all others blocked
+- Fail2ban installed: 5 failed SSH attempts → 3600-second IP block
+- Certbot sidecar deployed; auto-renews Let's Encrypt certificates every 12 hours
+- Tiered PostgreSQL backup container running (7 daily, 4 weekly, 6 monthly snapshots)
 
-### Success Criteria
+**Success Criteria:**
 
-- Graduation year visible on alumni profiles and filterable in admin alumni list
-- `show_location=false` alumni absent from map pins and public user lists
-- Avatar upload, bio edit, and profile view working on both Android and Telegram Mini App
-- Tiered backups verified: `pg_dump` files present in backup volume for all three tiers
-- Locust P95 ≤ 2 s; inter-platform variance ≤ 500 ms (Android vs. Flutter Web)
-- Zero P1 bugs open at sprint end
+- `ufw status` confirms correct rules; port scan shows no unexpected open ports
+- Fail2ban test: 5 rapid failed SSH attempts trigger a block logged in `/var/log/fail2ban.log`
+- Certbot renews a test certificate successfully without manual intervention
+- Daily backup snapshot created; restore to staging completes in under 30 minutes
 
 ---
 
-## Sprint 13 — May 13–19 | Alumni Location Map
+### Sprint 9 | Apr 1–7 — Fixing Migration Repercussions (CI & Client Bugs)
 
-**Primary goal:** Implement the live alumni location map with privacy-respecting aggregated city pins.
+**Goal:** Resolve all migration-caused regressions in the CI pipeline and client-facing features.
 
-### Tasks
+**Deliverables:**
 
-- Load city coordinates lookup table into PostgreSQL
-- Implement `GET /profile/map` aggregating alumni by city (only `show_location=true`)
-- Add composite index on `(show_location, location)` for map query performance
-- Implement Flutter map widget (flutter_map) rendering city pins with alumni counts
-- Connect map to backend; verify single JSON response (no client-side geocoding)
-- Test map with 50–500 alumni records; measure initial load and pan/zoom latency
+- GitHub Actions runner bug diagnosed and fixed (jobs not being picked up)
+- City-based user listing endpoint (`GET /profile/users?city=X`) fixed
+- Donation link added to the event detail screen on both clients
+- Downtime incident report written (root cause, timeline, prevention)
 
-### Success Criteria
+**Success Criteria:**
 
-- Map initial load ≤ 3 s under normal network conditions (4G / Wi-Fi)
-- Pan/zoom interactions ≤ 1 s
-- Alumni with `show_location=false` are completely absent from map pins (verified by test)
-- Map endpoint returns single JSON; no additional geocoding requests from client
-- Map feature functionally identical on Android APK and Telegram Mini App
+- CI pipeline triggers and completes successfully on push to `develop` and `main`
+- City filter returns correct results; verified against a test dataset
+- Donation link renders on the event detail screen and opens in an external browser
+- Incident report merged into the docs repo
 
 ---
 
-## Sprint 14 — May 20–26 | Event Management Enhancements & Telegram Reminders
-
-**Primary goal:** Complete the full event lifecycle including cover images, cost field, and automatic Telegram event reminders.
-
-### Tasks
-
-- Add cost field and cover image upload to event creation form
-- Implement automatic Telegram reminder sent to event participants before event date
-- Add creator Telegram alias to event display
-- Implement event registration (join/leave) with capacity tracking and waiting-list support
-- Implement donation link field on event creation (prefilled amount; host sees donator info)
-- Verify all event fields available and consistent across Android and Telegram Mini App
-
-### Success Criteria
-
-- ≥ 99.5% of valid event submissions persisted and visible in feed within 10 s
-- Telegram reminder delivered to all registered participants; delivery ≤ 30 s
-- Cover images render correctly on both platforms from GHCR-backed URLs
-- Waiting-list correctly queues users when capacity is reached
-- Donation link redirects correctly; host can see donator information in admin view
-- Feature parity confirmed: all event fields visible on both Android and Telegram Mini App
+> **Spring break: Apr 8–21 — no sprint**
 
 ---
 
-## Sprint 15 — May 27–Jun 2 | Admin Portal Polish & Pre-Social-Feature Hardening
+### Sprint 10 | Apr 22–28 — Fixing Migration Repercussions (Auth & Recovery)
 
-**Primary goal:** Finalise admin portal capabilities and ensure system is stable before the Social & Engagement phase.
+**Goal:** Restore password recovery and verify all auth-related migration fixes are complete.
 
-### Tasks
+**Deliverables:**
 
-- Add full audit trail to admin actions (ban, verify, approve event) with timestamp and actor
-- Implement admin analytics dashboard view (event count, attendance, active users)
-- Run cursor-based pagination on all remaining list endpoints not yet migrated
-- Add GIN trigram indexes to support alumni full-text search in admin portal
-- Execute full regression test across all features on both Android and Telegram Mini App
-- Confirm Prometheus P95 tracking is live and within targets across all endpoints
+- Password recovery flow working end-to-end (email link → reset → login)
+- All application client versions updated to current releases
+- Prometheus alert configured: fires if any service endpoint is down for more than 15 seconds
+- Zero P0 or P1 migration regression bugs remaining in the backlog
 
-### Success Criteria
+**Success Criteria:**
 
-- Every admin action (ban, verify, approve) logged with timestamp, actor email, and target
-- Admin dashboard shows event count, total alumni, and active-user metrics updated daily
-- All list endpoints use cursor-based pagination; `EXPLAIN ANALYZE` shows no sequential scans on indexed tables
-- Alumni full-text search returns results in ≤ 500 ms for up to 5 000 records
-- Zero regressions found in regression test run; all QAS-A targets met on latest Grafana data
+- User receives reset email within 30 seconds; link expires after 1 hour; new password accepted on login
+- Prometheus alert fires in a kill-container test; service recovers within Docker Swarm restart window (< 30 s)
+- No migration-related bugs remain at P0 or P1 severity
+- Client confirms the platform feels stable in the weekly meeting
 
 ---
 
-## Sprint 16 — Jun 3–9 | Follow Feature
+### Sprint 11 | Apr 29–May 5 — OTP Implementation (Email OTP)
 
-**Primary goal:** Allow alumni to follow each other and surface followed alumni activity.
+**Goal:** Implement email-based one-time password as a second authentication factor.
 
-### Tasks
+**Deliverables:**
 
-- Implement `POST /profile/{id}/follow` and `DELETE /profile/{id}/follow` endpoints
-- Store follow relationships in `alumni_follows` table with index on `(follower_id, followee_id)`
-- Display follower/following counts on alumni profiles
-- Implement "following feed": list of recent events created or joined by followed alumni
-- Notify (Telegram) when a followed alumnus creates a new event
-- Update Flutter and Nuxt 3 clients to show follow button and counts
+- `POST /auth/login` returns `{session_token, otp_required: true}` when OTP is enabled
+- `POST /auth/login-otp` validates the 6-digit code and issues a JWT
+- OTP codes expire after 10 minutes; single-use enforced (`used = true` on consumption)
+- Gmail SMTP integration delivering OTP codes to alumni email addresses
 
-### Success Criteria
+**Success Criteria:**
 
-- Follow/unfollow reflected on both clients with no page reload required
-- Follower and following counts accurate within 1 s of action (no stale cache)
-- Following feed shows events from followed alumni sorted by recency; latency ≤ 2 s P95
-- Telegram notification delivered ≤ 10 s when followed alumnus creates event
-- Feature parity: follow functionality identical on Android and Telegram Mini App
+- Email OTP delivered within 30 seconds (P95) under normal conditions (QAS-B)
+- Expired or already-used codes return a structured 401 response
+- OTP login flow works end-to-end on both Android and Telegram Mini App
+- `login_codes` table indexed on `token`; expired records cleaned up by a scheduled job
 
 ---
 
-## Sprint 17 — Jun 10–16 | Notification System
+### Sprint 12 | May 6–12 — OTP Implementation (Telegram OTP & Auth Reliability)
 
-**Primary goal:** Build a unified notification system covering all platform events via Telegram and email.
+**Goal:** Implement Telegram OTP login and complete authentication reliability monitoring.
 
-### Tasks
+**Deliverables:**
 
-- Implement notification dispatch service routing to Telegram bot or Gmail SMTP based on user preference
-- Define notification triggers: event approved, event reminder (24 h before), new follower, badge awarded, account verification status change
-- Implement user notification preferences (opt-in/out per notification type)
-- Log all notification dispatch attempts with timestamp and delivery status
-- Batch-test 100 notification deliveries; measure P95 latency for each channel
+- Telegram bot sends a 6-digit OTP to the linked account on login request
+- All three auth paths (password, email OTP, Telegram OTP) converge on `create_access_token()`
+- Synthetic login probe cron job deployed: test login attempted every minute
+- Prometheus alert: error rate on `POST /auth/login` exceeds 0.1% over 5 minutes → Telegram notification to admin
 
-### Success Criteria
+**Success Criteria:**
 
-- Email notifications delivered ≤ 30 s P95 across all trigger types
-- Telegram notifications delivered ≤ 10 s P95 across all trigger types
-- Opt-out preference respected: users with a notification type disabled receive zero messages of that type
-- All dispatch attempts logged; delivery failures visible in Grafana within 15 s
-- Zero duplicate notifications sent for a single trigger event
+- Telegram OTP delivered within 10 seconds (P95) (QAS-B)
+- ≥ 99.9% login success rate for valid credentials over a 24-hour observation window (QAS-B)
+- Synthetic probe reports zero failures over 24 hours
+- Chaos test: killing the PostgreSQL container returns a structured 503; service recovers in under 30 seconds
 
 ---
 
-## Sprint 18 — Jun 17–23 | User Badges
+## Bridge — Enhancements & Parity | May 13 – Jun 1
 
-**Primary goal:** Implement achievement badge system with automated awarding and profile display.
-
-### Tasks
-
-- Define badge types and award criteria (e.g., "Attended 5 Events", "Event Organiser", "Profile Complete", "Early Adopter")
-- Implement badge-award service triggered on qualifying actions
-- Store awarded badges in `alumni_badges` table; display on profile in both clients
-- Allow admin to manually award or revoke badges via admin portal
-- Announce badge award to recipient via notification system (Sprint 17 integration)
-
-### Success Criteria
-
-- At least 4 badge types defined with documented award criteria
-- Badges auto-awarded within 5 s of triggering action (e.g., 5th event attendance confirmed)
-- Badges visible on public alumni profiles in both Android and Telegram Mini App
-- Admin can manually award/revoke any badge from the admin portal
-- Badge award notification delivered to recipient via Telegram or email ≤ 30 s
+*Covers the gap between M2 and M3: profile improvements, admin controls, and feature parity verification.*
 
 ---
 
-## Sprint 19 — Jun 24–Jul 7 | Final Stabilization — Transition Preparation
+### Sprint 13 | May 13–19 — Alumni Location Map
 
-**Primary goal:** Prepare all handover materials so the next student team can operate the platform independently from day one.
+**Goal:** Deliver the opt-in alumni location map with server-side aggregation.
 
-### Tasks
+**Deliverables:**
 
-- Write operational runbook: daily operations, incident response, backup restore procedure (`scripts/restore-db.sh`), Swarm service restart, certificate renewal
-- Document all GitHub secrets and environment variables; verify Terraform IaC captures all repository config
-- Produce onboarding guide: clone repos → run locally → first deploy (target: < 2 hours for a new developer)
-- Record or document the architecture overview for a developer with no prior context
-- Conduct internal "handover simulation": a team member unfamiliar with a subsystem deploys it using only the docs
+- `GET /profile/map` returns `[{city, lat, lon, count}]` for verified alumni where `show_location = true`
+- Composite DB index on `(show_location, location)` deployed via Alembic migration
+- `show_location` privacy toggle functional in profile settings on both clients
+- Map renders pins with pan and zoom on both Android and Telegram Mini App
 
-### Success Criteria
+**Success Criteria:**
 
-- Runbook covers: restore from backup, redeploy a single service, rotate `SECRET_KEY`, renew certificates manually
-- New developer (handover simulation) can complete first deploy using docs alone in ≤ 2 hours
-- All GitHub secrets documented (names, purpose, where to regenerate); Terraform state reflects current config
-- Architecture overview doc reviewed and approved by all team members
-- Zero verbal-only knowledge remains: every process covered by a written artifact
+- Map initial load completes in under 3 seconds with 50–500 alumni in the database (QAS-F)
+- Pan and zoom interactions respond in under 1 second
+- Alumni with `show_location = false` are absent from the map endpoint response
+- All aggregation is server-side; zero client-side geocoding calls are made
 
 ---
 
-## Sprint 20 — Jul 8–28 | Finalizing Documentation & Production Ready
+### Sprint 14 | May 20–26 — Profile Improvements & Admin Moderation
 
-**Primary goal:** Validate all quality claims with evidence artifacts, finalise all documentation, and declare the platform production-ready for handover.
+**Goal:** Add graduation-year labels to profiles and deliver admin ban and verify controls.
 
-### Tasks
+**Deliverables:**
 
-- Re-run Locust load test (50 concurrent users, 10 minutes): confirm P95 ≤ 2 s, platform variance ≤ 500 ms — save report as evidence artifact
-- Verify authentication reliability: review 7-day Prometheus data; confirm login success rate ≥ 99.9%
-- Execute regression test suite across all features on Android and Telegram Mini App; confirm ≥ 95% feature parity
-- Confirm backup retention: daily, weekly, and monthly snapshots present and restorable
-- Finalize all docs-site pages (technical, requirements, QA, risks, sprint pages, this plan)
-- Tag final release version on all four repositories; write release notes
-- Obtain formal sign-off from client (Alumni Office) that platform is accepted for production
+- Graduation year displayed on profile cards in both clients (included in profile API response)
+- Admin can ban/unban and verify/unverify any alumnus from the admin portal
+- Audit log: every ban/unban/verify action recorded with timestamp and admin email
+- Banned users receive a 403 on all authenticated API requests immediately after the action
 
-### Success Criteria
+**Success Criteria:**
 
-- Locust P95 ≤ 2 s and variance ≤ 500 ms — evidence report committed to docs repo
-- Prometheus 7-day login success rate ≥ 99.9% — Grafana screenshot saved as evidence
-- Regression test passes with zero P1 regressions; feature parity checklist ≥ 95%
-- Manual backup restore test succeeds end-to-end from latest daily snapshot
-- All four repositories tagged with a stable release; CHANGELOG written
-- Client provides written acceptance that the platform meets agreed requirements
-- Next team can read docs and answer "is something broken?" in ≤ 60 s from Grafana alone
+- Graduation year visible on profile cards without an extra API call
+- Ban enforced within one request after the admin action (checked on every JWT-authenticated call)
+- Audit log entries are queryable from the admin portal; timestamps accurate to the second
+- Verify/unverify reflected on the user's profile within 5 seconds on both platforms
+
+---
+
+### Sprint 15 | May 27–Jun 2 — Admin Portal Completion & Feature Parity Verification
+
+**Goal:** Complete admin event moderation tools and confirm cross-platform feature parity before M3.
+
+**Deliverables:**
+
+- Allowed-email CSV upload endpoint: uploaded emails auto-approve matching registrations
+- Event moderation queue: admin can approve, decline, or delete pending events
+- Feature parity checklist completed for all KF1–KF7 features across both platforms
+- All parity gaps either resolved or documented with an owner and an ETA
+
+**Success Criteria:**
+
+- CSV upload of 500 emails processes in under 5 seconds
+- Event approval or rejection reflected in the public feed within 5 seconds of admin action
+- ≥ 95% of core features functionally consistent across Android and Telegram Mini App (QAS-C)
+- Data written on one platform appears on the other within 5 seconds (QAS-C)
+
+---
+
+## M3 — Social & Engagement Features | Jun 2 – Jun 23
+
+*Milestone bullets: Follow Feature · Notification System · User Badges*
+
+---
+
+### Sprint 16 | Jun 3–9 — Follow Feature
+
+**Goal:** Allow alumni to follow each other and surface activity from followed users.
+
+**Deliverables:**
+
+- `POST /profile/follow/{user_id}` and `DELETE /profile/follow/{user_id}` endpoints implemented
+- Follower and following counts displayed on the profile screen in both clients
+- Activity feed shows events created or joined by followed alumni
+- Follow feature fully available on both Android and Telegram Mini App
+
+**Success Criteria:**
+
+- Follow and unfollow persist in the database and reflect on both clients within 5 seconds
+- Follower count is consistent across both platforms with no caching drift
+- Activity feed shows only events from followed alumni; non-followed alumni events do not appear
+- Feature parity confirmed on both platforms before the sprint is closed
+
+---
+
+### Sprint 17 | Jun 10–16 — Notification System
+
+**Goal:** Deliver structured Telegram notifications for event reminders and admin-driven events.
+
+**Deliverables:**
+
+- Telegram reminder sent to all registered attendees 24 hours before event start time
+- Notification sent to event creator on admin approval or rejection
+- Notification sent on manual account verification status change
+- Per-user notification opt-out preferences stored in the database and enforced
+
+**Success Criteria:**
+
+- Event reminder delivered within 10 seconds of the scheduled trigger time (QAS-B)
+- Approval/rejection notification received by the creator within 30 seconds of admin action
+- Users who opt out of a notification type receive zero messages of that type over a 24-hour check
+- Notification dispatch is logged; Grafana alert fires if the delivery failure rate exceeds 1%
+
+---
+
+### Sprint 18 | Jun 17–23 — User Badges
+
+**Goal:** Implement an automatic achievement badge system with at least four badge types.
+
+**Deliverables:**
+
+- Four badge types implemented: Attended 5 Events, Organised an Event, Early Adopter, Verified Alumni
+- Badges awarded automatically by the backend when the qualifying condition is met
+- Badge data included in the profile API response; rendered on the profile screen in both clients
+- Admin can manually grant or revoke any badge from the admin portal
+
+**Success Criteria:**
+
+- All four badge types trigger correctly on their qualifying condition, covered by unit tests
+- Badge data arrives in the profile response without a separate API call
+- Admin grant and revoke are reflected on the user profile within one page reload
+- Badge field is included in the alumni CSV export from the admin portal
+
+---
+
+## M4 — Final Stabilization | Jun 24 – Jul 28
+
+*Milestone bullets: Preparing transition to a different team · Finalizing documentation · Production ready*
+
+---
+
+### Sprint 19 | Jun 24–Jul 7 — Preparing Transition to a Different Team
+
+**Goal:** Stabilise all features and equip the next team to operate the platform independently.
+
+**Deliverables:**
+
+- Full production regression test pass across all features
+- Runbook written: deploy from scratch, rollback a release, restore the database, rotate secrets
+- Handover README in the infra repo; single-command deploy verified by someone outside the team
+- Monitoring alert coverage reviewed and tuned: auth error rate, endpoint P95, disk usage, DB connection count
+
+**Success Criteria:**
+
+- Zero P0 or P1 bugs remain open at the end of the sprint
+- A person unfamiliar with the project successfully deploys from scratch following only the runbook
+- All four Grafana alert rules trigger correctly in controlled test scenarios
+- Daily backup snapshot restores to staging in under 30 minutes
+
+---
+
+### Sprint 20 | Jul 8–28 — Finalizing Documentation & Production Ready
+
+**Goal:** Deliver complete documentation, confirm production readiness, and hand over the platform.
+
+**Deliverables:**
+
+- All docs repo sections complete and passing markdownlint CI (requirements, technical, sprints, QA, architecture)
+- Post-project metrics report: events created, alumni registered, uptime percentage, P95 latency over the full project period
+- Official handover meeting held with the client and a next-team representative
+- All credentials, secrets, and repository access transferred; current team access revoked
+
+**Success Criteria:**
+
+- Every documentation page passes markdownlint CI with zero warnings
+- Next-team representative confirms they can operate the platform independently after the handover session
+- Production uptime ≥ 99.5% over the final 30-day observation window (QAS-B)
+- Client provides written sign-off confirming the platform is production-ready
+- Zero credentials or admin access retained by the current team after handover
+
+---
+
+## Summary Table
+
+| Sprint | Dates | Phase | Primary Goal |
+|---|---|---|---|
+| 1 | Feb 4–10 | M1 | Infrastructure migration planning & team setup |
+| 2 | Feb 11–17 | M1 | Server provisioning & Docker Swarm initialisation |
+| 3 | Feb 18–24 | M1 | DB migration staging trial & profile spec |
+| 4 | Feb 25–Mar 3 | M1 | DB migration live cutover & validation |
+| 5 | Mar 4–10 | M1 | CI/CD build pipeline & GHCR image publishing |
+| 6 | Mar 11–17 | M1 | CI/CD deployment automation & observability stack |
+| 7 | Mar 18–24 | M2 | Post-migration regression testing & verification |
+| 8 | Mar 25–31 | M2 | Network security hardening & automated backups |
+| 9 | Apr 1–7 | M2 | Fix migration repercussions (CI runner, city filter, donation link) |
+| — | Apr 8–21 | — | University spring break |
+| 10 | Apr 22–28 | M2 | Fix migration repercussions (password recovery, auth) |
+| 11 | Apr 29–May 5 | M2 | Email OTP implementation |
+| 12 | May 6–12 | M2 | Telegram OTP & authentication reliability |
+| 13 | May 13–19 | Bridge | Alumni location map |
+| 14 | May 20–26 | Bridge | Profile improvements & admin moderation |
+| 15 | May 27–Jun 2 | Bridge | Admin portal completion & feature parity verification |
+| 16 | Jun 3–9 | M3 | Follow feature |
+| 17 | Jun 10–16 | M3 | Notification system |
+| 18 | Jun 17–23 | M3 | User badges |
+| 19 | Jun 24–Jul 7 | M4 | Transition preparation & stabilisation |
+| 20 | Jul 8–28 | M4 | Documentation finalisation & production handover |
