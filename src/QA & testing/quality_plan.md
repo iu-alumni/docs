@@ -71,10 +71,9 @@ ALUMAP connects Innopolis University alumni through:
 | Exploratory Testing | QC | Mobile + Admin | Active | Finds UX and platform bugs |
 | Production Monitoring | QC | Runtime metrics | Active | Extends V&V into production |
 | Backup Validation | QC | PostgreSQL | Active | Ensures data recoverability |
-| Unit Testing | QC | Backend (pytest) | Planned | Fast regression feedback |
-| Unit Testing | QC | Mobile (flutter test) | Planned | Native Dart testing |
-| E2E Testing | QC | Admin + Mobile Web | Planned | Validates complete user journeys |
-| Integration Testing | QC | API ↔ DB ↔ Telegram | Planned | Validates real dependencies |
+| Unit Testing | QC | Backend (pytest) | Active | Fast regression feedback |
+| Unit Testing | QC | Mobile (flutter test) | Active | Native Dart testing |
+| E2E Testing | QC | Admin + Mobile Web | Active | Validates complete user journeys |
 | Regression Testing | QA | All platforms | Active | Critical for sprint releases |
 | Regression Suite | QA | Core user journeys | Active | 20-30 scenarios covering 80% of features |
 | Regression After Bug Fix | QA | Specific feature + related areas | Active | Each P1/P2 fix triggers regression |
@@ -95,9 +94,9 @@ ALUMAP connects Innopolis University alumni through:
 
 | Test Type | Count | Coverage | Automation Status |
 | --- | --- | --- | --- |
-| Smoke tests | 5-7 | Critical paths | Planned (E2E) |
-| Core regression | 20-25 | Main features | Planned (E2E) |
-| Full regression | 50-60 | All features | Planned (E2E + manual) |
+| Smoke tests | 5-7 | Critical paths | Active (E2E) |
+| Core regression | 20-25 | Main features | Active (E2E) |
+| Full regression | 50-60 | All features | Active (E2E + manual) |
 | Bug-specific | Per bug | Fixed bug + related areas | Manual |
 
 **When to Run Regression:**
@@ -173,17 +172,17 @@ Write code → Local linting → Commit
 | Artifact | V&V Method | Status | Tool |
 | --- | --- | --- | --- |
 | Backend Python code | Static analysis | Active | ruff |
-| Backend Python code | Unit tests (planned) | Planned | pytest |
+| Backend Python code | Unit tests  | Active | pytest |
 | Admin Vue/TypeScript | Static analysis | Active | pnpm lint |
-| Mobile Flutter code | Static analysis (planned) | Planned | flutter analyze |
-| Mobile Flutter code | Unit tests (planned) | Planned | flutter test |
+| Mobile Flutter code | Static analysis  | Active | flutter analyze |
+| Mobile Flutter code | Unit tests | Active | flutter test |
 | Docker Swarm config | Infrastructure linting | Active | docker compose config |
 | Ansible playbooks | Infrastructure linting | Active | ansible-lint |
 | Shell scripts | Infrastructure linting | Active | shellcheck |
 | YAML files | Infrastructure linting | Active | yamllint |
 | Database backups | Backup validation | Active | postgres-backup-local |
 | API endpoints | Exploratory testing | Active | Manual |
-| Full user journeys | E2E testing (planned) | Planned | Selenium |
+| Full user journeys | E2E testing | Active | Selenium |
 
 ### Decision 4: Timing
 
@@ -260,9 +259,8 @@ Table Acronyms
 
 | Activity | Estimated Effort | Responsible |
 | --- | --- | --- |
-| Unit tests | 16 hours | Helaly, Naser |
+| Unit tests | 16 hours | Helaly, Kovalev |
 | E2E tests (Selenium) | 16 hours | Kovalev |
-| Integration tests | 8 hours | Kovalev |
 
 ### Decision 8: Tools
 
@@ -274,8 +272,8 @@ Table Acronyms
 | Ansible linting | ansible-lint | `ansible-lint playbooks/*.yml` | Active |
 | Shell linting | shellcheck | `shellcheck scripts/*.sh` | Active |
 | Docker validation | docker compose | `docker compose config --quiet` | Active |
-| Unit testing (planned) | pytest | `pytest --cov=app --cov-fail-under=80` | Planned |
-| Unit testing (planned) | flutter test | `flutter test --coverage` | Planned |
+| Unit testing  | pytest | `pytest --cov=app --cov-fail-under=80` | Planned |
+| Unit testing  | flutter test | `flutter test --coverage` | Planned |
 | E2E testing (planned) | Selenium + Python | `pytest tests/e2e/` | Planned |
 | Monitoring | Prometheus | Scrape `/metrics` | Active |
 | Visualization | Grafana | Dashboards | Active |
@@ -285,7 +283,7 @@ Table Acronyms
 
 | Skill | Needed For | Current Status | Training Plan |
 | --- | --- | --- | --- |
-| Python + pytest | Backend tests | Helaly, Naser, Kovalev needs | 2-hour session |
+| Python + pytest | Backend tests | Helaly, Kovalev | 2-hour session |
 | Flutter testing | Mobile tests | Kovalev learning | Self-study + teach team |
 | Selenium + Python | E2E tests | Kovalev has Selenide (Java) | Adapt to Python (3 hours) |
 | GitHub Actions | CI/CD | Helaly has experience; others basic | On-the-job |
