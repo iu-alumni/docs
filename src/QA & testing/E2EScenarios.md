@@ -1,0 +1,140 @@
+# E2E Test Scenarios - ALUMAP
+
+## Test Case 1: User Registration → Login
+
+**Steps:**
+
+1. Open registration screen
+2. Enter valid email, first name, last name, password, tg alias, graduation year.
+3. Click Register
+4. Verify redirect to login screen
+5. Go to admin panel
+6. Login as admin
+7. Verify new account
+8. Login with created credentials
+9. Verify redirect to events page.
+
+**Negative cases:**
+
+- Register with existing email → error message
+- Login with wrong password → error message
+- Login with unregistered email → error message
+- Empty fields → validation errors
+
+---
+
+## Test Case 2: Create Event (autoapprove event ON)
+
+**Steps:**
+
+1. Login as user
+2. Navigate to Events screen
+3. Click "Create Event"
+4. Fill all required fields (title, description, date, location)
+5. Click "post event"
+6. Refresh the page
+7. Find created event in list of events.
+
+**Negative cases:**
+
+- Create event with empty required fields → validation
+
+---
+
+## Test Case 3: Map Loading
+
+**Steps:**
+
+1. Login as user
+2. Go to map page
+3. Verify map loads within 5 seconds
+
+---
+
+## Test Case 4: Admin Panel – Approve Event (autoapprove off)
+
+**Precondition:**
+
+1. Event created.
+
+**Steps:**
+
+1. Login to admin panel
+2. Go to events page
+3. Select a pending event
+4. Click "View Details"
+5. Click "Approve"
+6. Verify event status changes to "approved"
+
+---
+
+## Test Case 5: Empty Fields Validation (All Forms)
+
+**Tested forms:**
+
+- Registration (email, name, password, graduation year)
+- Create Event (title, description, date, location)
+
+**Steps (for each form):**
+
+1. Open form
+2. Click submit with all fields empty
+3. Verify validation messages for each field
+4. Fill only one field (others empty)
+5. Verify validation messages for empty fields only
+6. Fill all fields with valid data
+7. Verify no validation messages, form submits
+
+---
+
+## Test Case 6: Edit Profile
+
+**Steps:**
+
+1. Login as user
+2. Go to profile page
+3. Click "Edit"
+4. Update name
+5. Save
+6. Verify new name appears on profile
+
+**Negative cases:**
+
+- Empty fields → validation
+
+---
+
+## Test Case 7: Admin – Verify / Ban User
+
+**Steps:**
+
+1. Login to admin panel
+2. Navigate to "Users" list
+3. Find unverified user
+4. Click "Verify"
+5. Verify user status changes to "verified"
+6. Find a different user
+7. Click "Ban"
+8. Confirm ban
+9. Try to login as banned user
+10. Verify error message "Account banned"
+
+---
+
+## Test Case 8: View Event Details
+
+**Steps:**
+
+1. Login as regular user
+2. Navigate to Events screen
+3. Click on an existing event
+4. Verify details screen shows:
+   - Title
+   - Description
+   - Date and time
+   - Location
+   - Current participants count
+   - Creator name
+5. If user is creator → "Edit" button visible
+6. If user is not creator → "Participate" button visible
+7. If event is past → no participation button
