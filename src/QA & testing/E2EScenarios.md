@@ -1,25 +1,22 @@
 # E2E Test Scenarios - ALUMAP
 
-## Test Case 1: User Registration → Login
+## Test Case 1: User Registration → Login (autoapproval on)
 
 **Steps:**
 
 1. Open registration screen
 2. Enter valid email, first name, last name, password, tg alias, graduation year.
-3. Click Register
-4. Verify redirect to login screen
-5. Go to admin panel
-6. Login as admin
-7. Verify new account
-8. Login with created credentials
-9. Verify redirect to events page.
+3. Click Register.
+4. Verify redirect to login screen.
+5. Login with created credentials.
+6. Verify redirect to events page.
 
 **Negative cases:**
 
-- Register with existing email → error message
-- Login with wrong password → error message
-- Login with unregistered email → error message
-- Empty fields → validation errors
+- Register with existing email → error message "User with this email already exists"
+- Login with wrong password → error message  "Wrong password or login"
+- Login with unregistered email → error message "User not found"
+- Empty fields → validation errors "Please, specify all fields to complete the verification"
 
 ---
 
