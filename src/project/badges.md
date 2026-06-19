@@ -68,11 +68,13 @@ These are pragmatic interpretations that ship now and can be refined later.
 ## How to update this page
 
 When a badge ships:
+
 1. Move the row from `☐` → `☑`.
 2. Add a link in the row to the merged PR(s) that shipped it.
 3. If shipping a previously-blocked badge: move it from the **Blocked** table into the **Shipped & active** table, and note the dependency PR that unblocked it.
 
 When adding a new badge to the catalog:
+
 1. Add the row in the right table (shipped vs. blocked).
 2. Add the implementation ticket to the [org project board](https://github.com/orgs/iu-alumni/projects/3) with the `[badges]` prefix.
 
