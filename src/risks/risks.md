@@ -21,6 +21,7 @@
 ## Risk Identification Process
 
 Risks are identified through:
+
 1. **Bi-Weekly retrospectives** — team members share concerns and observations
 2. **Sprint planning reviews** — tasks that are consistently delayed or unclear
 3. **Stakeholder meeting notes** — new requests or changing priorities
@@ -33,6 +34,7 @@ Risks are reviewed (15 min) and updated based on current project status.
 ---
 
 ## Risks Table
+
 | Risk ID | Category | Description | Trigger | Impact | Likelihood | Priority | Mitigation (Preventive) | Contingency (Reactive) | Owner | Status | Last Review |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | R-01 | External Dependency | IT Department **does not grant** access to alumni email database before sprint → auto-approval feature is blocked, timeline slips by 1-2 sprints | Sprint planning begins with no confirmed access | High | Low | Medium | Request access 4 weeks before development begins; escalate to project mentor if no response within 1 week | Implement Google Sheets manual import as workaround; notify stakeholders of limitation and revised timeline | Aleksandr Kovalev | Active | 2026-06-27 |
@@ -46,7 +48,9 @@ Risks are reviewed (15 min) and updated based on current project status.
 | R-08 | Team | Online meetings **less effective** than in-person → decisions take longer to make, misunderstandings increase, action items remain unclear, productivity drops | Meeting runs over time by >20%; action items unclear; attendees multitask (cameras off, not responding); same issue discussed in multiple meetings | Medium | Medium | Medium | Require cameras on during key discussions; assign meeting facilitator; write decisions and action items in chat during meeting; keep meetings under 45 min | Re-hold critical discussions asynchronously (written thread); Roukaya follows up with each member individually; record meeting for absentees | Roukaya Mohammed | Active | 2026-06-27 |
 | R-09 | Infrastructure | Telemost **technical issues** (connection, audio, screen share) → wasted time, missed context, decisions delayed, meeting ineffective | Meeting starts 10+ minutes late due to technical issues; participants cannot share screen; audio cuts out during important decisions | Low | Medium | Low | Have backup platform (Zoom); ask participants to join 2 minutes early; test link before meeting | Switch to backup platform; record meeting for those who missed; summarize decisions in writing | Majed Naser | Active | 2026-06-27 |
 | R-10 | Team | Critical tasks **drag on for weeks** beyond estimate → team momentum is lost, dependent tasks blocked, morale drops, deadlines slip | Task exceeds initial estimate by **3x**; task is discussed in 3+ sprint reviews without completion | High | Medium | High | Add **buffer** to estimates for unknown tasks; prepare fallback plan for complex tasks; escalate if task exceeds estimate by 50% | Re-evaluate task and split into smaller pieces; reassign to another team member; descope non-critical parts | Ahmad Helaly | Active | 2026-06-27 |
---- 
+
+---
+
 ## Occurred Risks (Issues / Problems)
 
 This table lists risks that **have already happened** and were handled. They are kept here for historical reference and lessons learned.
