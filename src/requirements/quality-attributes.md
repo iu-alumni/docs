@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Priority Matrix](#priority-matrix)
+- [Portability](#portability)
 - [Usability](#usability)
 - [Performance](#performance)
 - [Reliability](#reliability)
@@ -133,7 +134,13 @@ The prioritization follows a risk-adjusted value approach:
 This approach ensures we deliver a reliable, functional platform first,
 then enhance features based on user feedback.
 
-## Usability
+## Portability
+
+Migrating the platform from external infrastructure to university-owned
+servers is the dominant portability scenario for the project. It cuts
+across availability, data preservation, and operational handover — but
+the *attribute under test* is the system's ability to be relocated to a
+new environment without breaking.
 
 ### QAS101
 
@@ -156,6 +163,8 @@ event management, social features).
 
 Success: Total cumulative downtime ≤ 1 hour, with no user-visible
 errors during migration.
+
+## Usability
 
 ### QAS102
 
