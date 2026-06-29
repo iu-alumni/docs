@@ -124,7 +124,7 @@
   - Allowed to add a free-text bio explaining how they relate to the
     community.
 
-## Prioritization for the sprint
+## Prioritization of features
 
 In this order:
 
