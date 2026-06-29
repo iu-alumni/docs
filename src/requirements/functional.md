@@ -8,7 +8,7 @@
 ## Event Management
 
 - [x] **FR5**: Fix and optimize event creation workflow with proper validation and error handling [issued](../sprints/sprint-2/client-meeting.md)
-- [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md), [reaffirmed](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md), [reaffirmed](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
@@ -35,7 +35,7 @@
 
 ## Social Features
 
-- [ ] **FR8**: Add follow request feature enabling users to send, accept, and reject connection requests [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR8**: Add follow request feature enabling users to send, accept, and reject connection requests [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
@@ -47,7 +47,7 @@
   - [ ] User can unfollow a person or a location at any time from their followers/following management screen.
   - [ ] Followers / Following counters appear on the profile (UI covered by [FR10](#user-profile)).
 
-- [ ] **FR9**: Implement notification system for follow activities (requests, accepts, new followers) [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR9**: Implement notification system for follow activities (requests, accepts, new followers) [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
@@ -141,7 +141,7 @@
 
 - [x] **FR21**: Implement automated email notification system for key triggers including event registration confirmations, event reminders, and announcements
 
-- [ ] **FR26**: Notify joined participants when an event they have joined changes [issued](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR26**: Notify joined participants when an event they have joined changes [issued](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
@@ -159,7 +159,7 @@
   - [ ] Successive changes within ~5 min are bundled into a single message so a quick burst of edits doesn't spam attendees.
   - [ ] Cancellation is **always** delivered immediately, never batched.
 
-- [ ] **FR27**: Notify event creators when their event's participation changes [issued](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR27**: Notify event creators when their event's participation changes [issued](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
@@ -171,14 +171,14 @@
 
 ## User Roles & Permissions
 
-- [ ] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only [issued](../sprints/sprint-1/client-meeting.md), [expanded](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only [issued](../sprints/sprint-1/client-meeting.md), [expanded](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
   Roles supported
   - [x] **Admin** — full management of alumni records, events, badges, projects.
   - [x] **Alumni** — graduates. Required to provide a graduation year. Default role after manual approval.
-  - [ ] **Alumni Friend** *(new — per [sprint-13 client meeting](../sprints/sprint-13/client-meeting.md))* — university staff, drop-outs who stayed in the community, and other non-graduate community members. Verified manually. **No graduation year**; their profile shows the "Alumni Friend" label instead, plus a free-text bio describing their relationship to the community.
+  - [ ] **Alumni Friend** *(new — per [sprint-12 client meeting](../sprints/sprint-12/client-meeting.md))* — university staff, drop-outs who stayed in the community, and other non-graduate community members. Verified manually. **No graduation year**; their profile shows the "Alumni Friend" label instead, plus a free-text bio describing their relationship to the community.
 
   Distinctions in the UI
   - [ ] Alumni Friends are visibly distinct on profile cards and lists (label or chip in lieu of the graduation-year tag).
@@ -190,11 +190,11 @@
 
 ## Payment & Donations
 
-- [ ] **FR24**: Implement a field for donations or payment of event fees with link-based payment processing (e.g., Tinkoff) without requiring a legal entity for handling funds [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR24**: Implement a field for donations or payment of event fees with link-based payment processing (e.g., Tinkoff) without requiring a legal entity for handling funds [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
-  Per the sprint-13 client meeting, "Projects" are a **separate entity from events** — a cause alumni create that others contribute money to (examples: Alumni Lounge Zone, scholarships, planting trees).
+  Per the sprint-12 client meeting, "Projects" are a **separate entity from events** — a cause alumni create that others contribute money to (examples: Alumni Lounge Zone, scholarships, planting trees).
 
   Project entity fields
   - [ ] Banner / cover image
@@ -209,7 +209,7 @@
   - [ ] Admin can close / archive a project.
   - [ ] Each contribution is logged against the project (handled by FR25).
 
-- [ ] **FR25**: Allow admins to track donators and payments associated with events for reporting purposes (maybe with a form) [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-13/client-meeting.md)
+- [ ] **FR25**: Allow admins to track donators and payments associated with events for reporting purposes (maybe with a form) [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
