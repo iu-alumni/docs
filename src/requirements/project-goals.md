@@ -6,9 +6,9 @@ High-level goals for the IU Alumni platform handover. This document summarizes w
 
 ```mermaid
 mindmap
-  root((Alumap End Goals))
+  root((ALUMAP Tech Goals))
     Infrastructure
-      Hoisted on university servers
+      Hosted on university servers
     Auth
       Authentication bugs
       New user roles
@@ -21,10 +21,12 @@ mindmap
       Redesign
       Badges
       Graduation labels
-    Platforms Running
+    Platforms
       Android App
       Telegram MiniApp
-      Testing
+    Quality
+      Test coverage
+      Security scanning
 ```
 
 ## Main Components
