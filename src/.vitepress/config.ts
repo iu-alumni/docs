@@ -42,6 +42,7 @@ export default withMermaid(
             { text: "Project Goals Overview", link: "/requirements/project-goals" },
             { text: "Functional Requirements", link: "/requirements/functional" },
             { text: "Quality Attributes", link: "/requirements/quality-attributes" },
+            { text: "Badges Catalog & Status", link: "/requirements/badges" },
             { text: "Use Cases & User Stories", link: "/requirements/use-cases" },
           ],
         },
