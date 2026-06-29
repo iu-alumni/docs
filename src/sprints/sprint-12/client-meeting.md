@@ -1,4 +1,4 @@
-# Sprint 13 - Client meeting summary
+# Sprint 12 - Client meeting summary
 
 - Date: June 5th, 2026
 - First client meeting of the new semester; agenda is a follow-up on items
@@ -124,7 +124,7 @@
   - Allowed to add a free-text bio explaining how they relate to the
     community.
 
-## Prioritization of features
+## Prioritization for the sprint
 
 In this order:
 

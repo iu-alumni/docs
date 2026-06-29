@@ -1,6 +1,6 @@
 # Sprint 13 - Team Meeting
 
-- Date: Following the [June 5th client meeting](./client-meeting.md).
+- Date: Following the [June 5th client meeting](../sprint-12/client-meeting.md).
 - Purpose: divide the prioritised scope from the client meeting between team members and lock in testing checkpoints.
 
 ## Work assignments
