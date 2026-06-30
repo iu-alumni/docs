@@ -151,6 +151,7 @@ export default withMermaid(
               text: "Sprint 12",
               collapsed: true,
               items: [
+                { text: "Client Meeting", link: "/sprints/sprint-12/client-meeting" },
                 { text: "Team Meeting", link: "/sprints/sprint-12/team-meeting" },
               ],
             },
@@ -159,6 +160,7 @@ export default withMermaid(
               collapsed: true,
               items: [
                 { text: "Mentor Meeting", link: "/sprints/sprint-13/mentor-meeting" },
+                { text: "Team Meeting", link: "/sprints/sprint-13/team-meeting" },
               ],
             },
             {

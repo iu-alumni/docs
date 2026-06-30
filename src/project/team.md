@@ -8,6 +8,10 @@
 - Ghadeer Akleh: Frontend Developer and Configuration Manager
 - Aleksandr Kovalev: Project Tester
 
+## Current sprint responsibilities
+
+Sprint-level work ownership lives alongside the sprint's notes. For the active sprint see [Sprint 13 — Team Meeting](../sprints/sprint-13/team-meeting.md), which breaks the prioritised scope down by owner and lists Alex's testing checkpoints.
+
 ## Team Calendar
 
 Our calendar tracks recurring meetings and members' week availability.
