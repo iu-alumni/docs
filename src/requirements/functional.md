@@ -108,7 +108,7 @@
   - [x] **Badges** — horizontal scroll, earned tiles with tiered gold/silver/bronze rings, locked tiles with dashed gray ring, lock chip, mini progress bar, and tap-for-info icon. Full catalog, criteria, and per-badge implementation status live in [Badges Catalog & Status](./badges.md). *(Covered by [`backend#98`](https://github.com/iu-alumni/iu-alumni-backend/pull/98) and [`mobile#125`](https://github.com/iu-alumni/iu-alumni-mobile/pull/125).)*
   - [x] **Participated events** — horizontal scroll of event cards.
   - [x] **Created events** — same pattern, only shown on own profile.
-  - [ ] **Projects** — "Created projects" (any status) and "Contributed projects" (approved only) sections on the profile. Backend contract landed in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) (`GET /projects/owner`, `GET /projects/contributed[/{alumni_id}]`); mobile UI tracked in [`mobile#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147). Full spec under [FR24](#payment-donations).
+  - [ ] **Projects** — "Created projects" (any status) and "Contributed projects" (approved only) sections on the profile. Backend contract landed in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) (`GET /projects/owner`, `GET /projects/contributed[/{alumni_id}]`); mobile UI tracked in [`mobile#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147). Full spec under [FR24](#payment--donations).
   - [ ] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
 
   Interactions
