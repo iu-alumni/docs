@@ -108,7 +108,7 @@
   - [x] **Badges** — horizontal scroll, earned tiles with tiered gold/silver/bronze rings, locked tiles with dashed gray ring, lock chip, mini progress bar, and tap-for-info icon. Full catalog, criteria, and per-badge implementation status live in [Badges Catalog & Status](./badges.md). *(Covered by [`backend#98`](https://github.com/iu-alumni/iu-alumni-backend/pull/98) and [`mobile#125`](https://github.com/iu-alumni/iu-alumni-mobile/pull/125).)*
   - [x] **Participated events** — horizontal scroll of event cards.
   - [x] **Created events** — same pattern, only shown on own profile.
-  - [ ] **Projects** (donations / scholarships / lounge) — designed in mockups, not yet implemented.
+  - [ ] **Projects** — "Created projects" (any status) and "Contributed projects" (approved only) sections on the profile. Backend contract landed in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) (`GET /projects/owner`, `GET /projects/contributed[/{alumni_id}]`); mobile UI tracked in [`mobile#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147). Full spec under [FR24](#payment-donations).
   - [ ] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
 
   Interactions
@@ -190,31 +190,42 @@
 
 ## Payment & Donations
 
-- [ ] **FR24**: Implement a field for donations or payment of event fees with link-based payment processing (e.g., Tinkoff) without requiring a legal entity for handling funds [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
+- [ ] **FR24**: Alumni-created **Projects** with admin approval and a "contribute" action; link-based payment processing (e.g., Tinkoff) deferred to FR24-b. [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
-  **Definition of success**
-
-  Per the sprint-12 client meeting, "Projects" are a **separate entity from events** — a cause alumni create that others contribute money to (examples: Alumni Lounge Zone, scholarships, planting trees).
+  Per the sprint-12 client meeting, "Projects" are a **separate entity from events** — a cause alumni create that others rally around (examples: Alumni Lounge Zone, scholarships, planting trees). v1 ships the full lifecycle without money changing hands so the UX loop is testable this sprint; payment integration is a follow-up (see FR24-b).
 
   Project entity fields
-  - [ ] Banner / cover image
-  - [ ] Title
-  - [ ] Free-text description ("what / why")
-  - [ ] "Contribute" / "Donate" button → link-based payment (Tinkoff or equivalent)
-  - [ ] Owner contact field so contributors can reach out with questions
-  - [ ] *Anna to confirm the exact field list — placeholder above based on the meeting.*
+  - [x] Cover image (base64, optional — same convention as events)
+  - [x] Title (required)
+  - [x] Free-text description (required)
+  - [x] Owner (implicit — the creator; contactable via their profile / Telegram)
+  - [ ] Explicit owner-contact field beyond the profile link — *deferred; owner profile currently satisfies the "how do I reach them" need.*
 
   Lifecycle
-  - [ ] Project owner can edit project details while the project is open.
-  - [ ] Admin can close / archive a project.
-  - [ ] Each contribution is logged against the project (handled by FR25).
+  - [x] Any authenticated alumnus can create a project. It starts as **pending** (`approved = null`) and is invisible to non-owners.
+  - [x] **Admin approval** is required before the project appears in the public list. Admin can approve, decline, or send back to pending (`POST /admin/projects/{approve,decline,unapprove}/{id}`).
+  - [x] Project owner can edit details. Editing the title, description, or cover of an approved project resets it to pending so the change goes through review again.
+  - [x] Owner or admin can delete a project.
 
-- [ ] **FR25**: Allow admins to track donators and payments associated with events for reporting purposes (maybe with a form) [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
+  Contribute / retract (v1 = click-based, no payment)
+  - [x] Any authenticated alumnus can mark themselves as a contributor to an **approved** project (`POST /projects/{id}/contributors`). Idempotent — duplicate call → 400. Admins cannot contribute.
+  - [x] Any contributor can retract (`POST /projects/{id}/contributors/remove`).
+  - [x] Contributor count is derived from `contributors_ids` — no separate contributions table in v1.
 
-  **Definition of success**
+  Backend coverage: [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) delivers the schema (Alembic `d1e2f3a4b5c6`), the seven CRUD endpoints, the two contribute endpoints, the four admin endpoints, and 28 pytest cases. Mobile UI is tracked in [`mobile#144`](https://github.com/iu-alumni/iu-alumni-mobile/issues/144)–[`#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147); admin portal in [`frontend#76`](https://github.com/iu-alumni/iu-alumni-frontend/issues/76).
 
-  - [ ] Each contribution is logged with: contributor user id, project id, amount (when available), and timestamp.
+- [ ] **FR24-b**: Link-based payment processing on the Contribute action (Tinkoff or equivalent) so contributions carry money. Deferred from FR24 v1. Needs a separate `contributions` table with `contributor_id`, `project_id`, `amount`, `currency`, `paid_at`, `payment_ref`. Provider choice + legal review (no legal entity) tracked separately.
+
+- [ ] **FR25**: Allow admins to track donators and payments associated with projects for reporting purposes. [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
+
+  **Definition of success** — pre-conditions on FR24-b (real payments). Until then, "contributors" are self-reported clicks and the reporting view is a headcount only.
+
+  - [ ] Each contribution is logged with: contributor user id, project id, amount (when available), timestamp.
   - [ ] Admin can view the contributor list and totals per project.
   - [ ] Contributors can opt out of public listing for privacy.
   - [ ] A contributor optionally earns a **"Contributor"** badge (cross-reference to the [Badges Catalog](./badges.md)).
   - [ ] Reporting view exposes total raised, contributor count, and (optionally) top contributors.
+
+  What v1 already covers (via [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132)):
+  - [x] Contributor list per project is derivable from `contributors_ids`.
+  - [x] Contributor count per project is derivable client-side.
