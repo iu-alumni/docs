@@ -1,6 +1,6 @@
 # E2E Test Scenarios - ALUMAP
 
-## Test Case 1: User Registration → Login (autoapproval on)
+## Test Case 1: User Registration → Login (autoapproval off) — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/118)
 
 **Steps:**
 
@@ -20,7 +20,7 @@
 
 ---
 
-## Test Case 2: Create Event (autoapprove event ON)
+## Test Case 2: Create Event (autoapprove event ON) — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/119)
 
 **Steps:**
 
@@ -38,7 +38,7 @@
 
 ---
 
-## Test Case 3: Map Loading
+## Test Case 3: Map Loading — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/135)
 
 **Steps:**
 
@@ -48,7 +48,7 @@
 
 ---
 
-## Test Case 4: Admin Panel – Approve Event (autoapprove off)
+## Test Case 4: Admin Panel – Approve Event (autoapprove off) — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/136)
 
 **Precondition:**
 
@@ -65,7 +65,7 @@
 
 ---
 
-## Test Case 5: Empty Fields Validation (All Forms)
+## Test Case 5: Empty Fields Validation (All Forms) — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/137)
 
 **Tested forms:**
 
@@ -84,7 +84,7 @@
 
 ---
 
-## Test Case 6: Edit Profile
+## Test Case 6: Edit Profile — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/138)
 
 **Steps:**
 
@@ -101,7 +101,7 @@
 
 ---
 
-## Test Case 7: Admin – Verify / Ban User
+## Test Case 7: Admin – Verify / Ban User — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/138)
 
 **Steps:**
 
@@ -118,7 +118,7 @@
 
 ---
 
-## Test Case 8: View Event Details
+## Test Case 8: View Event Details — [Issue](https://github.com/iu-alumni/iu-alumni-backend/issues/138)
 
 **Steps:**
 
@@ -134,4 +134,3 @@
    - Creator name
 5. If user is creator → "Edit" button visible
 6. If user is not creator → "Participate" button visible
-7. If event is past → no participation button

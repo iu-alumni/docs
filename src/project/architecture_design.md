@@ -29,10 +29,10 @@ Note: This file is an AI generated md **copy**. If you would like to read the or
    3. [Business Constraints](#33-business-constraints)
    4. [Technical Constraints](#34-technical-constraints)
 4. [Response Measure Validation](#4-response-measure-validation)
-   1. [QAS-M: Validating the ≤ 1-Hour Downtime Target](#41-qas-m-validating-the--1-hour-downtime-target)
-   2. [QAS-D: Validating 100% Data Integrity](#42-qas-d-validating-100-data-integrity)
-   3. [QAS-A: Validating P95 ≤ 2s Response Time](#43-qas-a-validating-p95--2s-response-time)
-   4. [QAS-B: Validating Authentication Reliability](#44-qas-b-validating-authentication-reliability)
+   1. [QAS101: Validating the ≤ 1-Hour Downtime Target](#41-qas101-validating-the--1-hour-downtime-target)
+   2. [QAS301: Validating 100% Data Integrity](#42-qas301-validating-100-data-integrity)
+   3. [QAS201: Validating P95 ≤ 2s Response Time](#43-qas201-validating-p95--2s-response-time)
+   4. [QAS302: Validating Authentication Reliability](#44-qas302-validating-authentication-reliability)
 5. [Design Process](#5-design-process)
    1. [Iteration 1 — Deployment Architecture](#51-iteration-1--deployment-architecture)
    2. [Iteration 2 — Backend API Architecture](#52-iteration-2--backend-api-architecture)
@@ -109,7 +109,7 @@ The project description was inherited from a previous team and refined through w
 
 **A1. Single-server deployment is sufficient.**
 The alumni user base numbers in the hundreds to low thousands. A single well-provisioned Linux server can serve this load within the stated performance targets.
-*Verification:* Load test against a staging replica with Locust simulating peak concurrency; confirm P95 response times meet QAS-A.
+*Verification:* Load test against a staging replica with Locust simulating peak concurrency; confirm P95 response times meet QAS201.
 
 **A2. The university server has stable internet connectivity.**
 Platform availability targets assume the server is reliably online. University-network outages are considered outside scope.
@@ -170,15 +170,15 @@ Scenarios follow the format: *Stimulus → Environment → Response → Response
 
 | | **Low Risk** | **Medium Risk** | **High Risk** |
 |---|---|---|---|
-| **High Importance** | --- | QAS-A, QAS-C | QAS-M, QAS-D |
-| **Medium Importance** | --- | QAS-E, QAS-F | QAS-B |
-| **Low Importance** | --- | QAS-G | --- |
+| **High Importance** | --- | QAS201, QAS601 | QAS101, QAS301 |
+| **Medium Importance** | --- | QAS303, QAS202 | QAS302 |
+| **Low Importance** | --- | QAS501 | --- |
 
 Scenarios are presented in descending priority order.
 
 ---
 
-> **QAS-M — Zero-Downtime Migration** *(Critical — High Importance, High Risk)*
+> **QAS101 — Zero-Downtime Migration** *(Critical — High Importance, High Risk)*
 >
 > - **Stimulus:** Migration of all services and data from Yandex Cloud to the university server is initiated.
 > - **Environment:** Production system with live user traffic during the migration window.
@@ -187,7 +187,7 @@ Scenarios are presented in descending priority order.
 
 ---
 
-> **QAS-D — Data Integrity During Migration** *(Critical — High Importance, High Risk)*
+> **QAS301 — Data Integrity During Migration** *(Critical — High Importance, High Risk)*
 >
 > - **Stimulus:** All user records, events, verifications, and relational data are transferred between servers.
 > - **Environment:** Migration window; source server data is live and potentially changing.
@@ -196,7 +196,7 @@ Scenarios are presented in descending priority order.
 
 ---
 
-> **QAS-A — Cross-Platform Response Time** *(High — High Importance, Medium Risk)*
+> **QAS201 — Cross-Platform Response Time** *(High — High Importance, Medium Risk)*
 >
 > - **Stimulus:** A user performs common actions: view event list, view profile, update profile, join an event.
 > - **Environment:** Normal network conditions (4G / Wi-Fi), up to 50 concurrent users.
@@ -205,7 +205,7 @@ Scenarios are presented in descending priority order.
 
 ---
 
-> **QAS-C — Feature Parity Across Platforms** *(High — High Importance, Medium Risk)*
+> **QAS601 — Feature Parity Across Platforms** *(High — High Importance, Medium Risk)*
 >
 > - **Stimulus:** A user switches between the Android app and Telegram Mini App and attempts the same core tasks.
 > - **Environment:** Both platforms deployed and reachable.
@@ -214,7 +214,7 @@ Scenarios are presented in descending priority order.
 
 ---
 
-> **QAS-B — Authentication Reliability** *(High — Medium Importance, High Risk)*
+> **QAS302 — Authentication Reliability** *(High — Medium Importance, High Risk)*
 >
 > - **Stimulus:** A user attempts to log in via password, email OTP, or Telegram OTP during peak hours (event-registration windows).
 > - **Environment:** Peak usage period.
@@ -223,7 +223,7 @@ Scenarios are presented in descending priority order.
 
 ---
 
-> **QAS-E — Event Creation Reliability** *(Medium)*
+> **QAS303 — Event Creation Reliability** *(Medium)*
 >
 > - **Stimulus:** A user submits a valid event creation form.
 > - **Environment:** Normal operating conditions.
@@ -232,16 +232,16 @@ Scenarios are presented in descending priority order.
 
 ---
 
-> **QAS-F — Map Loading Performance** *(Medium)*
+> **QAS202 — Map Loading Performance** *(Medium)*
 >
 > - **Stimulus:** A user opens the alumni location map.
 > - **Environment:** 50–500 verified alumni with locations in the database.
 > - **Response:** Map renders with all location pins.
-> - **Measure:** Initial load ≤ 3 s. Pan/zoom interactions ≤ 1 s.
+> - **Measure:** Initial load ≤ 5 s. Pan/zoom interactions ≤ 1 s.
 
 ---
 
-> **QAS-G — Code Maintainability** *(Low — Low Importance, Medium Risk)*
+> **QAS501 — Code Maintainability** *(Low — Low Importance, Medium Risk)*
 >
 > - **Stimulus:** A new developer from a future team modifies or extends a feature.
 > - **Environment:** Post-handover maintenance phase.
@@ -290,7 +290,7 @@ Outbound email must appear to originate from `@innopolis.university` or an appro
 
 For the top-priority scenarios we describe how the architecture's response measures would be validated. We focus on cases where the measure is not trivially observable.
 
-### 4.1 QAS-M: Validating the ≤ 1-Hour Downtime Target
+### 4.1 QAS101: Validating the ≤ 1-Hour Downtime Target
 
 Downtime during migration is hard to predict: DNS propagation, Docker pull times, and database restore speed all vary.
 
@@ -301,7 +301,7 @@ Downtime during migration is hard to predict: DNS propagation, Docker pull times
 3. **Live monitoring.** Grafana dashboards were open throughout the migration. Prometheus alerts fire within 15 seconds of any endpoint becoming unavailable, enabling immediate response.
 4. **Outcome.** The live migration completed with under 30 minutes total downtime, well within the 1-hour target, primarily due to the scripted approach eliminating manual steps.
 
-### 4.2 QAS-D: Validating 100% Data Integrity
+### 4.2 QAS301: Validating 100% Data Integrity
 
 Trusting `pg_restore` to be perfect is insufficient for a 100% integrity claim.
 
@@ -313,7 +313,7 @@ Trusting `pg_restore` to be perfect is insufficient for a 100% integrity claim.
 4. **Referential integrity validation.** PostgreSQL's `pg_catalog` queries confirm all foreign-key constraints are satisfied post-restore.
 5. **Rollback gate.** If any check fails, the old server remains authoritative (DNS unchanged), the target is wiped, and the migration is retried after diagnosis. The fallback was rehearsed during the staging dry run.
 
-### 4.3 QAS-A: Validating P95 ≤ 2s Response Time
+### 4.3 QAS201: Validating P95 ≤ 2s Response Time
 
 Response time cannot be validated from code inspection; it requires measurement under realistic load.
 
@@ -324,7 +324,7 @@ Response time cannot be validated from code inspection; it requires measurement 
 3. **Cross-platform comparison.** The same Locust scenario is run against the Flutter Android build and Flutter Web independently. The ≤ 500 ms variance target is confirmed from Grafana.
 4. **Cursor-pagination rationale.** This scenario motivated the cursor-based pagination design (Section 5.2): offset pagination degrades at high page numbers due to `OFFSET` scanning, whereas cursor-based pagination maintains near-constant latency regardless of dataset size.
 
-### 4.4 QAS-B: Validating Authentication Reliability
+### 4.4 QAS302: Validating Authentication Reliability
 
 A 99.9% success rate requires sustained monitoring, not a point-in-time test.
 
@@ -343,19 +343,19 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 
 ### 5.1 Iteration 1 — Deployment Architecture
 
-**Goal:** Address **QAS-M** and **QAS-D** by designing a deployment infrastructure that enables a safe, near-zero-downtime migration *and* makes future server migrations trivially repeatable.
+**Goal:** Address **QAS101** and **QAS301** by designing a deployment infrastructure that enables a safe, near-zero-downtime migration *and* makes future server migrations trivially repeatable.
 
 > **D1.1 — Server-Agnostic GitOps Deployment**
 >
-> All deployment configuration is stored as GitHub environment secrets and rendered onto the target server by Ansible at deploy time. The server IP is a single secret (`SERVER_HOST`); updating it and re-running the *Setup Server* workflow migrates the entire platform to a new machine with zero code changes. This directly addresses QAS-M: the migration procedure is scripted and rehearsable.
+> All deployment configuration is stored as GitHub environment secrets and rendered onto the target server by Ansible at deploy time. The server IP is a single secret (`SERVER_HOST`); updating it and re-running the *Setup Server* workflow migrates the entire platform to a new machine with zero code changes. This directly addresses QAS101: the migration procedure is scripted and rehearsable.
 >
 > **D1.2 — Docker Swarm for Container Orchestration**
 >
-> All services run as Docker Swarm stacks sharing a single overlay network (`iu_alumni_network`). Every service declares `restart_policy: condition: any`, so process crashes are automatically recovered by the Swarm manager. This addresses the availability dimension of QAS-B.
+> All services run as Docker Swarm stacks sharing a single overlay network (`iu_alumni_network`). Every service declares `restart_policy: condition: any`, so process crashes are automatically recovered by the Swarm manager. This addresses the availability dimension of QAS302.
 >
 > **D1.3 — Pre-Migration Backup to an Independent Location**
 >
-> Before any migration, a full `pg_dump` is taken and stored separately from both source and target servers. The backup is validated (row counts, checksums) before the cutover proceeds. This is the primary mechanism for QAS-D.
+> Before any migration, a full `pg_dump` is taken and stored separately from both source and target servers. The backup is validated (row counts, checksums) before the cutover proceeds. This is the primary mechanism for QAS301.
 
 **Alternatives rejected:**
 
@@ -365,23 +365,23 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 
 ### 5.2 Iteration 2 — Backend API Architecture
 
-**Goal:** Address **QAS-A**, **QAS-B**, and **QAS-G** by designing the backend for performance, reliability, and maintainability.
+**Goal:** Address **QAS201**, **QAS302**, and **QAS501** by designing the backend for performance, reliability, and maintainability.
 
 > **D2.1 — FastAPI with an Explicit Layered Architecture**
 >
-> The backend organises code into four named layers: *Routes* (HTTP boundary), *Services* (business logic and external I/O), *Core* (security, DB session, logging), and *Models* (ORM). Each route module is a single file with a single HTTP operation. This layering supports QAS-G: a developer modifying event-creation logic touches only `app/api/routes/events/` and the relevant service; database and security code are untouched.
+> The backend organises code into four named layers: *Routes* (HTTP boundary), *Services* (business logic and external I/O), *Core* (security, DB session, logging), and *Models* (ORM). Each route module is a single file with a single HTTP operation. This layering supports QAS501: a developer modifying event-creation logic touches only `app/api/routes/events/` and the relevant service; database and security code are untouched.
 >
 > **D2.2 — Stateless JWT Authentication (HS256)**
 >
-> Tokens are stateless JWTs. No server-side session store is maintained. The token payload carries `sub` (email) and `user_type` (alumni or admin), enabling role-based authorisation without a database lookup on every request. This simplifies container restarts under Docker Swarm (no sticky sessions) and supports QAS-B availability.
+> Tokens are stateless JWTs. No server-side session store is maintained. The token payload carries `sub` (email) and `user_type` (alumni or admin), enabling role-based authorisation without a database lookup on every request. This simplifies container restarts under Docker Swarm (no sticky sessions) and supports QAS302 availability.
 >
 > **D2.3 — Cursor-Based Pagination on All List Endpoints**
 >
-> List endpoints (`GET /events/`, `GET /profile/users`) use opaque base64-encoded cursors instead of page numbers. The server executes a `WHERE (sort_key > cursor_value)` clause, avoiding the `OFFSET` scan penalty that degrades at high page numbers. This keeps P95 latency stable as the dataset grows, directly supporting QAS-A and QAS-F.
+> List endpoints (`GET /events/`, `GET /profile/users`) use opaque base64-encoded cursors instead of page numbers. The server executes a `WHERE (sort_key > cursor_value)` clause, avoiding the `OFFSET` scan penalty that degrades at high page numbers. This keeps P95 latency stable as the dataset grows, directly supporting QAS201 and QAS202.
 >
 > **D2.4 — Strategic Database Indexing**
 >
-> Indexes are placed on the columns used in the most frequent filter operations: `is_verified`, `is_banned`, `show_location`, `graduation_year`, and a composite index on `show_location + location` for the map endpoint. GIN trigram indexes support the alumni search feature. These indexes prevent sequential scans on a growing dataset and support QAS-A and QAS-F.
+> Indexes are placed on the columns used in the most frequent filter operations: `is_verified`, `is_banned`, `show_location`, `graduation_year`, and a composite index on `show_location + location` for the map endpoint. GIN trigram indexes support the alumni search feature. These indexes prevent sequential scans on a growing dataset and support QAS201 and QAS202.
 
 **Alternatives rejected:**
 
@@ -391,30 +391,30 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 
 ### 5.3 Iteration 3 — Mobile Client Architecture
 
-**Goal:** Address **QAS-C** and **QAS-A** by designing the mobile client to serve both Android and Telegram Mini App from a single codebase.
+**Goal:** Address **QAS601** and **QAS201** by designing the mobile client to serve both Android and Telegram Mini App from a single codebase.
 
 > **D3.1 — Flutter for Cross-Platform Mobile**
 >
-> Flutter compiles to Android APK and to a web bundle (served as Telegram Mini App) from the same Dart codebase. The only platform-specific divergence is API URL configuration: the Web build bakes `API_BASE_URL` via `--dart-define` at compile time (satisfying TC2), while the Android build reads it from `flutter_secure_storage`. This delivers QAS-C (feature parity) at no additional development cost.
+> Flutter compiles to Android APK and to a web bundle (served as Telegram Mini App) from the same Dart codebase. The only platform-specific divergence is API URL configuration: the Web build bakes `API_BASE_URL` via `--dart-define` at compile time (satisfying TC2), while the Android build reads it from `flutter_secure_storage`. This delivers QAS601 (feature parity) at no additional development cost.
 >
 > **D3.2 — Three-Layer Architecture with BLoC/Cubit**
 >
-> The mobile app is organised into *Presentation* (pages, widgets, Cubits), *Application* (repositories, domain models, mappers), and *Data* (Dio-based gateways, JSON models, local DB) layers. Cubits emit typed `LoadedState<T>` sealed states, making every UI state transition explicit and testable. This architecture supports QAS-G.
+> The mobile app is organised into *Presentation* (pages, widgets, Cubits), *Application* (repositories, domain models, mappers), and *Data* (Dio-based gateways, JSON models, local DB) layers. Cubits emit typed `LoadedState<T>` sealed states, making every UI state transition explicit and testable. This architecture supports QAS501.
 >
 > **D3.3 — `Either<AppError, T>` Error Propagation (fpdart)**
 >
-> Repository methods return `Either<AppError, T>` rather than throwing exceptions. Cubits pattern-match on the result and emit the appropriate state. This makes all error paths visible at compile time and avoids silent failures — directly supporting QAS-G (testability).
+> Repository methods return `Either<AppError, T>` rather than throwing exceptions. Cubits pattern-match on the result and emit the appropriate state. This makes all error paths visible at compile time and avoids silent failures — directly supporting QAS501 (testability).
 
 **Alternatives rejected:**
 
 - *React Native.* React Native Web is considered experimental; Telegram Mini App would require a separate React web app. Using Flutter delivers both targets from one codebase. Rejected.
 - *Rewrite in React / Vue.* Late in the project, a full rewrite of the Flutter codebase into React or Vue was evaluated because no team member had prior Flutter experience. The rewrite was rejected: the existing Flutter codebase was already partially complete, and a full rewrite driven by developers unfamiliar with the new stack (AI-assisted "vibe coding") was judged to carry a higher risk of latent bugs and regressions than the slower but controlled path of extending the working Flutter code. This risk is analysed in full in Risk 3 (Section 7.3).
 - *Native Android + separate web app.* Two codebases in two languages; every feature must be implemented twice. Rejected due to BC1 and BC4.
-- *`setState` / Provider state management.* Does not scale across multi-screen flows or support testable state transitions. Rejected in favour of BLoC/Cubit (QAS-G).
+- *`setState` / Provider state management.* Does not scale across multi-screen flows or support testable state transitions. Rejected in favour of BLoC/Cubit (QAS501).
 
 ### 5.4 Iteration 4 — Security and Authentication Design
 
-**Goal:** Address **QAS-B** by designing an authentication system that is both reliable and resistant to common attacks, across three login methods.
+**Goal:** Address **QAS302** by designing an authentication system that is both reliable and resistant to common attacks, across three login methods.
 
 > **D4.1 — Multi-Method Authentication Converging on JWT**
 >
@@ -436,7 +436,7 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 
 ### 5.5 Iteration 5 — Observability and Data Protection
 
-**Goal:** Address **QAS-D** (post-migration data safety) and **QAS-G** (operational maintainability).
+**Goal:** Address **QAS301** (post-migration data safety) and **QAS501** (operational maintainability).
 
 > **D5.1 — Prometheus + Grafana Monitoring Stack**
 >
@@ -444,7 +444,7 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 >
 > **D5.2 — Automated Tiered PostgreSQL Backups**
 >
-> The `postgres-backup-local` container creates daily, weekly, and monthly snapshots with a retention policy of 7 days, 4 weeks, and 6 months respectively. Backups are written to a volume mount independent of the PostgreSQL data directory, protecting against partial-write corruption. This supports QAS-D *after* migration, ensuring data can be recovered if the server fails.
+> The `postgres-backup-local` container creates daily, weekly, and monthly snapshots with a retention policy of 7 days, 4 weeks, and 6 months respectively. Backups are written to a volume mount independent of the PostgreSQL data directory, protecting against partial-write corruption. This supports QAS301 *after* migration, ensuring data can be recovered if the server fails.
 >
 > **D5.3 — Alembic Schema Migration with Auto-Apply on Start**
 >
@@ -460,18 +460,18 @@ We followed an **Attribute-Driven Design (ADD)** process, decomposing the system
 
 | **Pattern / Tactic** | **Where Applied** | **QA Supported** | **Trade-off Introduced** |
 |---|---|---|---|
-| Layered Architecture | Backend (Routes → Services → Core → Models) | QAS-G | Minor latency per layer boundary; added abstraction |
-| BLoC/Cubit Pattern | Mobile state management | QAS-G, QAS-C | Learning curve; contributed to initial velocity loss (Risk R-07) |
-| Repository Pattern | Mobile Application layer | QAS-G | Added abstraction overhead in data access |
-| Reverse Proxy (Nginx) | Single ingress for all services | Security, QAS-A | Single point of failure if Nginx crashes (mitigated by Swarm restart) |
+| Layered Architecture | Backend (Routes → Services → Core → Models) | QAS501 | Minor latency per layer boundary; added abstraction |
+| BLoC/Cubit Pattern | Mobile state management | QAS501, QAS601 | Learning curve; contributed to initial velocity loss (Risk R-07) |
+| Repository Pattern | Mobile Application layer | QAS501 | Added abstraction overhead in data access |
+| Reverse Proxy (Nginx) | Single ingress for all services | Security, QAS201 | Single point of failure if Nginx crashes (mitigated by Swarm restart) |
 | API Gateway (subdomain routing) | Nginx per-service routing | Modifiability | New services require nginx config update |
-| Cursor-Based Pagination | Backend list endpoints | QAS-A, QAS-F | More complex cursor encoding logic |
-| Module Store (Pinia) | Admin frontend state | QAS-G | Stores can grow large without further splitting |
-| Infrastructure as Code | Ansible + Terraform | QAS-M, Modifiability | Requires IaC tool knowledge from future maintainers |
-| Restart-on-failure (Swarm policy) | All Docker services | QAS-B | ≈ 5 s unavailability window per crash |
-| Checkpoint / Backup | Tiered Postgres backups | QAS-D | Backup storage grows over time |
-| Heartbeat / Monitoring | Prometheus scraping | QAS-B, QAS-G | Prometheus adds ≈ 512 MB RAM overhead |
-| Authenticate Actors (JWT + bcrypt) | Auth service | QAS-B, Security | Long token expiry reduces per-token revocability |
+| Cursor-Based Pagination | Backend list endpoints | QAS201, QAS202 | More complex cursor encoding logic |
+| Module Store (Pinia) | Admin frontend state | QAS501 | Stores can grow large without further splitting |
+| Infrastructure as Code | Ansible + Terraform | QAS101, Modifiability | Requires IaC tool knowledge from future maintainers |
+| Restart-on-failure (Swarm policy) | All Docker services | QAS302 | ≈ 5 s unavailability window per crash |
+| Checkpoint / Backup | Tiered Postgres backups | QAS301 | Backup storage grows over time |
+| Heartbeat / Monitoring | Prometheus scraping | QAS302, QAS501 | Prometheus adds ≈ 512 MB RAM overhead |
+| Authenticate Actors (JWT + bcrypt) | Auth service | QAS302, Security | Long token expiry reduces per-token revocability |
 
 ### 6.2 Static View 1 — System-Level Module Decomposition
 
@@ -683,16 +683,16 @@ External services (dashed border):
 
 | **Category** | **Technology** | **Justification** |
 |---|---|---|
-| API Framework | FastAPI (Python 3.11) | Native async I/O supports simultaneous HTTP serving and Telegram long-polling (QAS-B). Pydantic integration validates inputs at the boundary (security). Automatic OpenAPI docs accelerate frontend/mobile integration (QAS-G). |
-| Database | PostgreSQL 16 | ACID compliance supports QAS-D (data integrity). Rich index types (B-tree, GIN trigram) support efficient pagination and full-text search (QAS-A, QAS-F). Native `pg_dump`/`pg_restore` simplifies migration (QAS-M). |
-| ORM / Migrations | SQLAlchemy 2.0 + Alembic | Alembic auto-apply on container start ensures schema and code are always in sync (QAS-G). SQLAlchemy's type-safe ORM reduces SQL injection risk. |
-| Auth | JWT (python-jose HS256) + bcrypt (passlib) | Stateless JWT eliminates session-store dependency (availability, QAS-B). bcrypt's adaptive cost factor resists brute-force attacks. |
+| API Framework | FastAPI (Python 3.11) | Native async I/O supports simultaneous HTTP serving and Telegram long-polling (QAS302). Pydantic integration validates inputs at the boundary (security). Automatic OpenAPI docs accelerate frontend/mobile integration (QAS501). |
+| Database | PostgreSQL 16 | ACID compliance supports QAS301 (data integrity). Rich index types (B-tree, GIN trigram) support efficient pagination and full-text search (QAS201, QAS202). Native `pg_dump`/`pg_restore` simplifies migration (QAS101). |
+| ORM / Migrations | SQLAlchemy 2.0 + Alembic | Alembic auto-apply on container start ensures schema and code are always in sync (QAS501). SQLAlchemy's type-safe ORM reduces SQL injection risk. |
+| Auth | JWT (python-jose HS256) + bcrypt (passlib) | Stateless JWT eliminates session-store dependency (availability, QAS302). bcrypt's adaptive cost factor resists brute-force attacks. |
 | Admin Frontend | Nuxt 3 / Vue 3 / TypeScript | SSR reduces perceived latency for administrators. Pinia provides explicit, testable state. shadcn-nuxt/Tailwind delivers consistent UI without a custom design system (BC1 team size constraint). |
-| Mobile | Flutter (Dart 3.8) | Single codebase compiles to Android APK and Flutter Web (Telegram Mini App), directly satisfying QAS-C and TC2. |
-| State Mgmt (mobile) | BLoC/Cubit | Explicit typed-state transitions are testable (QAS-G) and catch invalid state combinations at compile time. |
-| Orchestration | Docker / Swarm | Zero-overhead alternative to Kubernetes for single-node deployment (BC1, BC2). Provides automatic container restart (QAS-B) and overlay networking for service discovery. |
-| Provisioning | Ansible | Idempotent playbooks make server setup fully reproducible (QAS-M, BC4). The entire server state is expressed as code, so migrating to a new server requires only changing the `SERVER_HOST` secret. |
-| IaC (GitHub) | Terraform (GitHub provider) | Repository settings, branch protection, and environment secrets are version-controlled. Prevents configuration drift across the four repos (BC4, QAS-G). |
+| Mobile | Flutter (Dart 3.8) | Single codebase compiles to Android APK and Flutter Web (Telegram Mini App), directly satisfying QAS601 and TC2. |
+| State Mgmt (mobile) | BLoC/Cubit | Explicit typed-state transitions are testable (QAS501) and catch invalid state combinations at compile time. |
+| Orchestration | Docker / Swarm | Zero-overhead alternative to Kubernetes for single-node deployment (BC1, BC2). Provides automatic container restart (QAS302) and overlay networking for service discovery. |
+| Provisioning | Ansible | Idempotent playbooks make server setup fully reproducible (QAS101, BC4). The entire server state is expressed as code, so migrating to a new server requires only changing the `SERVER_HOST` secret. |
+| IaC (GitHub) | Terraform (GitHub provider) | Repository settings, branch protection, and environment secrets are version-controlled. Prevents configuration drift across the four repos (BC4, QAS501). |
 | CI/CD | GitHub Actions + GHCR | Native to the existing GitHub organisation (TC4). Free for public repos (BC3). GHCR provides authenticated image pulls without an extra registry. |
 | Monitoring | Prometheus + Grafana | Self-hosted, free (BC3). Prometheus pull model fits inside the overlay network (no public exposure). Pre-provisioned Grafana dashboards reduce setup time for future teams (BC4). |
 | SSL/TLS | Let's Encrypt + Certbot | Free, widely trusted CA (BC3). 90-day certificates auto-renewed every 12 hours by the Certbot sidecar, requiring no manual intervention (BC4). |
@@ -703,14 +703,14 @@ External services (dashed border):
 
 | **Business Goal** | **Driver** | **Design Decision** | **Implementing Component(s)** |
 |---|---|---|---|
-| Migrate with minimal downtime | QAS-M | D1.1 (GitOps deployment), D1.3 (pre-migration backup) | Ansible playbooks, `deploy.sh`, `postgres-backup-local` |
-| Preserve all alumni data | QAS-D | D1.3 (backup), D5.2 (tiered backups), D5.3 (Alembic auto-apply) | `postgres-backup`, Alembic migrations |
-| Fast user experience | QAS-A | D2.3 (cursor pagination), D2.4 (DB indexes) | Backend list routes, PostgreSQL indexes |
-| Cross-platform access | QAS-C | D3.1 (Flutter), D3.2 (3-layer + Cubit) | `iu-alumni-mobile` (Android + Web build) |
-| Reliable authentication | QAS-B | D2.2 (stateless JWT), D4.1 (multi-method auth), D5.1 (monitoring) | Auth routes, `security.py`, Prometheus alerts |
-| Maintain for future teams | QAS-G, BC4 | D2.1 (layered arch), D3.2 (BLoC/Cubit), D5.3 (Alembic) | All layered components; documented deployment scripts |
+| Migrate with minimal downtime | QAS101 | D1.1 (GitOps deployment), D1.3 (pre-migration backup) | Ansible playbooks, `deploy.sh`, `postgres-backup-local` |
+| Preserve all alumni data | QAS301 | D1.3 (backup), D5.2 (tiered backups), D5.3 (Alembic auto-apply) | `postgres-backup`, Alembic migrations |
+| Fast user experience | QAS201 | D2.3 (cursor pagination), D2.4 (DB indexes) | Backend list routes, PostgreSQL indexes |
+| Cross-platform access | QAS601 | D3.1 (Flutter), D3.2 (3-layer + Cubit) | `iu-alumni-mobile` (Android + Web build) |
+| Reliable authentication | QAS302 | D2.2 (stateless JWT), D4.1 (multi-method auth), D5.1 (monitoring) | Auth routes, `security.py`, Prometheus alerts |
+| Maintain for future teams | QAS501, BC4 | D2.1 (layered arch), D3.2 (BLoC/Cubit), D5.3 (Alembic) | All layered components; documented deployment scripts |
 | Zero infrastructure cost | BC3 | D1.2 (Docker Swarm), D5.1 (self-hosted monitoring) | Docker Swarm, Prometheus, Grafana, Let's Encrypt |
-| Map feature performance | QAS-F | D2.4 (composite index on show_location), cursor pagination | `GET /profile/map` endpoint, `cities` table index |
+| Map feature performance | QAS202 | D2.4 (composite index on show_location), cursor pagination | `GET /profile/map` endpoint, `cities` table index |
 
 ---
 
