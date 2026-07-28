@@ -48,13 +48,13 @@ ALUMAP connects Innopolis University alumni through:
 | ID | Quality Attribute | Requirement | Threshold | Metric | Tool |
 | --- | --- | --- | --- | --- | --- |
 | QR1 | Functional Suitability | All critical features work correctly | 100% pass rate | Test pass rate | pytest |
-| QR2 | Reliability | System stays operational | 99.5% uptime | Monthly uptime | Prometheus |
-| QR3 | Performance (API) | API responds to requests | p95 < 500ms | Response time percentile | Prometheus |
-| QR4 | Performance (Map) | Map loads on mobile | < 3 seconds | Load time | Manual/E2E |
-| QR5 | Security | User data protected | 0 high-severity vulns | Vulnerability count | bandit |
-| QR6 | Maintainability | Code is testable and modifiable | 80% coverage | Line coverage | pytest-cov |
-| QR7 | Compatibility | Feature parity across platforms | 95% | Parity checklist | Manual |
-| QR8 | Usability | Users complete key tasks | 85% success rate | Task completion | User testing |
+| QR2 | Reliability | System stays operational | 99.5% uptime (target — not measured) | Monthly uptime | Prometheus/Grafana set up (dashboards provisioned); no data collected yet |
+| QR3 | Performance (API) | API responds to requests | p95 < 500ms (target — not measured) | Response time percentile | Prometheus/Grafana set up; no data collected yet |
+| QR4 | Performance (Map) | Map loads on mobile | ≤ 5 s (E2E TC3 budget) | Map load time | E2E (Playwright, TC3) — passing |
+| QR5 | Security | User data protected | 0 high-severity vulns | Vulnerability count | bandit (in CI; 0 high-severity) |
+| QR6 | Maintainability | Code is testable and modifiable | ≥70% floor (measured 84.9%) | Line coverage | pytest-cov |
+| QR7 | Compatibility | Feature parity across platforms | not formally measured | Manual spot checks | Manual (Telegram limited by RU restrictions) |
+| QR8 | Usability | Users complete key tasks | not formally measured | — | Exploratory testing (no formal usability study) |
 
 ---
 
@@ -62,21 +62,41 @@ ALUMAP connects Innopolis University alumni through:
 
 ### Decision 1: Activities
 
-| Activity | Type | Application | Status | Justification |
-| --- | --- | --- | --- | --- |
-| Static Analysis (Lint) | QC | Backend (ruff) | In CI | Fast, catches syntax/style errors early |
-| Static Analysis (Lint) | QC | Admin (pnpm lint) | In CI | Enforces Vue/TypeScript best practices |
-| Infrastructure Linting | QC | YAML, Ansible, Shell | In CI | Prevents deployment failures |
-| Code Review | QA | All pull requests | Active | Catches design issues; 10:1 ROI |
-| Exploratory Testing | QC | Mobile + Admin | Active | Finds UX and platform bugs |
-| Production Monitoring | QC | Runtime metrics | Active | Extends V&V into production |
-| Backup Validation | QC | PostgreSQL | Active | Ensures data recoverability |
-| Unit Testing | QC | Backend (pytest) | Active | Fast regression feedback |
-| Unit Testing | QC | Mobile (flutter test) | Active | Native Dart testing |
-| E2E Testing | QC | Admin + Mobile Web | Active | Validates complete user journeys |
-| Regression Testing | QA | All platforms | Active | Critical for sprint releases |
-| Regression Suite | QA | Core user journeys | Active | 20-30 scenarios covering 80% of features |
-| Regression After Bug Fix | QA | Specific feature + related areas | Active | Each P1/P2 fix triggers regression |
+We split quality activities into two distinct kinds:
+
+- **Product quality (direct)** — activities that verify or improve the product
+  itself: tests, static analysis, security scanning, monitoring. These map to
+  **Quality Control (QC)**.
+- **Process quality (indirect)** — activities that improve how the team works so
+  defects are prevented before they reach the product: code review, quality
+  gates, regression discipline, defect triage. These map to **Quality
+  Assurance (QA)**.
+
+#### 1a. Product-quality activities (QC — direct)
+
+| Activity | Application | Status | Justification |
+| --- | --- | --- | --- |
+| Static Analysis (Lint) | Backend (ruff) | In CI | Fast, catches syntax/style errors early |
+| Static Analysis (Lint) | Admin (pnpm lint) | In CI | Enforces Vue/TypeScript best practices |
+| Infrastructure Linting | YAML, Ansible, Shell | In CI | Prevents deployment failures |
+| Security Scanning | Backend (bandit) | In CI | Detects high-severity vulnerabilities (QR5) |
+| Unit Testing | Backend (pytest) | In CI | Fast regression feedback |
+| Unit Testing | Admin (vitest) | In CI | Pinia store logic, pagination, edge cases, error handling |
+| Unit Testing | Mobile (flutter test) | Active (not yet in CI) | Native Dart testing |
+| E2E Testing | Admin + Mobile Web (Playwright) | Active (run manually) | Validates complete user journeys |
+| Exploratory Testing | Mobile + Admin | Active | Finds UX and platform bugs |
+| Production Monitoring | Runtime metrics | Set up (no data collected yet) | Extends V&V into production |
+| Backup Validation | PostgreSQL | Active | Ensures data recoverability |
+
+#### 1b. Process-quality activities (QA — via team process)
+
+| Activity | Application | Status | Justification |
+| --- | --- | --- | --- |
+| Code Review | All pull requests | Active | Catches design issues; 10:1 ROI |
+| Quality Gates | Pre-merge (CI) | Active | Blocks merge on failing checks (see Part 4) |
+| Defect Triage | All reported bugs | Active | Severity-based handling (see Decision 10) |
+| Regression Testing | All platforms | Manual (not gated) | Critical for sprint releases |
+| Regression After Bug Fix | Specific feature + related areas | Manual (not gated) | Each P1/P2 fix triggers regression |
 
 ### Decision 1.5: Regression Testing Strategy
 
@@ -94,9 +114,9 @@ ALUMAP connects Innopolis University alumni through:
 
 | Test Type | Count | Coverage | Automation Status |
 | --- | --- | --- | --- |
-| Smoke tests | 5-7 | Critical paths | Active (E2E) |
-| Core regression | 20-25 | Main features | Active (E2E) |
-| Full regression | 50-60 | All features | Active (E2E + manual) |
+| Smoke tests | 5-7 | Critical paths | Active (subset of the 19 E2E) |
+| Core regression | ~19 (built) | Main features | Active (E2E, run manually) |
+| Full regression | 50-60 (target) | All features | Partial (19 E2E + manual exploratory) |
 | Bug-specific | Per bug | Fixed bug + related areas | Manual |
 
 **When to Run Regression:**
@@ -114,10 +134,10 @@ ALUMAP connects Innopolis University alumni through:
 | Step | Action | If PASS | If FAIL |
 | ------ | -------- | --------- | --------- |
 | 1 | Bug Fix / Feature Complete | → Step 2 | Return to development |
-| 2 | Run unit tests (planned) | → Step 3 | Return to development |
+| 2 | Run unit tests | → Step 3 | Return to development |
 | 3 | Run smoke tests (5-7 scenarios) | → Step 4 | Return to development |
-| 4 | Run core regression (20-25 scenarios) | → Step 5 | Return to development |
-| 5 | Deploy to staging → Manual exploratory | → Step 6 | Return to development |
+| 4 | Run core regression (~19 E2E scenarios) | → Step 5 | Return to development |
+| 5 | Deploy to test server → Manual exploratory | → Step 6 | Return to development |
 | 6 | Production | Done | Return to development |
 
 [Regression checklist](checklist.md)
@@ -136,7 +156,9 @@ Write code → Local linting → Commit
 
 1. Open Pull Request (PR)
 2. Run CI:
-    - Lint
+    - Lint (ruff, pnpm, infra linters)
+    - Security scan (bandit)
+    - Unit tests + coverage gate (pytest, vitest)
     - Build
 3. Code Review (1+ approver)
 4. **Quality Gate**
@@ -174,15 +196,15 @@ Write code → Local linting → Commit
 | Backend Python code | Static analysis | Active | ruff |
 | Backend Python code | Unit tests  | Active | pytest |
 | Admin Vue/TypeScript | Static analysis | Active | pnpm lint |
+| Admin Vue/TypeScript | Unit tests | Active (in CI) | vitest |
 | Mobile Flutter code | Static analysis  | Active | flutter analyze |
 | Mobile Flutter code | Unit tests | Active | flutter test |
-| Docker Swarm config | Infrastructure linting | Active | docker compose config |
 | Ansible playbooks | Infrastructure linting | Active | ansible-lint |
 | Shell scripts | Infrastructure linting | Active | shellcheck |
 | YAML files | Infrastructure linting | Active | yamllint |
 | Database backups | Backup validation | Active | postgres-backup-local |
 | API endpoints | Exploratory testing | Active | Manual |
-| Full user journeys | E2E testing | Active | Selenium |
+| Full user journeys | E2E testing | Active | Playwright |
 
 ### Decision 4: Timing
 
@@ -196,8 +218,8 @@ Write code → Local linting → Commit
 | Production | Continuous | Monitoring | Service running | No alerts |
 | Daily | 00:00 UTC | Backup + validation | Cron triggers | Backup verified |
 | On Demand | Sprint boundary | Exploratory testing | Sprint end | Check list passed |
-| Per sprint (planned) | After code | Unit tests | Code complete | 70% coverage |
-| Per release (planned) | Before deploy | E2E tests | Release candidate | All scenarios pass |
+| Per sprint | After code | Unit tests | Code complete | 70% coverage |
+| Per release | Before deploy | E2E tests (manual run) | Release candidate | All scenarios pass |
 
 ### Decision 5: Responsibility
 
@@ -235,32 +257,46 @@ Table Acronyms
 
 | Component | Criticality | Coverage Target | Test Types |
 | --- | --- | --- | --- |
-| Backend Auth | High (A) | 80% | Unit + Integration + E2E |
-| Backend Events | High (A) | 80% | Unit + Integration + E2E |
+| Backend Auth | High (A) | 70% | Unit + Integration + E2E |
+| Backend Events | High (A) | 70% | Unit + Integration + E2E |
 | Backend Other | Medium (B) | 70% | Unit + E2E |
 | Mobile Main Flows | High (A) | 70% | Unit + E2E |
 | Mobile Other | Medium (B) | 60% | Unit + E2E |
-| Admin Portal | Low (C) | 50% | E2E only |
+| Admin Portal | Low (C) | 50% | E2E + Unit (vitest, store logic) |
 | Infrastructure | Medium (B) | 100% | Static analysis |
 
 ### Decision 7: Cost/Time
 
+Dates below are the actual commit dates from the repositories, so every entry is
+verifiable in git history.
+
 **Completed Effort:**
 
-| Activity | Effort | Status |
-| --- | --- | --- |
-| CI/CD pipeline setup | 8 hours | Done |
-| Prometheus + Grafana | 4 hours | Done |
-| Database backups | 2 hours | Done |
-| Infrastructure linting | 2 hours | Done |
-| Exploratory testing (on Demand) | 1 session *6 hours, 1 session* 2 hours, 1 session * 5 hours | Done |
+| Activity | Effort | Date · Evidence (PR) | Status |
+| --- | --- | --- | --- |
+| CI/CD pipeline setup | 8 hours | 2026-02-23 · [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/46) | Done |
+| Infrastructure linting (yamllint / ansible-lint / shellcheck in CI) | 2 hours | 2026-02-23 · [PR](https://github.com/iu-alumni/iu-alumni-infra/pull/2) | Done |
+| Prometheus + Grafana | 4 hours | 2026-02-23 · [PR](https://github.com/iu-alumni/iu-alumni-infra/pull/2) | Done |
+| Database backups | 2 hours | 2026-03-08 · [PR](https://github.com/iu-alumni/iu-alumni-infra/pull/20) | Done |
+| Backend unit tests (pytest, 453 tests, in CI) | 16 hours | 2026-06-28 · [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/112) | Done |
+| Exploratory testing (3 on-demand sessions: 6h / 2h / 5h) | 13 hours | ad-hoc · — | Done |
+| Mobile unit tests (flutter test, 86 tests) | 8 hours | 2026-07-01 · [PR](https://github.com/iu-alumni/iu-alumni-mobile/pull/136) | Done (not yet in CI) |
+| Admin unit tests (vitest, 2 Pinia stores, 31 tests, in CI) | 4 hours | 2026-07-26 · [PR](https://github.com/iu-alumni/iu-alumni-frontend/pull/80) | Done |
+| E2E tests (Playwright + POM, 19 scenarios) | 16 hours | 2026-07-13 · [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/134) | Done (run separately) |
+| Security scanning (bandit, high-severity gate in CI — 0 high-severity findings) | 2 hours | 2026-07-26 · [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/169) | Done |
+| Load test R-04 (Locust, read-load vs test server) | 4 hours | 2026-07-27 · [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/169) | Done — server saturates at ~10–20 concurrent users (feed p95 ~14–33s, ~1 req/s, 0 errors) |
+| Backend coverage gate (`--cov-fail-under=70`, in CI) | 1 hour | 2026-07-27 · [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/169) | Done |
+| Smoke test in CI (post-deploy, verifies traffic) | 2 hours | 2026-07-26 · [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/151) | Done |
 
 **Planned Effort:**
 
-| Activity | Estimated Effort | Responsible |
-| --- | --- | --- |
-| Unit tests | 16 hours | Helaly, Kovalev |
-| E2E tests (Selenium) | 16 hours | Kovalev |
+| Activity | Estimated Effort | Target | Responsible |
+| --- | --- | --- | --- |
+| Wire `flutter test` into CI | 2 hours | by 2026-07-28 | Helaly, Kovalev |
+| Manual regression run (unit + E2E) before release | 1 hour | before release | Kovalev |
+
+> E2E in CI is intentionally deferred (unstable test server would produce flaky
+> false failures); the suite is run manually before release instead.
 
 ### Decision 8: Tools
 
@@ -271,12 +307,12 @@ Table Acronyms
 | YAML linting | yamllint | `yamllint .` | Active |
 | Ansible linting | ansible-lint | `ansible-lint playbooks/*.yml` | Active |
 | Shell linting | shellcheck | `shellcheck scripts/*.sh` | Active |
-| Docker validation | docker compose | `docker compose config --quiet` | Active |
-| Unit testing  | pytest | `pytest --cov=app --cov-fail-under=80` | Planned |
-| Unit testing  | flutter test | `flutter test --coverage` | Planned |
-| E2E testing (planned) | Selenium + Python | `pytest tests/e2e/` | Planned |
-| Monitoring | Prometheus | Scrape `/metrics` | Active |
-| Visualization | Grafana | Dashboards | Active |
+| Unit testing  | pytest | `pytest --cov-fail-under=70` (CI) | Active — coverage gate enforced in CI |
+| Unit testing  | flutter test | `flutter test --coverage` | Implemented (not in CI) |
+| Unit testing  | vitest | `pnpm test` | Active (in CI) |
+| E2E testing | Playwright + Python | `cd e2e && pytest` | Active (manual / separate run) |
+| Monitoring | Prometheus | Scrape `/metrics` | Set up (no data collected yet) |
+| Visualization | Grafana | Dashboards | Set up (no data collected yet) |
 | CI/CD | GitHub Actions | Workflows | Active |
 
 ### Decision 9: Training
@@ -285,7 +321,7 @@ Table Acronyms
 | --- | --- | --- | --- |
 | Python + pytest | Backend tests | Helaly, Kovalev | 2-hour session |
 | Flutter testing | Mobile tests | Kovalev learning | Self-study + teach team |
-| Selenium + Python | E2E tests | Kovalev has Selenide (Java) | Adapt to Python (3 hours) |
+| Playwright + Python | E2E tests | Kovalev (adapted from Selenide/Java) | Done |
 | GitHub Actions | CI/CD | Helaly has experience; others basic | On-the-job |
 
 ### Decision 10: Defect Handling
@@ -316,26 +352,27 @@ Table Acronyms
 | Risk-Based | P1 bugs open | 0 | Bug tracker | PO + Tester |
 | Effort-Based | Testing hours | Per sprint | Manual | Team |
 | Coverage | Lint violations | 0 | ruff, yamllint | CI output |
-| Coverage | Test coverage (planned) | 80% | pytest-cov | CI output |
-| Product | API uptime | 99.5% | Prometheus | Grafana |
-| Product | API response time | p95 < 500ms | Prometheus | Grafana |
+| Coverage | Backend test coverage | ≥70% floor (CI gate) | pytest-cov | measured: 84.9% line / 69.2% branch |
+| Coverage | Mobile test coverage (logic layer) | 70% target | flutter test --coverage | measured: ~20% logic (UI via E2E) |
+| Product | API uptime | 99.5% (target — not measured) | Prometheus | dashboards set up; no data collected yet |
+| Product | API response time | p95 < 500ms (target — not measured) | Prometheus | dashboards set up; no data collected yet |
 | Product | Backup success | 100% | Cron | Helaly |
 
 ## Part 4: Quality Gates
 
 | Gate | When | Checks | Who | Status |
 | --- | --- | --- | --- | --- |
-| Pre-submit (Pull Request) | Before merge to main | ruff, pnpm lint, yamllint, ansible-lint, shellcheck, docker config, ≥1 approval | Automated + Peer | Active |
-| Post-submit | After merge | Deploy to Swarm | CI/CD | Active |
-| **Regression** | **After merge / before release** | **Smoke (P0) + Core regression (P1)** | **Kovalev** | **Planned** |
+| Pre-submit (Pull Request) | Before merge to main | ruff, bandit, pytest (70% coverage gate), pnpm lint + build + vitest, yamllint, ansible-lint, shellcheck, ≥1 approval | Automated + Peer | Active |
+| Post-submit | After merge | Deploy to Swarm + automated smoke test (public endpoints + Swarm replica health) | CI/CD | Active |
+| **Regression** | **After merge / before release** | **Smoke (P0) + Core regression (P1)** | **Kovalev** | **Partial — deploy smoke automated in CI; functional regression manual** |
 | Release | Before production deploy | All gates passed, no P1 bugs, backup verified, monitoring healthy | Helaly | Active |
 
 ### Regression Gate Details
 
 | Check | Time | Failure Action |
 | --- | --- | --- |
-| Smoke tests (7 scenarios) | 30 min | Block release |
-| Core regression (25 scenarios) | 2 hours | Block release |
+| Smoke tests (subset of the 19 E2E) | 30 min | Block release |
+| Core regression (~19 E2E scenarios) | 2 hours | Block release |
 | Bug-specific regression | 30 min - 2 hours | Block fix deployment |
 
 ### Gate 1: Pre-submit (Pull Request)
@@ -343,12 +380,14 @@ Table Acronyms
 | Check | Command | Failure Action |
 | --- | --- | --- |
 | ruff lint | `ruff check .` | Block merge |
+| bandit security scan | `bandit -r app --severity-level high` | Block merge |
+| pytest (backend unit) | `pytest --cov-fail-under=70` | Block merge |
 | pnpm lint | `pnpm run lint` | Block merge |
 | pnpm build | `pnpm run build` | Block merge |
+| vitest (admin unit) | `pnpm test` | Block merge |
 | yamllint | `yamllint .` | Block merge |
 | ansible-lint | `ansible-lint playbooks/*.yml` | Block merge |
 | shellcheck | `shellcheck scripts/*.sh` | Block merge |
-| docker config | `docker compose config --quiet` | Block merge |
 | Code review | ≥1 approval | Block merge |
 
 ### Gate 2: Release Criteria

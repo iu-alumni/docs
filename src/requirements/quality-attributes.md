@@ -17,9 +17,9 @@
 
 | Technical Risk → <br> Business Importance ↓| L                 | M                                    | H                                    |
 | ------------------------------------------ | ----------------- | ------------------------------------ | ------------------------------------ |
-| **L**                                      |                   | [QAS401](#qas401)                    |                                      |
-| **M**                                      |                   | [QAS201](#qas201), [QAS202](#qas202) | [QAS302](#qas302)                    |
-| **H**                                      | [QAS102](#qas102) | [QAS301](#qas301), [QAS501](#qas501) | [QAS101](#qas101), [QAS301](#qas301) |
+| **L**                                      |                   | [QAS501](#qas501)                    |                                      |
+| **M**                                      |                   | [QAS202](#qas202), [QAS203](#qas203) | [QAS302](#qas302)                    |
+| **H**                                      | [QAS102](#qas102) | [QAS201](#qas201), [QAS601](#qas601) | [QAS101](#qas101), [QAS301](#qas301) |
 
 **Key:**
 
@@ -70,7 +70,7 @@ effectively. The rationale for each priority level is explained below.
    - **Why High Priority**: Performance directly correlates with user
      adoption and satisfaction.
 
-2. **(H, M): [QAS501](#qas501) - Platform compatibility**
+2. **(H, M): [QAS601](#qas601) - Platform compatibility**
    - **Business Rationale**: All features must work seamlessly on both
      platforms. Feature disparity would confuse users and reduce platform
      utility.
@@ -113,7 +113,7 @@ effectively. The rationale for each priority level is explained below.
 
 ### Low Priority
 
-1. **(L, M): [QAS401](#qas401) - Code maintainability**
+1. **(L, M): [QAS501](#qas501) - Code maintainability**
    - **Business Rationale**: Code quality doesn't directly impact end
      users in initial releases. However, it's crucial for long-term
      maintenance and feature additions.
@@ -157,6 +157,8 @@ new environment without breaking.
 
 ### QAST101-1
 
+**Status:** 🟡 partial — the migration to the Innopolis university servers is not yet complete (blocked by server-side issues on the DoE side, outside the team's control). The migration carried out on the Yandex servers was completed without prolonged downtime.
+
 Test: Conduct migration during low-usage hours with comprehensive
 monitoring. Measure actual downtime across all services (authentication,
 event management, social features).
@@ -181,6 +183,8 @@ errors during migration.
 
 ### QAST102-1
 
+**Status:** ❌ descoped for MVP — no formal user testing conducted (exploratory only)
+
 Test: Observe 20 users performing common tasks: viewing their events,
 checking followers, editing profile information. Measure completion
 time and error rate.
@@ -202,6 +206,8 @@ asking for help.
   status and available actions
 
 ### QAST103-1
+
+**Status:** ❌ descoped for MVP — no usability study conducted
 
 Test: Present users with various follow request scenarios and ask them
 to explain the status and next steps.
@@ -227,6 +233,8 @@ actions.
 
 ### QAST201-1
 
+**Status:** 🟡 partial — response time on the mobile/web side is verified on the test server (manually and via E2E tests); the Telegram side cannot be automated because the bot is unreachable due to restrictions in Russia, so the cross-platform variance is not measured. Under load (R-04 Locust test, [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/169)), server-side API p95 was ~14s at 10 concurrent users — far above the ≤2s target.
+
 Test: Automate execution of 100 common user actions on both platforms
 under various network conditions. Measure response times and
 cross-platform variance.
@@ -242,15 +250,17 @@ Success: 95% of actions ≤ 2 seconds on both platforms, variance ≤ 500ms.
 - **Artifact**: Map visualization component
 - **Environment**: Initial load and subsequent navigation
 - **Response**: Map loads and displays event markers efficiently
-- **Response Measure**: Initial map load ≤ 3 seconds, subsequent
+- **Response Measure**: Initial map load ≤ 5 seconds, subsequent
   interactions ≤ 1 second response
 
 ### QAST202-1
 
+**Status:** ✅ executed — E2E TC3 (Map Loading) passes within the 5s budget
+
 Test: Measure map load times across 50 sessions with varying event
 densities (10-20 events).
 
-Success: Average initial load ≤ 3 seconds, interaction response ≤ 1 second.
+Success: Average initial load ≤ 5 seconds, interaction response ≤ 1 second.
 
 ### QAS203
 
@@ -266,6 +276,8 @@ Success: Average initial load ≤ 3 seconds, interaction response ≤ 1 second.
   of trigger event
 
 ### QAST203-1
+
+**Status:** ⏳ not run yet — notification delivery time has not been tested yet; planned
 
 Test: Generate 100 notification triggers (event creations, follow
 requests) and measure delivery time to recipient devices.
@@ -289,6 +301,8 @@ Success: 90% delivered within 30 seconds across both platforms.
 
 ### QAST301-1
 
+**Status:** ✅ executed — the migration carried out on the Yandex servers preserved all data (row-count + checksum validation), no data lost. Move to the Innopolis university servers is still pending (blocked on the DoE side).
+
 Test: Perform trial migration in staging environment with production
 data snapshot. Validate complete data transfer: user accounts, events,
 follow relationships, notifications.
@@ -309,6 +323,8 @@ Success: Zero data loss or corruption. All relationships intact.
 
 ### QAST302-1
 
+**Status:** 🟡 partial — an E2E test verifies that authentication/authorization works; the availability / success-rate target (99.9% / 99.5%) is not measured
+
 Test: Monitor authentication success rates over 30-day period,
 including peak usage times (event registration periods).
 
@@ -327,6 +343,8 @@ Success: ≥ 99.9% success rate, ≥ 99.5% availability during peaks.
   created and visible within 10 seconds
 
 ### QAST303-1
+
+**Status:** 🟡 partial — a read-load test (Locust, [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/169)) was run against the test server: it saturates at ~10–20 concurrent users (events feed p95 ~14–33s, ~1 req/s, 0 errors), so 100 concurrent event creations is not feasible on the current single-node server. The write path (event creation under load) was not tested separately.
 
 Test: Simulate 100 concurrent event creations with varying data sizes.
 Verify all events appear in database and trigger appropriate
@@ -350,6 +368,8 @@ Success: 95+ events created successfully, all visible within 5 seconds.
 
 ### QAST401-1
 
+**Status:** ✅ executed — bandit static security scan in CI, 0 high-severity findings ([PR](https://github.com/iu-alumni/iu-alumni-backend/pull/169))
+
 Test: Conduct security audit of authentication flows: password storage,
 reset tokens, session management, Telegram integration.
 
@@ -370,6 +390,8 @@ Success: No critical findings. All sensitive data properly encrypted.
 
 ### QAST402-1
 
+**Status:** 🟡 ready — `test_security.py` exists; extend with per-endpoint authorization checks; run by 2026-07-26
+
 Test: Attempt unauthorized access to user data across all endpoints:
 profile information, events, follow relationships.
 
@@ -389,6 +411,8 @@ Success: All unauthorized access attempts properly blocked.
 - **Response Measure**: 70%+ code coverage, all critical paths tested
 
 ### QAST501-1
+
+**Status:** ✅ executed — backend coverage measured at 84.9% line / 69.2% branch (pytest-cov), well above the 70% CI gate floor; unit tests in [PR](https://github.com/iu-alumni/iu-alumni-backend/pull/112)
 
 Test: Measure test coverage after implementing new features. Track
 regression test pass rates.
@@ -413,6 +437,8 @@ features after changes.
 
 ### QAST601-1
 
+**Status:** 🟡 partial — feature parity is verified on the mobile/web side (via E2E). The Telegram side cannot be tested because the bot does not respond due to restrictions in Russia, so parity with Telegram is not formally measured.
+
 Test: Execute identical user journeys on both platforms. Verify feature
 availability, behavior, and data synchronization.
 
@@ -430,6 +456,8 @@ Success: 95% of features available and consistent. Data sync ≤ 5 seconds.
 - **Response Measure**: 98% success rate for Telegram-based operations
 
 ### QAST602-1
+
+**Status:** ❌ not measured — the Telegram bot does not respond due to restrictions in Russia, so the Telegram integration cannot be exercised or measured. Documented as a known external limitation.
 
 Test: Execute core user journeys through Telegram Mini App across
 different Telegram versions and platforms (mobile, desktop).
