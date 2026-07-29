@@ -70,29 +70,12 @@
 
   **Approved designs**
 
-  The following mockups were reviewed and approved by the client (see *Approval evidence* below).
-
-  | Screen | Mockup |
-  |---|---|
-  | Profile with Badges + Projects | [`profile-v2-combined.png`](/approvals/profile-v2-combined.png) |
-  | Badges section — earned + locked + tap-for-info | [`badges-locked.png`](/approvals/badges-locked.png) |
-  | Badge-earned celebratory popup | [`badge-earned-popup.png`](/approvals/badge-earned-popup.png) |
-
-  ![Profile V2 — Badges + Projects](../public/approvals/profile-v2-combined.png)
-
-  ![Badges — mix of earned + locked, tap-for-info](../public/approvals/badges-locked.png)
-
-  ![Badge earned popup](../public/approvals/badge-earned-popup.png)
+  Profile-with-Badges-and-Projects (v2), the badges section (earned + locked with tap-for-info), and the badge-earned celebratory popup were reviewed and approved by the client. Approval evidence below is the client's Telegram record.
 
   **Approval evidence**
 
   - **Anna Startseva** (Telegram, 10:15) — "Design approved with the following suggestion: add profile views, how many unique people viewed your profile." Approves the full profile redesign. Profile-views is captured as a future enhancement (deferred until after badges, projects, and follow ship); not part of FR10's definition of done.
-
-    ![Anna's approval of the profile redesign](../public/approvals/profile-redesign-approval.png)
-
   - **Roukaya Mabrouk** (Telegram, 16:08) — "Hello!) They look good!" Approves the celebratory popup and the badges info / progress page.
-
-    ![Roukaya's approval of the popup + badges info](../public/approvals/popup-badges-approval.png)
 
   **Definition of done**
 
@@ -171,18 +154,23 @@
 
 ## User Roles & Permissions
 
-- [ ] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only [issued](../sprints/sprint-1/client-meeting.md), [expanded](../sprints/sprint-12/client-meeting.md)
+- [x] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only [issued](../sprints/sprint-1/client-meeting.md), [expanded](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
   Roles supported
   - [x] **Admin** — full management of alumni records, events, badges, projects.
   - [x] **Alumni** — graduates. Required to provide a graduation year. Default role after manual approval.
-  - [ ] **Alumni Friend** *(new — per [sprint-12 client meeting](../sprints/sprint-12/client-meeting.md))* — university staff, drop-outs who stayed in the community, and other non-graduate community members. Verified manually. **No graduation year**; their profile shows the "Alumni Friend" label instead, plus a free-text bio describing their relationship to the community.
+  - [x] **Alumni Friend** *(new — per [sprint-12 client meeting](../sprints/sprint-12/client-meeting.md))* — university staff, drop-outs who stayed in the community, and other non-graduate community members. Verified manually. **No graduation year**; their profile shows an "Alumni Friend" chip in lieu of the school-year tag, plus a free-text bio describing their relationship to the community.
 
   Distinctions in the UI
-  - [ ] Alumni Friends are visibly distinct on profile cards and lists (label or chip in lieu of the graduation-year tag).
-  - [ ] Admin panel exposes the Alumni Friend type for verification and editing.
+  - [x] Alumni Friends are visibly distinct on profile cards and lists — mobile renders an `Icons.groups` "Alumni Friend" chip on the profile header in place of the graduation-year tag; the admin portal shows a yellow **Friend** pill on the users list and detail pages.
+  - [x] Admin panel exposes the Alumni Friend type for verification and editing — the user detail page has a role dropdown (`Alumni ⇄ Alumni Friend`) that hits `POST /admin/verify { email, role }`; the backend clears `graduation_year` server-side when the role becomes `alumni_friend`.
+
+  Surface coverage
+  - [x] **Backend** — `alumni.role` enum (`alumni | alumni_friend`), nullable `graduation_year`, register-schema cross-field validator, admin verify role override. [`backend#171`](https://github.com/iu-alumni/iu-alumni-backend/pull/171).
+  - [x] **Mobile** — segmented role picker on the registration form (hides the graduation-year picker when Alumni Friend is selected), "Alumni Friend" chip on the profile header, and an explainer note in place of the year picker on the edit form. [`mobile#163`](https://github.com/iu-alumni/iu-alumni-mobile/pull/163).
+  - [x] **Admin portal** — yellow **Friend** chip on the `/users` list rows, "Alumni Friend" pill + role dropdown on the user detail page. [`frontend#84`](https://github.com/iu-alumni/iu-alumni-frontend/pull/84).
 
 ## Reports Generation
 
