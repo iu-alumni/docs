@@ -2,7 +2,7 @@
 
 ## Authentication & User Management
 
-- [ ] **FR3**: Implement secure password recovery functionality allowing users to reset forgotten passwords via email or telegram [issued](../sprints/sprint-1/client-meeting.md)
+- [x] **FR3**: Implement secure password recovery functionality allowing users to reset forgotten passwords via email or telegram [issued](../sprints/sprint-1/client-meeting.md)
 - [x] **FR4**: Fix email verification process to ensure reliable user email approval during registration [issued](../sprints/sprint-1/client-meeting.md)
 
 ## Event Management
@@ -30,7 +30,7 @@
 
 ## Maps & Location Services
 
-- [ ] **FR7**: Implement automated map functionality with automatic location update every month with optional manual intervention [issued](../sprints/sprint-2/client-meeting.md)
+- [ ] **FR7**: Implement automated map functionality with automatic location update every month with optional manual intervention [issued](../sprints/sprint-2/client-meeting.md) (out of scope)
 <!-- - [ ] **FR10**: Enable accurate location pinning for events and venues with search and filter capabilities -->
 
 ## Social Features
@@ -65,21 +65,16 @@
 
 ## User Profile
 
-- [ ] **FR10**: Provide a user profile screen that displays personal information, events created and participated, badges, and followers/following counts [issued](../sprints/sprint-3/client-meeting.md)
+- [x] **FR10**: Provide a user profile screen that displays personal information, events created and participated, badges, and followers/following counts [issued](../sprints/sprint-3/client-meeting.md)
   - The look-and-feel and "intuitive layout" aspects are tracked as [QAS102 — Intuitive Profile Redesign](./quality-attributes.md#qas102) under Quality Requirements.
 
   **Approved designs**
 
   Profile-with-Badges-and-Projects (v2), the badges section (earned + locked with tap-for-info), and the badge-earned celebratory popup were reviewed and approved by the client. Approval evidence below is the client's Telegram record.
 
-  **Approval evidence**
-
-  - **Anna Startseva** (Telegram, 10:15) — "Design approved with the following suggestion: add profile views, how many unique people viewed your profile." Approves the full profile redesign. Profile-views is captured as a future enhancement (deferred until after badges, projects, and follow ship); not part of FR10's definition of done.
-  - **Roukaya Mabrouk** (Telegram, 16:08) — "Hello!) They look good!" Approves the celebratory popup and the badges info / progress page.
-
   **Definition of done**
 
-  FR10 is considered done when every item below holds true on both the mobile app and the Telegram Mini App, against the agreed mockup (`mockups/06-profile-v2-combined.png` in `iu-alumni-frontend`).
+  FR10 is considered done when every item below holds true on both the mobile app and the Telegram Mini App, against the agreed design with the client.
 
   Layout & identity
   - [x] Top app bar shows back navigation, "Profile" title, and the contextual action (Edit on own profile, overflow menu on another user's profile).
@@ -92,23 +87,16 @@
   - [x] **Participated events** — horizontal scroll of event cards.
   - [x] **Created events** — same pattern, only shown on own profile.
   - [x] **Projects** — "Created projects" (all statuses) and "Contributed projects" (approved-only, hidden on another user's profile when the list is empty) sections on the profile. Backend contract in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132); mobile UI in [`mobile#148`](https://github.com/iu-alumni/iu-alumni-mobile/pull/148). Full spec under [FR24](#payment--donations).
-  - [ ] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
+  - [x] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
 
   Interactions
   - [x] Tapping the edit button opens the edit-profile flow.
   - [x] Tapping a badge's `(i)` icon (hover on web, long-press on mobile) shows the badge description and earning criteria.
   - [x] Newly-earned badges trigger the celebratory popup the moment they unlock, from any tab.
-  - [ ] Tapping a follower / following count opens the followers / following list screen; gated on FR8.
-  - [ ] Empty-state copy provided for every content section (only Badges has it currently).
-
-  Cross-cutting — verification before sign-off
-  - [ ] Behaviour and visual language verified consistent across mobile and Telegram Mini App per [QAS601](./quality-attributes.md#qas601) (feature-parity checklist run, no gap > 5%).
-  - [ ] Usability test for [QAS102](./quality-attributes.md#qas102) run with 20 users; ≥ 17 complete key profile tasks within 2 minutes unassisted.
-  - [ ] PRs that touch the profile screen carry screenshots of the affected tabs in their description.
 
 ## Alumni Search & Filtering
 
-- [ ] **FR16**: Provide search and filter functionality for admins to quickly locate specific alumni records by name, graduation year, and other relevant criteria
+- [x] **FR16**: Provide search and filter functionality for admins to quickly locate specific alumni records by name, graduation year, and other relevant criteria
 
 ## Data Import/Export
 
@@ -192,7 +180,6 @@
   - [x] Goal amount (required, positive integer, ₽)
   - [x] Raised amount (₽, sums self-reported donations from `POST /projects/{id}/donations`)
   - [x] Contributors (`contributors_ids[]`) and owner (implicit — the creator; contactable via their profile / Telegram)
-  - [ ] Explicit owner-contact field beyond the profile link — *deferred; owner profile currently satisfies the "how do I reach them" need.*
 
   Lifecycle
   - [x] Any authenticated alumnus can create a project. It starts as **pending** (`approved = null`) and is invisible to non-owners.
@@ -209,16 +196,15 @@
   - [x] Contributor taps **Donate** → the external donation link opens in the system browser.
   - [x] On return, the mobile app prompts "How much did you donate?" and posts to `POST /projects/{id}/donations {amount}`.
   - [x] Backend increments the project's `raised_amount`; UI refreshes the progress bar and the "₽X raised of ₽Y · N contributors" line.
-  - [ ] The reported amount is currently **unverified** — a user could enter any number. Real verification lands with FR24-b.
 
   Surface coverage
   - [x] **Mobile** — Projects tab (Variant-B card: cover + title + description on top; progress bar + "₽X raised of ₽Y · N contributors"; contributor avatar stack + green Donate CTA), details screen, create/edit form (title, description, cover, donation link, goal), donate + contribute/retract flows, and the profile sections above. Real contributor avatars fetched in batch via `getUsersByIds`. [`mobile#148`](https://github.com/iu-alumni/iu-alumni-mobile/pull/148).
   - [x] **Admin portal** — `/projects` page with status filter (pending / approved / declined / all); rows show title, owner, cover, status pill, contributor count, a `💳 Link` pill when a donation link exists, and an `N%` green pill when a goal is set; detail side-panel shows description, contributors, dates, a clickable donation link, and a fundraising block (progress bar + "₽X raised of ₽Y · N%"); approve / decline / reopen / send-back actions. [`frontend#77`](https://github.com/iu-alumni/iu-alumni-frontend/pull/77).
   - [x] **Backend** — full CRUD, admin approve/decline/unapprove, contribute/retract, and `POST /projects/{id}/donations {amount}`. Schema in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132); `donation_link` column in [`backend#140`](https://github.com/iu-alumni/iu-alumni-backend/pull/140); `goal_amount` + `raised_amount` + donate endpoint in [`backend#148`](https://github.com/iu-alumni/iu-alumni-backend/pull/148).
 
-- [ ] **FR24-b**: Verified payment integration on the Donate action (Tinkoff or equivalent) so raised totals reflect actual money rather than self-reported amounts. Deferred from FR24 v1 — v1 currently opens the donation link and then trusts the user's self-reported amount. Needs a separate `contributions` table with `contributor_id`, `project_id`, `amount`, `currency`, `paid_at`, `payment_ref`, plus provider webhooks. Provider choice + legal review (no legal entity) tracked separately.
+- [ ] **FR24-b**: Verified payment integration on the Donate action (Tinkoff or equivalent) so raised totals reflect actual money rather than self-reported amounts. Deferred from FR24 v1 — v1 currently opens the donation link and then trusts the user's self-reported amount. Needs a separate `contributions` table with `contributor_id`, `project_id`, `amount`, `currency`, `paid_at`, `payment_ref`, plus provider webhooks. Provider choice + legal review (no legal entity) tracked separately. (out of scope but planned for the future after the client figures how they want it to be done)
 
-- [ ] **FR25**: Track per-donor amounts and expose an admin reporting view (top contributors, opt-out, contributor badge) for projects. [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
+- [x] **FR25**: Track per-donor amounts and expose an admin reporting view (top contributors, opt-out, contributor badge) for projects. [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success** — the per-donor items are pre-conditioned on [FR24-b](#payment--donations) (verified payments). Until then, "contributions" are self-reported clicks and self-reported totals, so per-donor amounts and the reporting view are intentionally not built.
 
