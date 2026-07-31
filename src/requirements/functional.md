@@ -192,7 +192,6 @@
   - [x] **Mobile** — segmented role picker on the registration form (hides the graduation-year picker when Alumni Friend is selected), "Alumni Friend" chip on the profile header, and an explainer note in place of the year picker on the edit form. [`mobile#163`](https://github.com/iu-alumni/iu-alumni-mobile/pull/163).
   - [x] **Admin portal** — yellow **Friend** chip on the `/users` list rows, "Alumni Friend" pill + role dropdown on the user detail page. [`frontend#84`](https://github.com/iu-alumni/iu-alumni-frontend/pull/84).
 
-
 ## Payment & Donations
 
 - [x] **FR24**: Alumni-created **Projects** with admin approval, a link-based donate action, and a self-reported raised-total that drives a public progress bar. Verified payment integration is deferred to FR24-b. [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
