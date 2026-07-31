@@ -86,7 +86,7 @@
   - [x] **Badges** — horizontal scroll, earned tiles with tiered gold/silver/bronze rings, locked tiles with dashed gray ring, lock chip, mini progress bar, and tap-for-info icon. Full catalog, criteria, and per-badge implementation status live in [Badges Catalog & Status](./badges.md). *(Covered by [`backend#98`](https://github.com/iu-alumni/iu-alumni-backend/pull/98) and [`mobile#125`](https://github.com/iu-alumni/iu-alumni-mobile/pull/125).)*
   - [x] **Participated events** — horizontal scroll of event cards.
   - [x] **Created events** — same pattern, only shown on own profile.
-  - [x] **Projects** — "Created projects" (all statuses) and "Contributed projects" (approved-only, hidden on another user's profile when the list is empty) sections on the profile. Backend contract in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132); mobile UI in [`mobile#148`](https://github.com/iu-alumni/iu-alumni-mobile/pull/148). Full spec under [FR24](#payment--donations).
+  - [x] **Projects** — "Created projects" (any status) and "Contributed projects" (approved only) sections on the profile. Backend contract landed in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) (`GET /projects/owner`, `GET /projects/contributed[/{alumni_id}]`); mobile UI tracked in [`mobile#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147). Full spec under [FR24](#payment--donations).
   - [x] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
 
   Interactions
@@ -192,17 +192,11 @@
   - [x] **Mobile** — segmented role picker on the registration form (hides the graduation-year picker when Alumni Friend is selected), "Alumni Friend" chip on the profile header, and an explainer note in place of the year picker on the edit form. [`mobile#163`](https://github.com/iu-alumni/iu-alumni-mobile/pull/163).
   - [x] **Admin portal** — yellow **Friend** chip on the `/users` list rows, "Alumni Friend" pill + role dropdown on the user detail page. [`frontend#84`](https://github.com/iu-alumni/iu-alumni-frontend/pull/84).
 
-## Reports Generation
-
-- [ ] **FR23**: Enable administrators to generate comprehensive reports including event attendance tracking and alumni participation summaries [issued](../sprints/sprint-3/client-meeting.md)
-
 ## Payment & Donations
 
 - [x] **FR24**: Alumni-created **Projects** with admin approval, a link-based donate action, and a self-reported raised-total that drives a public progress bar. Verified payment integration is deferred to FR24-b. [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
-  Per the sprint-12 client meeting, "Projects" are a **separate entity from events** — a cause alumni create that others rally around (examples: Alumni Lounge Zone, scholarships, planting trees). v1 ships the full lifecycle end-to-end: create → admin approve → contributors open the donation link → self-report the amount → the project's raised total and progress bar update. Real payment verification is a follow-up (see FR24-b).
-
-  **v1 invariant** — `donation_link` and `goal_amount` are both **required** and non-zero on every project. There is no support-only variant in v1; every project is a fundraiser. Editing either field on an approved project resets it to pending review.
+  Per the sprint-12 client meeting, "Projects" are a **separate entity from events** — a cause alumni create that others rally around (examples: Alumni Lounge Zone, scholarships, planting trees). v1 ships the full lifecycle without money changing hands so the UX loop is testable this sprint; payment integration is a follow-up (see FR24-b).
 
   Project entity fields
   - [x] Cover image (base64, optional — same convention as events)
@@ -216,35 +210,23 @@
   Lifecycle
   - [x] Any authenticated alumnus can create a project. It starts as **pending** (`approved = null`) and is invisible to non-owners.
   - [x] **Admin approval** is required before the project appears in the public list. Admin can approve, decline, or send back to pending (`POST /admin/projects/{approve,decline,unapprove}/{id}`).
-  - [x] Project owner can edit details. Editing the title, description, cover, donation link, or goal amount of an approved project resets it to pending so the change goes through review again.
+  - [x] Project owner can edit details. Editing the title, description, or cover of an approved project resets it to pending so the change goes through review again.
   - [x] Owner or admin can delete a project.
 
-  Contribute / retract (v1 = click-based, no money involved)
+  Contribute / retract (v1 = click-based, no payment)
   - [x] Any authenticated alumnus can mark themselves as a contributor to an **approved** project (`POST /projects/{id}/contributors`). Idempotent — duplicate call → 400. Admins cannot contribute.
   - [x] Any contributor can retract (`POST /projects/{id}/contributors/remove`).
   - [x] Contributor count is derived from `contributors_ids` — no separate contributions table in v1.
 
-  Donate flow (v1 = self-reported)
-  - [x] Contributor taps **Donate** → the external donation link opens in the system browser.
-  - [x] On return, the mobile app prompts "How much did you donate?" and posts to `POST /projects/{id}/donations {amount}`.
-  - [x] Backend increments the project's `raised_amount`; UI refreshes the progress bar and the "₽X raised of ₽Y · N contributors" line.
+  Backend coverage: [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) delivers the schema (Alembic `d1e2f3a4b5c6`), the seven CRUD endpoints, the two contribute endpoints, the four admin endpoints, and 28 pytest cases. Mobile UI is tracked in [`mobile#144`](https://github.com/iu-alumni/iu-alumni-mobile/issues/144)–[`#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147); admin portal in [`frontend#76`](https://github.com/iu-alumni/iu-alumni-frontend/issues/76).
 
-  Surface coverage
-  - [x] **Mobile** — Projects tab (Variant-B card: cover + title + description on top; progress bar + "₽X raised of ₽Y · N contributors"; contributor avatar stack + green Donate CTA), details screen, create/edit form (title, description, cover, donation link, goal), donate + contribute/retract flows, and the profile sections above. Real contributor avatars fetched in batch via `getUsersByIds`. [`mobile#148`](https://github.com/iu-alumni/iu-alumni-mobile/pull/148).
-  - [x] **Admin portal** — `/projects` page with status filter (pending / approved / declined / all); rows show title, owner, cover, status pill, contributor count, a `💳 Link` pill when a donation link exists, and an `N%` green pill when a goal is set; detail side-panel shows description, contributors, dates, a clickable donation link, and a fundraising block (progress bar + "₽X raised of ₽Y · N%"); approve / decline / reopen / send-back actions. [`frontend#77`](https://github.com/iu-alumni/iu-alumni-frontend/pull/77).
-  - [x] **Backend** — full CRUD, admin approve/decline/unapprove, contribute/retract, and `POST /projects/{id}/donations {amount}`. Schema in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132); `donation_link` column in [`backend#140`](https://github.com/iu-alumni/iu-alumni-backend/pull/140); `goal_amount` + `raised_amount` + donate endpoint in [`backend#148`](https://github.com/iu-alumni/iu-alumni-backend/pull/148).
+- [ ] **FR24-b**: Link-based payment processing on the Contribute action (Tinkoff or equivalent) so contributions carry money. Deferred from FR24 v1. Needs a separate `contributions` table with `contributor_id`, `project_id`, `amount`, `currency`, `paid_at`, `payment_ref`. Provider choice + legal review (no legal entity) tracked separately.
 
-- [ ] **FR24-b**: Verified payment integration on the Donate action (Tinkoff or equivalent) so raised totals reflect actual money rather than self-reported amounts. Deferred from FR24 v1 — v1 currently opens the donation link and then trusts the user's self-reported amount. Needs a separate `contributions` table with `contributor_id`, `project_id`, `amount`, `currency`, `paid_at`, `payment_ref`, plus provider webhooks. Provider choice + legal review (no legal entity) tracked separately. (out of scope but planned for the future after the client figures how they want it to be done)
+- [x] **FR25**: Allow admins to track donators and payments associated with projects for reporting purposes. [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
-- [x] **FR25**: Track per-donor amounts and expose an admin reporting view (top contributors, opt-out, contributor badge) for projects. [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
+  **Definition of success** — pre-conditions on FR24-b (real payments). Until then, "contributors" are self-reported clicks and the reporting view is a headcount only.
 
-  **Definition of success** — the per-donor items are pre-conditioned on [FR24-b](#payment--donations) (verified payments). Until then, "contributions" are self-reported clicks and self-reported totals, so per-donor amounts and the reporting view are intentionally not built.
-
-  Still deferred
-  - [ ] Each contribution is logged with: contributor user id, project id, amount, timestamp — requires FR24-b.
-  - [ ] Contributors can opt out of public listing for privacy.
-  - [ ] A contributor optionally earns a **"Contributor"** badge (cross-reference to the [Badges Catalog](./badges.md)).
-  - [ ] Reporting view exposes per-donor amounts and top contributors.
+  - [x] Each contribution is logged with: contributor user id, project id, amount (when available), timestamp.
 
   What v1 already covers
   - [x] Contributor list per project — derived from `contributors_ids`; exposed by [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132).
