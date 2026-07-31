@@ -43,7 +43,7 @@
 ### Notifications
 
 - Mobile app notifications were discussed as a more practical approach than Telegram notifications.
-- In-app notifications were also suggested as a possible future improvement.
+- In-app notifications were also suggested as a possible future improvement by using a notification panel inside the app to show the notifications for upcoming events, which can be implemented on both platforms simultaneously.
 
 ## Agreed Priorities
 

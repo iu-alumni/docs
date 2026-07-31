@@ -8,20 +8,20 @@
 ## Event Management
 
 - [x] **FR5**: Fix and optimize event creation workflow with proper validation and error handling [issued](../sprints/sprint-2/client-meeting.md)
-- [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md), [reaffirmed](../sprints/sprint-12/client-meeting.md)
+- [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md), [reaffirmed](../sprints/sprint-12/client-meeting.md), [narrowed](../sprints/sprint-17/client-meeting.md#notifications)
+
+  **Superseded in part — Sprint 17.** The client agreed to deliver notifications as an **in-app panel** the user pulls, rather than a push fired at event-creation time, and Telegram bot DM is no longer a usable channel while [server restrictions block bot messages](../sprints/sprint-17/client-meeting.md#telegram-restrictions). What shipped under that agreement is [FR28](#notifications) — matched on the alumnus's **profile city** rather than on follows, and surfacing events ~1 week ahead rather than at creation. The follower-driven rules below remain open: they depend on the Follow feature ([FR8](#social-features)), which the client deprioritised in the same meeting (The team has done it but the merge was not done by the time of EOSP).
 
   **Definition of success**
 
   When a new event is approved and published, every alumnus matching at least one of the rules below receives exactly one notification.
 
   Who is notified
-  - [ ] Alumni who **follow the event's location/city** (location-based notifications). Nearby cities may be grouped — e.g. Innopolis + Kazan share one bucket; Germany is its own.
   - [ ] Alumni who **follow the event's creator** (via FR8 mutual-follow).
-  - [ ] Alumni who **declared the event's city as their live-in city** in their profile, even if they aren't actively following it.
+  - [ ] Alumni who **declared the event's city as their live-in city** in their profile (The exception is for Innopolis and Kazan sharing one bucket).
 
   Delivery
   - [ ] In-app notification panel.
-  - [ ] Telegram bot DM (only when the alumnus has connected Telegram).
   - [ ] No duplicates: an alumnus matching multiple rules still gets exactly one notification per event.
 
   Edge cases
@@ -139,6 +139,38 @@
   - [ ] High-volume bursts are bundled (e.g. "5 new participants in the last hour") so popular events don't spam the creator.
   - [ ] Delivery: in-app notification panel + Telegram bot DM.
   - [ ] Creator can mute these per-event from the event detail screen.
+
+- [x] **FR28**: Show each alumnus an in-app panel of approved events happening about a week out that are relevant to them ("upcoming events near you") [issued](../sprints/sprint-17/client-meeting.md#notifications). *(Implemented in [`backend#142`](https://github.com/iu-alumni/iu-alumni-backend/issues/142) and [`mobile#150`](https://github.com/iu-alumni/iu-alumni-mobile/issues/150).)*
+
+  Agreed with the client in [Sprint 17](../sprints/sprint-17/client-meeting.md#notifications) as the practical alternative to Telegram-delivered notifications, and implementable on both platforms at once. Narrows [FR6](#event-management).
+
+  **Definition of success**
+
+  Who is notified
+  - [x] For an **in-person** event, alumni whose **profile city** is the event's city. Innopolis and Kazan are treated as **one bucket** — an alumnus living in either is notified about events in both.
+  - [x] For an **online** event, **every** alumnus, regardless of their profile city or whether they have set one at all — an online event has no physical "nearby".
+  - [x] The **event's creator is never notified about their own event**, and neither is anyone already listed as a participant — for in-person and online events alike.
+  - [x] Only events that are **approved** and **~6.5–7.5 days away** match. Unapproved events and events outside that window never appear.
+
+  Delivery
+  - [x] A **bell** on the events dashboard, right of "Create", carrying an unread indicator that appears without the panel having to be opened first.
+  - [x] Tapping the bell opens a **full-screen panel**, newest first; each row is compact by default and expands in place to reveal event name, date, time, and location.
+  - [x] Empty state shows a clear "no notifications" message.
+  - [ ] Behaviour verified identical in the **Telegram Mini App** — expected to come for free, as it is the same Flutter web build, but not yet confirmed (open acceptance criterion in [`mobile#150`](https://github.com/iu-alumni/iu-alumni-mobile/issues/150)).
+
+  Read state
+  - [x] Matches are computed **live at request time** from the events table and the requesting user's profile — no per-event storage, no background job.
+  - [x] Read/unread is a **single per-user cursor** (a timestamp on the alumni record recording the last panel view), not a row per notification.
+  - [x] **Opening the panel is what marks notifications read** — there is no separate "mark as read" action. The unread indicator clears immediately and stays cleared on return to the dashboard.
+  - [x] The unread-count endpoint **never** advances the cursor; only the list endpoint does.
+  - [x] An event that entered the window after the user's last view still shows as unread, even alongside already-seen events in the same response.
+
+  Not included
+
+  - OS-level / push notifications — this requirement is the in-app panel only.
+  - Telegram bot DM — blocked by [server restrictions](../sprints/sprint-17/client-meeting.md#telegram-restrictions).
+  - Admin-portal (frontend) changes.
+  - Follower-driven notifications, which stay with [FR6](#event-management) / [FR9](#social-features) pending [FR8](#social-features).
 
 ## User Roles & Permissions
 
