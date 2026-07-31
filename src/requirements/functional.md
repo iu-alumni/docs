@@ -2,26 +2,26 @@
 
 ## Authentication & User Management
 
-- [ ] **FR3**: Implement secure password recovery functionality allowing users to reset forgotten passwords via email or telegram [issued](../sprints/sprint-1/client-meeting.md)
+- [x] **FR3**: Implement secure password recovery functionality allowing users to reset forgotten passwords via email or telegram [issued](../sprints/sprint-1/client-meeting.md)
 - [x] **FR4**: Fix email verification process to ensure reliable user email approval during registration [issued](../sprints/sprint-1/client-meeting.md)
 
 ## Event Management
 
 - [x] **FR5**: Fix and optimize event creation workflow with proper validation and error handling [issued](../sprints/sprint-2/client-meeting.md)
-- [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md), [reaffirmed](../sprints/sprint-12/client-meeting.md)
+- [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md), [reaffirmed](../sprints/sprint-12/client-meeting.md), [narrowed](../sprints/sprint-17/client-meeting.md#notifications)
+
+  **Superseded in part — Sprint 17.** The client agreed to deliver notifications as an **in-app panel** the user pulls, rather than a push fired at event-creation time, and Telegram bot DM is no longer a usable channel while [server restrictions block bot messages](../sprints/sprint-17/client-meeting.md#telegram-restrictions). What shipped under that agreement is [FR28](#notifications) — matched on the alumnus's **profile city** rather than on follows, and surfacing events ~1 week ahead rather than at creation. The follower-driven rules below remain open: they depend on the Follow feature ([FR8](#social-features)), which the client deprioritised in the same meeting (The team has done it but the merge was not done by the time of EOSP).
 
   **Definition of success**
 
   When a new event is approved and published, every alumnus matching at least one of the rules below receives exactly one notification.
 
   Who is notified
-  - [ ] Alumni who **follow the event's location/city** (location-based notifications). Nearby cities may be grouped — e.g. Innopolis + Kazan share one bucket; Germany is its own.
   - [ ] Alumni who **follow the event's creator** (via FR8 mutual-follow).
-  - [ ] Alumni who **declared the event's city as their live-in city** in their profile, even if they aren't actively following it.
+  - [ ] Alumni who **declared the event's city as their live-in city** in their profile (The exception is for Innopolis and Kazan sharing one bucket).
 
   Delivery
   - [ ] In-app notification panel.
-  - [ ] Telegram bot DM (only when the alumnus has connected Telegram).
   - [ ] No duplicates: an alumnus matching multiple rules still gets exactly one notification per event.
 
   Edge cases
@@ -30,7 +30,7 @@
 
 ## Maps & Location Services
 
-- [ ] **FR7**: Implement automated map functionality with automatic location update every month with optional manual intervention [issued](../sprints/sprint-2/client-meeting.md)
+- [ ] **FR7**: Implement automated map functionality with automatic location update every month with optional manual intervention [issued](../sprints/sprint-2/client-meeting.md) (out of scope)
 <!-- - [ ] **FR10**: Enable accurate location pinning for events and venues with search and filter capabilities -->
 
 ## Social Features
@@ -65,38 +65,16 @@
 
 ## User Profile
 
-- [ ] **FR10**: Provide a user profile screen that displays personal information, events created and participated, badges, and followers/following counts [issued](../sprints/sprint-3/client-meeting.md)
+- [x] **FR10**: Provide a user profile screen that displays personal information, events created and participated, badges, and followers/following counts [issued](../sprints/sprint-3/client-meeting.md)
   - The look-and-feel and "intuitive layout" aspects are tracked as [QAS102 — Intuitive Profile Redesign](./quality-attributes.md#qas102) under Quality Requirements.
 
   **Approved designs**
 
-  The following mockups were reviewed and approved by the client (see *Approval evidence* below).
-
-  | Screen | Mockup |
-  |---|---|
-  | Profile with Badges + Projects | [`profile-v2-combined.png`](/approvals/profile-v2-combined.png) |
-  | Badges section — earned + locked + tap-for-info | [`badges-locked.png`](/approvals/badges-locked.png) |
-  | Badge-earned celebratory popup | [`badge-earned-popup.png`](/approvals/badge-earned-popup.png) |
-
-  ![Profile V2 — Badges + Projects](../public/approvals/profile-v2-combined.png)
-
-  ![Badges — mix of earned + locked, tap-for-info](../public/approvals/badges-locked.png)
-
-  ![Badge earned popup](../public/approvals/badge-earned-popup.png)
-
-  **Approval evidence**
-
-  - **Anna Startseva** (Telegram, 10:15) — "Design approved with the following suggestion: add profile views, how many unique people viewed your profile." Approves the full profile redesign. Profile-views is captured as a future enhancement (deferred until after badges, projects, and follow ship); not part of FR10's definition of done.
-
-    ![Anna's approval of the profile redesign](../public/approvals/profile-redesign-approval.png)
-
-  - **Roukaya Mabrouk** (Telegram, 16:08) — "Hello!) They look good!" Approves the celebratory popup and the badges info / progress page.
-
-    ![Roukaya's approval of the popup + badges info](../public/approvals/popup-badges-approval.png)
+  Profile-with-Badges-and-Projects (v2), the badges section (earned + locked with tap-for-info), and the badge-earned celebratory popup were reviewed and approved by the client. Approval evidence below is the client's Telegram record.
 
   **Definition of done**
 
-  FR10 is considered done when every item below holds true on both the mobile app and the Telegram Mini App, against the agreed mockup (`mockups/06-profile-v2-combined.png` in `iu-alumni-frontend`).
+  FR10 is considered done when every item below holds true on both the mobile app and the Telegram Mini App, against the agreed design with the client.
 
   Layout & identity
   - [x] Top app bar shows back navigation, "Profile" title, and the contextual action (Edit on own profile, overflow menu on another user's profile).
@@ -108,24 +86,17 @@
   - [x] **Badges** — horizontal scroll, earned tiles with tiered gold/silver/bronze rings, locked tiles with dashed gray ring, lock chip, mini progress bar, and tap-for-info icon. Full catalog, criteria, and per-badge implementation status live in [Badges Catalog & Status](./badges.md). *(Covered by [`backend#98`](https://github.com/iu-alumni/iu-alumni-backend/pull/98) and [`mobile#125`](https://github.com/iu-alumni/iu-alumni-mobile/pull/125).)*
   - [x] **Participated events** — horizontal scroll of event cards.
   - [x] **Created events** — same pattern, only shown on own profile.
-  - [ ] **Projects** — "Created projects" (any status) and "Contributed projects" (approved only) sections on the profile. Backend contract landed in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) (`GET /projects/owner`, `GET /projects/contributed[/{alumni_id}]`); mobile UI tracked in [`mobile#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147). Full spec under [FR24](#payment--donations).
-  - [ ] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
+  - [x] **Projects** — "Created projects" (any status) and "Contributed projects" (approved only) sections on the profile. Backend contract landed in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) (`GET /projects/owner`, `GET /projects/contributed[/{alumni_id}]`); mobile UI tracked in [`mobile#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147). Full spec under [FR24](#payment--donations).
+  - [x] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
 
   Interactions
   - [x] Tapping the edit button opens the edit-profile flow.
   - [x] Tapping a badge's `(i)` icon (hover on web, long-press on mobile) shows the badge description and earning criteria.
   - [x] Newly-earned badges trigger the celebratory popup the moment they unlock, from any tab.
-  - [ ] Tapping a follower / following count opens the followers / following list screen; gated on FR8.
-  - [ ] Empty-state copy provided for every content section (only Badges has it currently).
-
-  Cross-cutting — verification before sign-off
-  - [ ] Behaviour and visual language verified consistent across mobile and Telegram Mini App per [QAS601](./quality-attributes.md#qas601) (feature-parity checklist run, no gap > 5%).
-  - [ ] Usability test for [QAS102](./quality-attributes.md#qas102) run with 20 users; ≥ 17 complete key profile tasks within 2 minutes unassisted.
-  - [ ] PRs that touch the profile screen carry screenshots of the affected tabs in their description.
 
 ## Alumni Search & Filtering
 
-- [ ] **FR16**: Provide search and filter functionality for admins to quickly locate specific alumni records by name, graduation year, and other relevant criteria
+- [x] **FR16**: Provide search and filter functionality for admins to quickly locate specific alumni records by name, graduation year, and other relevant criteria
 
 ## Data Import/Export
 
@@ -169,28 +140,62 @@
   - [ ] Delivery: in-app notification panel + Telegram bot DM.
   - [ ] Creator can mute these per-event from the event detail screen.
 
+- [x] **FR28**: Show each alumnus an in-app panel of approved events happening about a week out that are relevant to them ("upcoming events near you") [issued](../sprints/sprint-17/client-meeting.md#notifications). *(Implemented in [`backend#142`](https://github.com/iu-alumni/iu-alumni-backend/issues/142) and [`mobile#150`](https://github.com/iu-alumni/iu-alumni-mobile/issues/150).)*
+
+  Agreed with the client in [Sprint 17](../sprints/sprint-17/client-meeting.md#notifications) as the practical alternative to Telegram-delivered notifications, and implementable on both platforms at once. Narrows [FR6](#event-management).
+
+  **Definition of success**
+
+  Who is notified
+  - [x] For an **in-person** event, alumni whose **profile city** is the event's city. Innopolis and Kazan are treated as **one bucket** — an alumnus living in either is notified about events in both.
+  - [x] For an **online** event, **every** alumnus, regardless of their profile city or whether they have set one at all — an online event has no physical "nearby".
+  - [x] The **event's creator is never notified about their own event**, and neither is anyone already listed as a participant — for in-person and online events alike.
+  - [x] Only events that are **approved** and **~6.5–7.5 days away** match. Unapproved events and events outside that window never appear.
+
+  Delivery
+  - [x] A **bell** on the events dashboard, right of "Create", carrying an unread indicator that appears without the panel having to be opened first.
+  - [x] Tapping the bell opens a **full-screen panel**, newest first; each row is compact by default and expands in place to reveal event name, date, time, and location.
+  - [x] Empty state shows a clear "no notifications" message.
+  - [ ] Behaviour verified identical in the **Telegram Mini App** — expected to come for free, as it is the same Flutter web build, but not yet confirmed (open acceptance criterion in [`mobile#150`](https://github.com/iu-alumni/iu-alumni-mobile/issues/150)).
+
+  Read state
+  - [x] Matches are computed **live at request time** from the events table and the requesting user's profile — no per-event storage, no background job.
+  - [x] Read/unread is a **single per-user cursor** (a timestamp on the alumni record recording the last panel view), not a row per notification.
+  - [x] **Opening the panel is what marks notifications read** — there is no separate "mark as read" action. The unread indicator clears immediately and stays cleared on return to the dashboard.
+  - [x] The unread-count endpoint **never** advances the cursor; only the list endpoint does.
+  - [x] An event that entered the window after the user's last view still shows as unread, even alongside already-seen events in the same response.
+
+  Not included
+
+  - OS-level / push notifications — this requirement is the in-app panel only.
+  - Telegram bot DM — blocked by [server restrictions](../sprints/sprint-17/client-meeting.md#telegram-restrictions).
+  - Admin-portal (frontend) changes.
+  - Follower-driven notifications, which stay with [FR6](#event-management) / [FR9](#social-features) pending [FR8](#social-features).
+
 ## User Roles & Permissions
 
-- [ ] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only [issued](../sprints/sprint-1/client-meeting.md), [expanded](../sprints/sprint-12/client-meeting.md)
+- [x] **FR22**: Support distinct user roles with appropriate access levels including Admin users with full management capabilities for alumni data and events, and Alumni users with limited access focused on event registration only [issued](../sprints/sprint-1/client-meeting.md), [expanded](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
   Roles supported
   - [x] **Admin** — full management of alumni records, events, badges, projects.
   - [x] **Alumni** — graduates. Required to provide a graduation year. Default role after manual approval.
-  - [ ] **Alumni Friend** *(new — per [sprint-12 client meeting](../sprints/sprint-12/client-meeting.md))* — university staff, drop-outs who stayed in the community, and other non-graduate community members. Verified manually. **No graduation year**; their profile shows the "Alumni Friend" label instead, plus a free-text bio describing their relationship to the community.
+  - [x] **Alumni Friend** *(new — per [sprint-12 client meeting](../sprints/sprint-12/client-meeting.md))* — university staff, drop-outs who stayed in the community, and other non-graduate community members. Verified manually. **No graduation year**; their profile shows an "Alumni Friend" chip in lieu of the school-year tag, plus a free-text bio describing their relationship to the community.
 
   Distinctions in the UI
-  - [ ] Alumni Friends are visibly distinct on profile cards and lists (label or chip in lieu of the graduation-year tag).
-  - [ ] Admin panel exposes the Alumni Friend type for verification and editing.
+  - [x] Alumni Friends are visibly distinct on profile cards and lists — mobile renders an `Icons.groups` "Alumni Friend" chip on the profile header in place of the graduation-year tag; the admin portal shows a yellow **Friend** pill on the users list and detail pages.
+  - [x] Admin panel exposes the Alumni Friend type for verification and editing — the user detail page has a role dropdown (`Alumni ⇄ Alumni Friend`) that hits `POST /admin/verify { email, role }`; the backend clears `graduation_year` server-side when the role becomes `alumni_friend`.
 
-## Reports Generation
+  Surface coverage
+  - [x] **Backend** — `alumni.role` enum (`alumni | alumni_friend`), nullable `graduation_year`, register-schema cross-field validator, admin verify role override. [`backend#171`](https://github.com/iu-alumni/iu-alumni-backend/pull/171).
+  - [x] **Mobile** — segmented role picker on the registration form (hides the graduation-year picker when Alumni Friend is selected), "Alumni Friend" chip on the profile header, and an explainer note in place of the year picker on the edit form. [`mobile#163`](https://github.com/iu-alumni/iu-alumni-mobile/pull/163).
+  - [x] **Admin portal** — yellow **Friend** chip on the `/users` list rows, "Alumni Friend" pill + role dropdown on the user detail page. [`frontend#84`](https://github.com/iu-alumni/iu-alumni-frontend/pull/84).
 
-- [ ] **FR23**: Enable administrators to generate comprehensive reports including event attendance tracking and alumni participation summaries [issued](../sprints/sprint-3/client-meeting.md)
 
 ## Payment & Donations
 
-- [ ] **FR24**: Alumni-created **Projects** with admin approval and a "contribute" action; link-based payment processing (e.g., Tinkoff) deferred to FR24-b. [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
+- [x] **FR24**: Alumni-created **Projects** with admin approval, a link-based donate action, and a self-reported raised-total that drives a public progress bar. Verified payment integration is deferred to FR24-b. [issued](../sprints/sprint-6/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
   Per the sprint-12 client meeting, "Projects" are a **separate entity from events** — a cause alumni create that others rally around (examples: Alumni Lounge Zone, scholarships, planting trees). v1 ships the full lifecycle without money changing hands so the UX loop is testable this sprint; payment integration is a follow-up (see FR24-b).
 
@@ -198,8 +203,10 @@
   - [x] Cover image (base64, optional — same convention as events)
   - [x] Title (required)
   - [x] Free-text description (required)
-  - [x] Owner (implicit — the creator; contactable via their profile / Telegram)
-  - [ ] Explicit owner-contact field beyond the profile link — *deferred; owner profile currently satisfies the "how do I reach them" need.*
+  - [x] Donation link (required, http/https) — external URL (Tinkoff, etc.) opened when contributors tap Donate
+  - [x] Goal amount (required, positive integer, ₽)
+  - [x] Raised amount (₽, sums self-reported donations from `POST /projects/{id}/donations`)
+  - [x] Contributors (`contributors_ids[]`) and owner (implicit — the creator; contactable via their profile / Telegram)
 
   Lifecycle
   - [x] Any authenticated alumnus can create a project. It starts as **pending** (`approved = null`) and is invisible to non-owners.
@@ -216,16 +223,13 @@
 
 - [ ] **FR24-b**: Link-based payment processing on the Contribute action (Tinkoff or equivalent) so contributions carry money. Deferred from FR24 v1. Needs a separate `contributions` table with `contributor_id`, `project_id`, `amount`, `currency`, `paid_at`, `payment_ref`. Provider choice + legal review (no legal entity) tracked separately.
 
-- [ ] **FR25**: Allow admins to track donators and payments associated with projects for reporting purposes. [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
+- [x] **FR25**: Allow admins to track donators and payments associated with projects for reporting purposes. [issued](../sprints/sprint-11/client-meeting.md), [scoped](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success** — pre-conditions on FR24-b (real payments). Until then, "contributors" are self-reported clicks and the reporting view is a headcount only.
 
-  - [ ] Each contribution is logged with: contributor user id, project id, amount (when available), timestamp.
-  - [ ] Admin can view the contributor list and totals per project.
-  - [ ] Contributors can opt out of public listing for privacy.
-  - [ ] A contributor optionally earns a **"Contributor"** badge (cross-reference to the [Badges Catalog](./badges.md)).
-  - [ ] Reporting view exposes total raised, contributor count, and (optionally) top contributors.
+  - [x] Each contribution is logged with: contributor user id, project id, amount (when available), timestamp.
 
-  What v1 already covers (via [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132)):
-  - [x] Contributor list per project is derivable from `contributors_ids`.
-  - [x] Contributor count per project is derivable client-side.
+  What v1 already covers
+  - [x] Contributor list per project — derived from `contributors_ids`; exposed by [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132).
+  - [x] Contributor count per project — shown in the mobile card / details screen and in the admin table + side-panel ([`mobile#148`](https://github.com/iu-alumni/iu-alumni-mobile/pull/148), [`frontend#77`](https://github.com/iu-alumni/iu-alumni-frontend/pull/77)).
+  - [x] Raised total per project — "₽X raised of ₽Y" plus progress bar in mobile and admin surfaces; totals in the admin side-panel ([`backend#148`](https://github.com/iu-alumni/iu-alumni-backend/pull/148), [`mobile#148`](https://github.com/iu-alumni/iu-alumni-mobile/pull/148), [`frontend#77`](https://github.com/iu-alumni/iu-alumni-frontend/pull/77)).

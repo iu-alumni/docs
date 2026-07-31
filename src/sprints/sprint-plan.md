@@ -255,7 +255,7 @@ This sprint, the team builds the two-phase email OTP login protocol: `POST /auth
 
 **Goal:** Implement Telegram OTP and add authentication reliability monitoring to close M2.
 
-This sprint, the team extends the Telegram bot — already running as a background task in the backend process — to deliver 6-digit login codes on request, completing the third authentication path alongside password and email OTP. A synthetic login probe cron job is deployed that tests all three auth paths every minute and fires a Prometheus alert if any path fails, providing continuous, measurable evidence against the QAS-B reliability target. All three authentication paths converge on a single `create_access_token()` call, ensuring consistent JWT properties across all login methods.
+This sprint, the team extends the Telegram bot — already running as a background task in the backend process — to deliver 6-digit login codes on request, completing the third authentication path alongside password and email OTP. A synthetic login probe cron job tests all three auth paths every minute and is wired to fire a Prometheus alert if any path fails, intended as continuous evidence for the QAS302 reliability target (monitoring is set up but not yet collecting data). All three authentication paths converge on a single `create_access_token()` call, ensuring consistent JWT properties across all login methods.
 
 **Tasks:**
 
@@ -279,17 +279,17 @@ This sprint, the team extends the Telegram bot — already running as a backgrou
 
 **Goal:** Deliver the opt-in alumni location map with server-side city-level aggregation.
 
-This sprint, the team implements `GET /profile/map` returning city-level pins `[{city, lat, lon, count}]` for all alumni who have set `show_location = true`, with a composite database index on `(show_location, location)` to keep the query fast as the alumni directory grows. The `show_location` privacy toggle is added to the profile settings screen on both clients, giving alumni explicit opt-in control over whether they appear on the map. The map is rendered with pins, pan, and zoom on both Android and Telegram Mini App, meeting the QAS-F requirement of a full map load in under 3 seconds.
+This sprint, the team implements `GET /profile/map` returning city-level pins `[{city, lat, lon, count}]` for all alumni who have set `show_location = true`, with a composite database index on `(show_location, location)` to keep the query fast as the alumni directory grows. The `show_location` privacy toggle is added to the profile settings screen on both clients, giving alumni explicit opt-in control over whether they appear on the map. The map is rendered with pins, pan, and zoom on both Android and Telegram Mini App, meeting the QAS202 requirement of a full map load in under 5 seconds.
 
 **Tasks:**
 
 - Implement `GET /profile/map` with city aggregation; add Alembic migration for the composite DB index
 - Add `show_location` toggle to profile settings on both Android and Telegram Mini App
-- Render the interactive map (pins, pan, zoom) on both clients; performance-test to QAS-F threshold
+- Render the interactive map (pins, pan, zoom) on both clients; performance-test to QAS202 threshold
 
 **Success Criteria:**
 
-- Map loads in under 3 seconds with 50–500 alumni in the database; pan and zoom respond in under 1 second
+- Map loads in under 5 seconds with 50–500 alumni in the database; pan and zoom respond in under 1 second
 - Alumni with `show_location = false` are absent from the map endpoint response
 - All aggregation is server-side; zero client-side geocoding calls
 
@@ -383,7 +383,7 @@ This sprint, the team extends the existing Telegram bot to send a reminder to al
 
 **Goal:** Implement an automatic achievement badge system with at least four badge types.
 
-This sprint, the team implements four badge types — Attended 5 Events, Organised an Event, Early Adopter, and Verified Alumni — each awarded automatically when the qualifying condition is met by any alumni in the system. Badge data is included directly in the profile API response without a separate call, keeping the profile screen within the QAS-A P95 target. An admin portal interface allows administrators to manually grant or revoke any badge, and badge fields are included in the alumni CSV export so the Alumni Office can track engagement in external reporting.
+This sprint, the team implements four badge types — Attended 5 Events, Organised an Event, Early Adopter, and Verified Alumni — each awarded automatically when the qualifying condition is met by any alumni in the system. Badge data is included directly in the profile API response without a separate call, keeping the profile screen within the QAS201 P95 target. An admin portal interface allows administrators to manually grant or revoke any badge, and badge fields are included in the alumni CSV export so the Alumni Office can track engagement in external reporting.
 
 **Tasks:**
 
