@@ -10,23 +10,23 @@
 - [x] **FR5**: Fix and optimize event creation workflow with proper validation and error handling [issued](../sprints/sprint-2/client-meeting.md)
 - [ ] **FR6**: Send automatic notifications upon event creation to relevant users (e.g., followers, location-based notifications) [issued](../sprints/sprint-2/client-meeting.md), [reaffirmed](../sprints/sprint-12/client-meeting.md), [narrowed](../sprints/sprint-17/client-meeting.md#notifications)
 
-  **Superseded in part — Sprint 17.** The client agreed to deliver notifications as an **in-app panel** the user pulls, rather than a push fired at event-creation time, and Telegram bot DM is no longer a usable channel while [server restrictions block bot messages](../sprints/sprint-17/client-meeting.md#telegram-restrictions). What shipped under that agreement is [FR28](#notifications) — matched on the alumnus's **profile city** rather than on follows, and surfacing events ~1 week ahead rather than at creation. The follower-driven rules below remain open: they depend on the Follow feature ([FR8](#social-features)), which the client deprioritised in the same meeting (The team has done it but the merge was not done by the time of EOSP).
+  **Superseded in part — Sprint 17.** The client agreed to deliver notifications as an **in-app panel** the user pulls, rather than a push fired at event-creation time, and Telegram bot DM is no longer a usable channel while [server restrictions block bot messages](../sprints/sprint-17/client-meeting.md#telegram-restrictions). What shipped under that agreement is [FR28](#notifications) — matched on the alumnus's **profile city** rather than on follows, and surfacing events ~1 week ahead rather than at creation. Direct person-to-person following has since shipped under [FR8](#social-features), but follower-driven event notifications remain a separate, open enhancement.
 
   **Definition of success**
 
   When a new event is approved and published, every alumnus matching at least one of the rules below receives exactly one notification.
 
   Who is notified
-  - [ ] Alumni who **follow the event's creator** (via FR8 mutual-follow).
-  - [ ] Alumni who **declared the event's city as their live-in city** in their profile (The exception is for Innopolis and Kazan sharing one bucket).
+  - [ ] Alumni who **follow the event's creator** (via the direct follow relationship in FR8).
+  - [x] Alumni who **declared the event's city as their live-in city** in their profile (Innopolis and Kazan share one bucket).
 
   Delivery
-  - [ ] In-app notification panel.
-  - [ ] No duplicates: an alumnus matching multiple rules still gets exactly one notification per event.
+  - [x] In-app notification panel.
+  - [x] No duplicates in the delivered location-based path: each matching event appears once per alumnus.
 
   Edge cases
-  - [ ] The creator themselves is never notified about their own event.
-  - [ ] Notifications fire only for events with `approved = true`. Drafts and pending-moderation events do not trigger anything.
+  - [x] The creator themselves is never notified about their own event.
+  - [x] Notifications include only events with `approved = true`. Drafts and pending-moderation events do not appear.
 
 ## Maps & Location Services
 
@@ -35,25 +35,31 @@
 
 ## Social Features
 
-- [ ] **FR8**: Add follow request feature enabling users to send, accept, and reject connection requests [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
+- [x] **FR8**: Allow alumni to directly follow and unfollow other alumni [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
-  **Definition of success**
+  **Delivered scope**
 
-  - [ ] User can send a follow request to another alumnus; the request is **pending** until the recipient accepts or rejects.
-  - [ ] Mutual visibility: once accepted, both users see each other's activity (created/joined events, profile updates).
-  - [ ] Recipient sees pending requests in a dedicated list and can accept or reject each one.
-  - [ ] User can **follow a city/location** directly (no confirmation needed — locations don't accept/reject).
-  - [ ] User declares a **live-in city** in their profile; defaults the location-notifications bucket (FR6).
-  - [ ] User can unfollow a person or a location at any time from their followers/following management screen.
-  - [ ] Followers / Following counters appear on the profile (UI covered by [FR10](#user-profile)).
+  The merged implementation uses an immediate, one-way follow model rather than the originally proposed request/accept connection model.
+
+  - [x] An authenticated alumnus can follow another alumnus from that person's profile.
+  - [x] The profile action reflects the current state as **Follow** or **Following** and can be used to unfollow.
+  - [x] Following and unfollowing are idempotent: repeating either operation does not create duplicates or fail because the relationship is already in the requested state.
+  - [x] Self-following is rejected, and missing target profiles return a not-found response.
+  - [x] Follow relationships persist in the `alumni_follows` table and are removed automatically if either account is deleted.
+  - [x] Profile responses expose `followers_count`, `following_count`, and the requesting alumnus's `is_following` state.
+
+  Not included in this delivered scope:
+
+  - Follow requests, pending states, acceptance/rejection, or a request inbox.
+  - Following a city/location. Location-based notifications use the live-in city on the alumnus's profile under [FR28](#notifications).
+  - Dedicated followers/following management lists.
 
 - [ ] **FR9**: Implement notification system for follow activities (requests, accepts, new followers) [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
   An alumnus receives a notification when:
-  - [ ] Someone sends them a follow request.
-  - [ ] Their follow request is accepted.
+  - [ ] Someone starts following them.
   - [ ] A user they follow **creates a new event** (also covered by FR6 from the creator-follower path).
   - [ ] A user they follow **joins an event** (the canonical "stalker-friendly" social signal mentioned in the meeting).
   - [ ] A user they follow updates their profile significantly (new badge earned, new bio) — *optional, opt-out by default*.
@@ -61,7 +67,6 @@
   Delivery + control
   - [ ] In-app notification panel + Telegram bot DM.
   - [ ] Each category is independently mutable in user settings (e.g. opt out of "X joined an event" without losing request notifications).
-<!-- - [ ] **FR10**: Provide privacy settings for follow preferences with followers/following management lists -->
 
 ## User Profile
 
@@ -87,7 +92,7 @@
   - [x] **Participated events** — horizontal scroll of event cards.
   - [x] **Created events** — same pattern, only shown on own profile.
   - [x] **Projects** — "Created projects" (any status) and "Contributed projects" (approved only) sections on the profile. Backend contract landed in [`backend#132`](https://github.com/iu-alumni/iu-alumni-backend/pull/132) (`GET /projects/owner`, `GET /projects/contributed[/{alumni_id}]`); mobile UI tracked in [`mobile#147`](https://github.com/iu-alumni/iu-alumni-mobile/issues/147). Full spec under [FR24](#payment--donations).
-  - [x] **Followers / Following counters** — rendered under the identity row; gated on [FR8](#social-features).
+  - [ ] **Followers / Following counters** — available in the backend profile response under [FR8](#social-features), but not currently rendered in the mobile profile UI.
 
   Interactions
   - [x] Tapping the edit button opens the edit-profile flow.
@@ -170,7 +175,7 @@
   - OS-level / push notifications — this requirement is the in-app panel only.
   - Telegram bot DM — blocked by [server restrictions](../sprints/sprint-17/client-meeting.md#telegram-restrictions).
   - Admin-portal (frontend) changes.
-  - Follower-driven notifications, which stay with [FR6](#event-management) / [FR9](#social-features) pending [FR8](#social-features).
+  - Follower-driven notifications, which remain open under [FR6](#event-management) / [FR9](#social-features) and are not part of the delivered FR8 scope.
 
 ## User Roles & Permissions
 
