@@ -37,24 +37,24 @@
 
 - [x] **FR8**: Allow alumni to directly follow and unfollow other alumni [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
-*covered by [Backend#172](https://github.com/iu-alumni/iu-alumni-backend/pull/172) and [Mobile#164](https://github.com/iu-alumni/iu-alumni-mobile/pull/164)*
+  *covered by [Backend#172](https://github.com/iu-alumni/iu-alumni-backend/pull/172) and [Mobile#164](https://github.com/iu-alumni/iu-alumni-mobile/pull/164)*
 
   **Delivered scope**
 
   The merged implementation uses an immediate, one-way follow model rather than the originally proposed request/accept connection model.
 
-- [x] An authenticated alumnus can follow another alumnus from that person's profile.
-- [x] The profile action reflects the current state as **Follow** or **Following** and can be used to unfollow.
-- [x] Following and unfollowing are idempotent: repeating either operation does not create duplicates or fail because the relationship is already in the requested state.
-- [x] Self-following is rejected, and missing target profiles return a not-found response.
-- [x] Follow relationships persist in the `alumni_follows` table and are removed automatically if either account is deleted.
-- [x] Profile responses expose `followers_count`, `following_count`, and the requesting alumnus's `is_following` state.
+  - [x] An authenticated alumnus can follow another alumnus from that person's profile.
+  - [x] The profile action reflects the current state as **Follow** or **Following** and can be used to unfollow.
+  - [x] Following and unfollowing are idempotent: repeating either operation does not create duplicates or fail because the relationship is already in the requested state.
+  - [x] Self-following is rejected, and missing target profiles return a not-found response.
+  - [x] Follow relationships persist in the `alumni_follows` table and are removed automatically if either account is deleted.
+  - [x] Profile responses expose `followers_count`, `following_count`, and the requesting alumnus's `is_following` state.
 
   Not included in this delivered scope:
 
-- Follow requests, pending states, acceptance/rejection, or a request inbox.
-- Following a city/location. Location-based notifications use the live-in city on the alumnus's profile under [FR28](#notifications).
-- Dedicated followers/following management lists.
+  - Follow requests, pending states, acceptance/rejection, or a request inbox.
+  - Following a city/location. Location-based notifications use the live-in city on the alumnus's profile under [FR28](#notifications).
+  - Dedicated followers/following management lists.
 
 - [ ] **FR9**: Implement notification system for follow activities (requests, accepts, new followers) [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
