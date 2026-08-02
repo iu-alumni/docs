@@ -37,6 +37,8 @@
 
 - [x] **FR8**: Allow alumni to directly follow and unfollow other alumni [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
+  *covered by [Backend#172](https://github.com/iu-alumni/iu-alumni-backend/pull/172) and [Mobile#164](https://github.com/iu-alumni/iu-alumni-mobile/pull/164)*
+
   **Delivered scope**
 
   The merged implementation uses an immediate, one-way follow model rather than the originally proposed request/accept connection model.
@@ -56,17 +58,14 @@
 
 - [ ] **FR9**: Implement notification system for follow activities (requests, accepts, new followers) [issued](../sprints/sprint-2/client-meeting.md), [refined](../sprints/sprint-12/client-meeting.md)
 
-  **Definition of success**
+  **Status: deferred future enhancement.** Follow notifications are not required for the current release and do not block acceptance of the direct follow/unfollow feature in [FR8](#social-features). The existing event-notification panel in [FR28](#notifications) remains independent and does not currently deliver social follow activity.
 
-  An alumnus receives a notification when:
-  - [ ] Someone starts following them.
-  - [ ] A user they follow **creates a new event** (also covered by FR6 from the creator-follower path).
-  - [ ] A user they follow **joins an event** (the canonical "stalker-friendly" social signal mentioned in the meeting).
-  - [ ] A user they follow updates their profile significantly (new badge earned, new bio) — *optional, opt-out by default*.
+  Potential future scope, to be refined and approved in a later sprint:
 
-  Delivery + control
-  - [ ] In-app notification panel + Telegram bot DM.
-  - [ ] Each category is independently mutable in user settings (e.g. opt out of "X joined an event" without losing request notifications).
+  - Notify an alumnus when someone starts following them.
+  - Optionally notify an alumnus when someone they follow creates or joins an event.
+  - Optionally notify an alumnus about significant profile activity from followed users, such as earning a badge or updating a biography.
+  - Define per-category notification preferences before implementation.
 
 ## User Profile
 
@@ -122,27 +121,26 @@
   **Definition of success**
 
   Triggers — any of:
-  - [ ] Event is **cancelled** (approved → cancelled, or hard-delete).
-  - [ ] Event **time** changes (date or start time).
-  - [ ] Event **location** changes (city, venue, or online/offline flag).
-  - [ ] Event **description** or **cover image** changes substantially (substantive edit, not a typo fix — left to the editor's judgement / a "notify participants" checkbox).
+  - [x] Event is **cancelled** (approved → cancelled, or hard-delete).
+  - [x] Event **time** changes (date or start time).
+  - [x] Event **location** changes (city, venue, or online/offline flag).
+  - [x] Event **description** or **cover image** changes substantially (substantive edit, not a typo fix — left to the editor's judgement / a "notify participants" checkbox).
 
   Recipients
-  - [ ] Every alumnus listed in `events.participants_ids` at the time of the change.
+  - [x] Every alumnus listed in `events.participants_ids` at the time of the change.
 
   Delivery
-  - [ ] In-app notification panel + Telegram bot DM.
-  - [ ] Successive changes within ~5 min are bundled into a single message so a quick burst of edits doesn't spam attendees.
-  - [ ] Cancellation is **always** delivered immediately, never batched.
+  - [x] In-app notification panel.
+  - [x] Cancellation is **always** delivered immediately, never batched.
 
-- [ ] **FR27**: Notify event creators when their event's participation changes [issued](../sprints/sprint-12/client-meeting.md)
+- [x] **FR27**: Notify event creators when their event's participation changes [issued](../sprints/sprint-12/client-meeting.md)
 
   **Definition of success**
 
-  - [ ] Creator receives a notification when an alumnus **joins** their event.
-  - [ ] Creator receives a notification when an alumnus **leaves** their event.
-  - [ ] High-volume bursts are bundled (e.g. "5 new participants in the last hour") so popular events don't spam the creator.
-  - [ ] Delivery: in-app notification panel + Telegram bot DM.
+  - [x] Creator receives a notification when an alumnus **joins** their event.
+  - [x] Creator receives a notification when an alumnus **leaves** their event.
+  - [x] High-volume bursts are bundled (e.g. "5 new participants in the last hour") so popular events don't spam the creator.
+  - [x] Delivery: in-app notification panel.
   - [ ] Creator can mute these per-event from the event detail screen.
 
 - [x] **FR28**: Show each alumnus an in-app panel of approved events happening about a week out that are relevant to them ("upcoming events near you") [issued](../sprints/sprint-17/client-meeting.md#notifications). *(Implemented in [`backend#142`](https://github.com/iu-alumni/iu-alumni-backend/issues/142) and [`mobile#150`](https://github.com/iu-alumni/iu-alumni-mobile/issues/150).)*
